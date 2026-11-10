@@ -56,6 +56,7 @@ content/docs/        The pages, in MDX
   learn/             Tutorials
   handbook/          Advanced guides
 data/creepers.json   The Wall of Creepers
+public/prompts/      Prompts for AI agents, downloadable as is (e.g. the CI infrastructure brief)
 lib/                 Content source, shared constants and layout options
 .github/workflows/   CI (pull requests) and deployment (GitHub Pages)
 ```

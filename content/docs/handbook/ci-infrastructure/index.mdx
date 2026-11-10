@@ -1,0 +1,208 @@
+---
+title: CI infrastructure prompt
+description: A ready-to-use brief that turns an AI coding agent into your CI engineer. It measures your CI, makes it fast, cheap and solid, and can go all the way to self-hosted runners on OVHcloud VPS.
+icon: Server
+level: advanced
+duration: 15 min read
+---
+
+When an application becomes significant, a big part of development time goes into **waiting for
+CI**. Every push, every pull request: checks that take 10, 20, 30 minutes. With AI agents writing
+code fast, that wait quickly becomes the bottleneck of the whole project.
+
+This page gives you our answer: a long, detailed **brief for an AI coding agent**. You hand it to
+Claude Code, Codex or any capable agent in your repository, and it works through the whole job with
+you: measure where CI time goes, cut it, and leave behind a setup **you can understand, run, rebuild
+and roll back on your own**.
+
+<PromptFile
+  file="/prompts/ci-infrastructure-brief.md"
+  title="CI brief: make this project's CI fast, cheap and solid"
+  readHref="/handbook/ci-infrastructure/brief"
+/>
+
+## Why a 2,000-line prompt?
+
+"Make my CI faster" in one sentence gets you a few random tweaks. This brief gives the agent what a
+senior DevOps engineer would bring:
+
+- **A method.** Measure first, change second. One phase, one pull request, with before/after
+  numbers in each.
+- **The reasons.** Thirteen principles, each with its "why", so the agent explains every decision to
+  you in plain words.
+- **Guardrails.** The agent must ask before anything that costs money, touches an account or is hard
+  to undo. Every change has a one-line way back. No secret ever lands in a repository.
+- **Battle scars.** A checklist of pitfalls seen in practice (Docker bypassing the firewall, runners
+  killed by memory, cloud-init renaming machines…), so your agent does not rediscover them the hard
+  way.
+- **Ready-to-adapt files.** An audit script, a reference workflow, scope detection with its own tests,
+  and complete provisioning scripts for the runner machines.
+- **A definition of done**, with measurable targets.
+
+It is written for someone **technical and curious, but not a professional DevOps engineer**. You do
+not need to know what a `DOCKER-USER` iptables chain is. The agent will explain it when it gets
+there.
+
+## Is it for you?
+
+It is a good fit if:
+
+- [x] your application is hosted on **GitHub** and has a real test suite and CI (see
+  [Tests & CI 101](/handbook/testing-and-ci) if not yet),
+- [x] CI feels **slow**, or GitHub Actions minutes start to cost money,
+- [x] you have **admin rights** on the repository and the [GitHub CLI](/learn/github) logged in,
+- [x] you are ready to spend a few sessions reviewing your agent's work, phase by phase.
+
+For the self-hosted part (phase 5), you also need a **private repository** and a small budget for
+the machines: an OVHcloud VPS costs from a few euros to around fifteen euros a month, and the brief
+starts with two. The brief makes the agent **compare the numbers first**: it may well conclude that
+you do not need self-hosted runners at all, and that is a fine outcome.
+
+<Callout type="error" title="Never on a public repository">
+  Self-hosted runners execute the code of every pull request. On a public repository, that means
+  anyone's code on your machine. The brief refuses this setup for public repositories, and so should
+  you. See [runners](/handbook/testing-and-ci#runners-where-ci-actually-runs).
+</Callout>
+
+## The plan, phase by phase
+
+The agent follows these phases in order, with one pull request per phase and your approval in
+between. You can stop after any of them: the first phases alone often cut CI time a lot.
+
+| Phase | What happens | Costs money or touches accounts? |
+| --- | --- | --- |
+| **1. Measure** | An audit script reads your last 100 CI runs: wall time, queue time, slowest steps, failures. The agent writes a report and a plan, and waits for your go. | No |
+| **2. Workflow hygiene** | Trigger once per change, cancel outdated runs, timeouts, dependency caches, pinned actions, one required `CI` check that always reports. | No |
+| **3. Do less** | A scope script decides what each change affects: docs-only, some modules, or everything. It comes with its own tests. | No |
+| **4. Faster work** | Task-result caching, faster database tests, generated code handled properly, Docker caching, one local command to check before pushing. | No |
+| **5. Self-hosted runners** | A small fleet of OVHcloud VPS, described entirely by scripts, sized by a capacity test, switched on and off with one repository variable. Optionally a shared task cache on OVHcloud Object Storage. | **Yes**: VPS, optional storage bucket |
+| **5b. Private network** | Admin access through a VPN such as Tailscale, public SSH closed, runners unable to reach your other devices. | An account (free plans exist) |
+| **6. Merging rules** | A ruleset protecting `main` with the required check, and optionally a merge queue. | May need a paid GitHub plan for private repositories |
+
+At the end, you get **numbers** (the brief aims for a docs-only pull request under 2 minutes, a
+typical pull request well under half its old time, and no job ever killed by memory) and
+**documentation**: a `docs/ci.md` in your repository and a README in a separate infrastructure
+repository, so you can operate everything without the agent.
+
+## How to use it
+
+<Steps>
+<Step>
+
+### Put the brief in your repository
+
+Download it into a folder that Git ignores, so it is available to your agent without being
+committed. Many of our projects use `tmp/` for that:
+
+```bash tab="macOS / Linux"
+mkdir -p tmp
+curl -fsSL https://feature-creepers.github.io/docs/prompts/ci-infrastructure-brief.md -o tmp/ci-brief.md
+```
+
+```powershell tab="Windows (PowerShell)"
+New-Item -ItemType Directory -Force tmp | Out-Null
+Invoke-WebRequest https://feature-creepers.github.io/docs/prompts/ci-infrastructure-brief.md -OutFile tmp/ci-brief.md
+```
+
+Check that `tmp/` is in your `.gitignore` (add a line `/tmp/` if not).
+
+<Callout type="idea" title="Give the agent the file, not the link">
+  Web tools of AI agents often summarize long pages instead of reading them word for word. With a
+  local file, the agent reads every line of the brief, scripts included.
+</Callout>
+
+</Step>
+<Step>
+
+### Adapt the opening
+
+The first paragraphs describe the project the brief was first written for: a solo developer with a
+large CRM, hosting in France. Open `tmp/ci-brief.md` and rewrite them for **your** situation. For
+example:
+
+```md title="tmp/ci-brief.md"
+You are the coding agent of a team of three developers who maintain a TypeScript
+monorepo (a Next.js app, an API and five shared packages), hosted on GitHub in a
+private repository. CI takes about 25 minutes per pull request.
+```
+
+Also adjust, if needed, the hosting provider (OVHcloud by default) and the language the agent should
+use to talk to you. Leave the rest as it is: the phases, principles and checklists are generic, and
+the agent adapts the scripts to your stack.
+
+</Step>
+<Step>
+
+### Start your agent and kick off
+
+Open your agent in the repository ([Claude Code](/learn/claude-code), [Codex](/learn/codex), or a
+[T3 Code](/learn/t3code) thread). Use its most capable model and a high reasoning effort: this is
+long, careful work. Then send:
+
+```text title="Kickoff prompt"
+Read tmp/ci-brief.md entirely before doing anything: it is your brief for this
+repository. Then start with section 1 (collect the context, and ask me what you
+cannot find in the repository) and phase 1 (the audit). Do not change any file
+before I have approved the audit report and the plan.
+```
+
+</Step>
+<Step>
+
+### Go phase by phase
+
+For each phase, the agent opens a pull request with its goal, the changes, the before/after numbers
+and how to undo it. Review it like any pull request (see [best practices](/learn/best-practices)),
+merge, and move on to the next phase.
+
+When the agent needs something that costs money or touches an account (ordering a VPS, creating a
+VPN key, changing branch rules), it gives you the exact clicks or commands. **You** do those steps.
+
+<Callout title="Long sessions">
+  This is several days of work, not one prompt. When a conversation gets long, start a fresh session
+  and point it back to `tmp/ci-brief.md`, the audit report and the last merged pull request.
+</Callout>
+
+</Step>
+<Step>
+
+### Keep it healthy
+
+Re-run the audit script from time to time (monthly is a good rhythm) to catch slow creep, and keep
+`docs/ci.md` up to date when CI changes. The agent leaves a list of next improvements at the end,
+ranked by expected gain: pick from it when CI starts to feel slow again.
+
+</Step>
+</Steps>
+
+## Stay safe
+
+- **Secrets never go in the chat.** The brief has scripts read tokens and keys from files or pipes,
+  never from the command line. Keep it that way: do not paste a token into your agent's conversation.
+- **Read every command that touches a server** before approving it, especially in phase 5. If you lose
+  access to a machine, OVHcloud's rescue mode from the control panel gets you back in.
+- **Keep the way back.** Going back to GitHub-hosted runners is one command
+  (`gh variable delete CI_RUNS_ON`). Test it once, as the brief asks, so you trust it on the day you
+  need it.
+
+## Read it first
+
+The brief is long, but you do not need to read it all before starting. We recommend at least:
+
+- **Section 0, How to work**: the rules your agent follows.
+- **Section 2, Principles**: the ideas behind every change.
+- **Section 12, Definition of done**: what "finished" means.
+- **Section 13, Pitfalls checklist**: what goes wrong in practice.
+
+<Cards>
+  <Card
+    title="Read the full brief"
+    href="/handbook/ci-infrastructure/brief"
+    description="The complete text, exactly as your agent reads it, with every script."
+  />
+  <Card
+    title="Tests & CI 101"
+    href="/handbook/testing-and-ci"
+    description="New to CI? Start with the concepts the brief builds on."
+  />
+</Cards>

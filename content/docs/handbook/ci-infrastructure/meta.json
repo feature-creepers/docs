@@ -1,0 +1,6 @@
+{
+  "title": "CI infrastructure prompt",
+  "icon": "Server",
+  "defaultOpen": true,
+  "pages": ["brief"]
+}

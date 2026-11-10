@@ -1,8 +1,10 @@
 import { llms, loader } from 'fumadocs-core/source';
 import { lucideIconsPlugin } from 'fumadocs-core/source/plugins/lucide-icons';
 import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
+import { applyMdxPreset } from 'fumadocs-mdx/config';
 import { defineDocs } from 'fumadocs-mdx/macro';
 import { z } from 'zod';
+import { remarkCodeLanguageAliases, remarkDemoteHeadings } from './remark-plugins';
 import { docsContentRoute, docsImageRoute, docsRoute, siteUrl } from './shared';
 
 /** Extra frontmatter for tutorials: shown as a small badge row under the title. */
@@ -16,6 +18,8 @@ const docs = defineDocs({
   docs: {
     schema: docSchema,
     lastModified: true,
+    // the default Fumadocs plugins, plus ours (see lib/remark-plugins.ts)
+    mdxOptions: applyMdxPreset({ remarkPlugins: [remarkDemoteHeadings, remarkCodeLanguageAliases] }),
     postprocess: {
       includeProcessedMarkdown: true,
     },

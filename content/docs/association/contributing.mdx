@@ -97,6 +97,7 @@ You can use these components directly in any `.mdx` page, without importing them
 | `<Cards>` / `<Card>` | Links to other pages |
 | `<Accordions>` / `<Accordion>` | FAQs and optional details |
 | `<Files>` / `<Folder>` / `<File>` | Folder structures |
+| `<PromptFile file="/prompts/x.md" title="..." />` | A prompt for AI agents, with copy and download buttons |
 
 For commands that differ per operating system, consecutive code blocks with a `tab` attribute are
 merged into tabs:
@@ -110,6 +111,21 @@ ls -la
 Get-ChildItem -Force
 ```
 ````
+
+### Prompts for AI agents
+
+Long prompts that people hand to their agents (like the [CI infrastructure brief](/handbook/ci-infrastructure))
+live as plain Markdown files in `public/prompts/`. That way anyone can download the exact file, and a
+page shows the same file with `<include>`:
+
+```mdx title="content/docs/handbook/my-prompt.mdx"
+<PromptFile file="/prompts/my-prompt.md" title="My prompt" />
+
+<include>../../../public/prompts/my-prompt.md</include>
+```
+
+The `.md` file is the single source: edit it, and both the download and the page update. Keep it
+plain Markdown (no components), since agents read it as is.
 
 ## Writing style
 

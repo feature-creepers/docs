@@ -29,6 +29,12 @@ Run `pnpm check` before saying a task is done.
 - `components/`: React components. `components/mdx.tsx` registers the components available in MDX.
 - `lib/source.ts`: content loader and frontmatter schema. `lib/shared.ts`: site constants and links.
 - `data/creepers.json`: the Wall of Creepers (people add themselves via pull requests).
+- `public/prompts/*.md`: prompts for AI agents (e.g. the CI brief), served raw for download and
+  rendered on a page with `<include>` plus `<PromptFile>`. Edit only the `.md` file: it is the single
+  source, so keep it plain Markdown (no MDX).
+- `lib/remark-plugins.ts`: our remark plugins (demote headings of included documents, code-language
+  aliases for languages Shiki does not ship). If a change to `lib/source.ts` options does not apply,
+  delete `.next/` and `.source/` (stale build cache).
 - `app/global.css`: the theme (colors for light and dark mode, fonts, landing page animations).
 
 ## Writing content
