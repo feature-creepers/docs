@@ -1,0 +1,213 @@
+---
+title: Set up your machine
+description: Install a package manager, a code editor and Node.js, the basic toolbox used in every other tutorial.
+icon: Laptop
+level: beginner
+duration: 25 min
+---
+
+Before building awesome (and dumb) apps, you need a workbench. Here is the minimal setup we
+recommend. It works for almost every project in the Feature Creepers organization.
+
+| Tool | What it is for |
+| --- | --- |
+| **A package manager** for your OS | Installing developer tools with one command |
+| **Visual Studio Code** | Writing and reading code |
+| **Node.js** (with npm) | Running JavaScript tools, and installing many CLIs |
+| **pnpm** | The package manager most of our projects use |
+| **Git** | Version control, covered in the [next tutorial](/learn/git) |
+
+You will need the [terminal](/learn/terminal) for this one. Ready? Pick your OS.
+
+## 1. A package manager for your system
+
+A **package manager** installs, updates and removes software from the command line. No more
+downloading installers from random websites.
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+Windows 10 and 11 come with **WinGet**. Check that it works:
+
+```powershell
+winget --version
+```
+
+If you get an error, update **App Installer** from the Microsoft Store.
+
+</Tab>
+<Tab value="macOS">
+
+Install the Apple command line tools first (they include Git and compilers):
+
+```bash
+xcode-select --install
+```
+
+Then install **[Homebrew](https://brew.sh)**, the package manager every Mac developer uses:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+At the end, Homebrew prints a few **"Next steps"** commands to add it to your `PATH`. Run them, then
+check:
+
+```bash
+brew --version
+```
+
+</Tab>
+<Tab value="Linux">
+
+Your distribution already has one: **APT** on Debian and Ubuntu, **DNF** on Fedora. Update it and
+install the basics (the examples use APT):
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y build-essential curl wget unzip
+```
+
+</Tab>
+</Tabs>
+
+## 2. A code editor: Visual Studio Code
+
+There are many editors, but [VS Code](https://code.visualstudio.com) is free, works everywhere, and
+has extensions for every language and most AI agents.
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+```powershell
+winget install --id Microsoft.VisualStudioCode -e
+```
+
+</Tab>
+<Tab value="macOS">
+
+```bash
+brew install --cask visual-studio-code
+```
+
+</Tab>
+<Tab value="Linux">
+
+Download the `.deb` (Debian, Ubuntu) or `.rpm` (Fedora) package from
+[code.visualstudio.com/download](https://code.visualstudio.com/download), then install it:
+
+```bash
+sudo apt install ./code_*.deb
+```
+
+</Tab>
+</Tabs>
+
+Open a new terminal and check that the `code` command works. It opens the current folder in VS Code:
+
+```bash
+code .
+```
+
+<Callout type="idea" title="On macOS, the code command is not found?">
+  Open VS Code, press <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, and run **Shell Command:
+  Install 'code' command in PATH**.
+</Callout>
+
+## 3. Node.js and npm
+
+**[Node.js](https://nodejs.org)** runs JavaScript outside the browser. It powers most web tooling, and
+it comes with **npm**, a package manager for JavaScript libraries and CLIs. Install the **LTS**
+version (Long Term Support, the stable one).
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+```powershell
+winget install --id OpenJS.NodeJS.LTS -e
+```
+
+</Tab>
+<Tab value="macOS">
+
+```bash
+brew install node
+```
+
+</Tab>
+<Tab value="Linux">
+
+Distribution packages are often outdated, so use the official instructions from
+[nodejs.org/en/download](https://nodejs.org/en/download): pick the LTS version, your OS, and the
+"nvm" or "fnm" method, then copy the commands they give you.
+
+</Tab>
+</Tabs>
+
+**Close your terminal, open a new one**, and check:
+
+```bash
+node --version
+npm --version
+```
+
+Both should print a version number, like `v24.11.0` and `11.6.0` (yours will probably be newer).
+
+<Callout title="Need several Node.js versions?">
+  Some projects require a specific version. Version managers like [fnm](https://github.com/Schniz/fnm)
+  or [nvm](https://github.com/nvm-sh/nvm) let you switch between versions per project. You do not
+  need one to start, but remember the name for later.
+</Callout>
+
+## 4. pnpm
+
+**[pnpm](https://pnpm.io)** is a faster, disk-friendlier alternative to npm. Most Feature Creepers
+projects use it (look for a `pnpm-lock.yaml` file in a project). Install it with npm:
+
+```bash
+npm install -g pnpm
+pnpm --version
+```
+
+The `-g` flag means **global**: the `pnpm` command becomes available everywhere, not only in one
+project.
+
+### npm and pnpm in 30 seconds
+
+In a JavaScript project, the `package.json` file lists the libraries the project needs (its
+**dependencies**) and its **scripts** (shortcuts for common commands).
+
+```bash
+pnpm install          # download every dependency listed in package.json
+pnpm add confetti     # add a new dependency (yes, it exists)
+pnpm dev              # run the "dev" script (usually: start the app locally)
+pnpm build            # run the "build" script
+```
+
+The dependencies are downloaded into a `node_modules` folder. It is huge, it is normal, and it is
+never committed to Git.
+
+## 5. Windows only: WSL (optional)
+
+The **Windows Subsystem for Linux** runs a real Linux inside Windows. You do not need it to follow our
+tutorials, but some tools work better there, and it is a great way to learn Linux.
+
+```powershell
+wsl --install
+```
+
+Restart when asked, then open **Ubuntu** from the Start menu and follow the **Linux** tabs of our
+tutorials inside it.
+
+## Check your setup
+
+Run all of these. If each prints a version, your workbench is ready. 🎉
+
+```bash
+code --version
+node --version
+npm --version
+pnpm --version
+```
+
+**Next:** [What is Git?](/learn/git), the tool that will save you from yourself.

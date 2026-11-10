@@ -1,0 +1,230 @@
+---
+title: The terminal & the CLI
+description: What a terminal, a shell and a CLI are, how to open one on your computer, and the dozen commands you will use every day.
+icon: SquareTerminal
+level: beginner
+duration: 20 min
+---
+
+Movies show hackers typing green text at incredible speed. Reality is less dramatic, but the tool is
+real: the **terminal** is a window where you control your computer by typing commands instead of
+clicking. Almost every developer tool (Git, Node.js, AI coding agents…) is used from there, so let's
+make friends with it.
+
+## A few words first
+
+| Word | What it means |
+| --- | --- |
+| **GUI** (graphical user interface) | Windows, buttons, icons. What you use every day. |
+| **CLI** (command-line interface) | A program you use by typing commands. `git` and `claude` are CLIs. |
+| **Terminal** | The window where you type. Windows Terminal, macOS Terminal, iTerm2… |
+| **Shell** | The program inside the terminal that understands your commands: PowerShell, Bash, Zsh… |
+| **Command line / prompt** | The line where you type, often ending with `$`, `%` or `>`. |
+
+Think of it this way: the **terminal** is the phone, the **shell** is the person who picks up, and
+**CLIs** are the services you can ask them for.
+
+### Why would anyone type instead of click?
+
+- **Speed.** One command can do what takes 20 clicks.
+- **Automation.** Commands can be saved in scripts and repeated perfectly, forever.
+- **Power.** Most developer tools only exist as CLIs.
+- **AI agents live there.** Claude Code and Codex run commands in a terminal to do their job. Knowing
+  the basics lets you understand what they are doing.
+
+## Open a terminal
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+Press <kbd>Win</kbd>, type **Terminal**, and press <kbd>Enter</kbd>. Windows Terminal opens with
+**PowerShell** inside. Your prompt looks like `PS C:\Users\you>`.
+
+On Windows 10, if Windows Terminal is not installed, get it from the Microsoft Store, or use
+**PowerShell** from the Start menu.
+
+</Tab>
+<Tab value="macOS">
+
+Press <kbd>Cmd</kbd> + <kbd>Space</kbd>, type **Terminal**, and press <kbd>Enter</kbd>. The shell
+is **Zsh**. Your prompt looks like `you@your-mac ~ %`.
+
+</Tab>
+<Tab value="Linux">
+
+Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> on most distributions, or search for
+**Terminal** in your applications. The shell is usually **Bash**. Your prompt looks like
+`you@your-pc:~$`.
+
+</Tab>
+</Tabs>
+
+<Callout type="idea" title="In these tutorials">
+  Commands are shown without the prompt. When you see a code block, copy only what is inside it.
+</Callout>
+
+## Anatomy of a command
+
+Most commands follow the same shape:
+
+```bash
+git commit -m "Add confetti"
+```
+
+| Part | Example | Role |
+| --- | --- | --- |
+| **Program** | `git` | The CLI you are calling |
+| **Subcommand** | `commit` | What you want it to do |
+| **Option (flag)** | `-m` | A setting, starts with `-` or `--` |
+| **Argument** | `"Add confetti"` | The value you give it |
+
+Almost every CLI explains itself if you ask: try `git --help` or `node --help`.
+
+## Where am I? Moving around
+
+Your terminal is always "standing" in a folder, called the **current directory** (or working
+directory). Commands run there by default.
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+```powershell
+pwd                 # print the current folder
+ls                  # list what is inside
+cd Documents        # go into the Documents folder
+cd ..               # go back up one level
+cd ~                # go to your home folder
+```
+
+</Tab>
+<Tab value="macOS">
+
+```bash
+pwd                 # print the current folder
+ls                  # list what is inside
+cd Documents        # go into the Documents folder
+cd ..               # go back up one level
+cd ~                # go to your home folder
+```
+
+</Tab>
+<Tab value="Linux">
+
+```bash
+pwd                 # print the current folder
+ls                  # list what is inside
+cd Documents        # go into the Documents folder
+cd ..               # go back up one level
+cd ~                # go to your home folder
+```
+
+</Tab>
+</Tabs>
+
+Good news: PowerShell understands `pwd`, `ls` and `cd` too, so these basics are the same everywhere.
+Text after `#` is a **comment**: the shell ignores it.
+
+### Paths
+
+A **path** is the address of a file or folder.
+
+- **Absolute** paths start from the root: `C:\Users\you\Documents` on Windows,
+  `/home/you/Documents` on Linux, `/Users/you/Documents` on macOS.
+- **Relative** paths start from where you are: `Documents/notes.txt`.
+- `.` means "this folder", `..` means "the parent folder", and `~` means "my home folder".
+
+## The everyday commands
+
+| What you want | macOS / Linux (Bash, Zsh) | Windows (PowerShell) |
+| --- | --- | --- |
+| Where am I? | `pwd` | `pwd` |
+| List files | `ls` (`ls -la` for hidden files) | `ls` (`ls -Force` for hidden files) |
+| Change folder | `cd folder` | `cd folder` |
+| Create a folder | `mkdir my-project` | `mkdir my-project` |
+| Create an empty file | `touch notes.txt` | `New-Item notes.txt` |
+| Show a file | `cat notes.txt` | `cat notes.txt` |
+| Copy | `cp a.txt b.txt` | `cp a.txt b.txt` |
+| Move or rename | `mv a.txt b.txt` | `mv a.txt b.txt` |
+| Delete a file | `rm notes.txt` | `rm notes.txt` |
+| Delete a folder | `rm -r my-folder` | `rm -r my-folder` |
+| Clear the screen | `clear` | `clear` |
+| Open the folder in VS Code | `code .` | `code .` |
+
+<Callout type="warn" title="There is no trash bin here">
+  `rm` deletes immediately and permanently. Double-check the path before pressing Enter, especially
+  with `-r` (recursive). And never run `rm -rf /` or anything someone online tells you is "a funny
+  trick".
+</Callout>
+
+## Shortcuts that will save your life
+
+- <kbd>Tab</kbd>: **autocomplete** file names and commands. Type `cd Doc` then <kbd>Tab</kbd>.
+  Use it all the time, it also prevents typos.
+- <kbd>↑</kbd> / <kbd>↓</kbd>: browse your **command history**.
+- <kbd>Ctrl</kbd> + <kbd>C</kbd>: **stop** the running command. (Yes, it does not copy here.)
+- <kbd>Ctrl</kbd> + <kbd>L</kbd>: clear the screen.
+- **Copy and paste:** in Windows Terminal, <kbd>Ctrl</kbd> + <kbd>C</kbd> copies when text is
+  selected and <kbd>Ctrl</kbd> + <kbd>V</kbd> pastes. On macOS, use <kbd>Cmd</kbd> + <kbd>C</kbd> /
+  <kbd>Cmd</kbd> + <kbd>V</kbd>. On Linux, <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd> /
+  <kbd>V</kbd>.
+
+## "Command not found": meet the PATH
+
+When you type `git`, how does the shell find the program? It looks in a list of folders stored in an
+**environment variable** called `PATH`.
+
+If you just installed something and get `command not found` (or `is not recognized` on Windows),
+the most common fix is boring but effective: **close the terminal and open a new one**, so it reloads
+the `PATH`. If that does not work, the installer's docs usually explain how to add it to your `PATH`.
+
+You can print it to see what is inside:
+
+```bash tab="macOS / Linux"
+echo $PATH
+```
+
+```powershell tab="Windows"
+$env:PATH -split ';'
+```
+
+## Stay safe
+
+- **Do not paste commands you do not understand**, especially ones with `sudo` (admin rights) or
+  that delete things. When in doubt, ask someone, or ask an AI agent to explain it first.
+- **Installers that pipe a script into the shell** (`curl ... | bash`, `irm ... | iex`) run code from
+  the internet on your machine. They are fine **from official sources** (like the ones in our
+  tutorials, which link to the official docs), never from a random comment.
+- **Never paste passwords or API keys** into commands that end up in your history or a screenshot.
+
+## Practice time
+
+Create a playground, then clean it up:
+
+```bash tab="macOS / Linux"
+cd ~
+mkdir creeper-playground
+cd creeper-playground
+touch idea.txt
+echo "Dark mode for the dark mode" > idea.txt
+cat idea.txt
+ls
+cd ..
+rm -r creeper-playground
+```
+
+```powershell tab="Windows"
+cd ~
+mkdir creeper-playground
+cd creeper-playground
+New-Item idea.txt
+"Dark mode for the dark mode" > idea.txt
+cat idea.txt
+ls
+cd ..
+rm -r creeper-playground
+```
+
+If you saw your idea printed and the folder is gone at the end, congratulations: you just used a CLI
+like a developer. 🎉
+
+**Next:** [set up your machine](/learn/setup) with the tools we use everywhere else.

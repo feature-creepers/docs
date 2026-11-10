@@ -1,0 +1,129 @@
+---
+title: Contribute to the docs
+description: How this site is built, how to run it on your machine, and how to write a page that beginners will love.
+icon: PenLine
+---
+
+This site is a team effort. Found a typo? Have a tip? Want to write a whole tutorial? Please do. Every
+page has an **Edit this page on GitHub** link at the bottom, and the full source lives in
+[feature-creepers/docs](https://github.com/feature-creepers/docs).
+
+## How the site works
+
+The site is built with [Fumadocs](https://fumadocs.dev) on top of [Next.js](https://nextjs.org). It
+is exported as a static website and published on GitHub Pages every time something is merged into
+`main`.
+
+<Files>
+  <Folder name="app" defaultOpen>
+    <Folder name="(home)" />
+    <Folder name="(docs)" />
+  </Folder>
+  <Folder name="components" />
+  <Folder name="content" defaultOpen>
+    <Folder name="docs" defaultOpen>
+      <Folder name="association" />
+      <Folder name="learn" />
+      <Folder name="handbook" />
+    </Folder>
+  </Folder>
+  <Folder name="data" defaultOpen>
+    <File name="creepers.json" />
+  </Folder>
+  <File name="AGENTS.md" />
+  <File name="README.md" />
+</Files>
+
+- **`content/docs/`** holds every page, as `.mdx` files (Markdown with components). Each folder is a
+  section of the site, and its `meta.json` sets the order of the pages in the sidebar.
+- **`app/`** and **`components/`** hold the code of the site itself (layout, landing page, theme).
+- **`data/creepers.json`** is the [Wall of Creepers](/association/wall-of-creepers).
+
+## Run it locally
+
+You need [Git](/learn/git), [Node.js](/learn/setup) 22 or newer, and pnpm.
+
+```bash
+git clone https://github.com/feature-creepers/docs.git
+cd docs
+npm install -g pnpm   # only once, if you do not have pnpm yet
+pnpm install
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). Pages reload as you edit them.
+
+Before opening a pull request, run the same checks as our CI:
+
+```bash
+pnpm check   # lint + type check + production build
+```
+
+## Write a page
+
+Create a `.mdx` file in the right folder, then add its name to the folder's `meta.json`.
+
+```mdx title="content/docs/learn/my-tutorial.mdx"
+---
+title: My tutorial
+description: One sentence that says what the reader will be able to do.
+icon: Sparkles
+level: beginner
+duration: 15 min
+---
+
+Intro paragraph: what we will do and why it is useful.
+
+## First step
+
+...
+```
+
+- `title` and `description` are required. The description shows up under the title, in search
+  results and in link previews.
+- `icon` is the name of any [Lucide icon](https://lucide.dev/icons) (optional).
+- `level` (`beginner`, `intermediate` or `advanced`) and `duration` show a small badge under the
+  title (optional, great for tutorials).
+
+### Components you can use
+
+You can use these components directly in any `.mdx` page, without importing them:
+
+| Component | Use it for |
+| --- | --- |
+| `<Callout>` | Tips (`type="idea"`), warnings (`type="warn"`), errors (`type="error"`) |
+| `<Steps>` / `<Step>` | Step-by-step instructions |
+| `<Tabs items={[...]}>` / `<Tab>` | Content that differs per OS or per tool |
+| `<Cards>` / `<Card>` | Links to other pages |
+| `<Accordions>` / `<Accordion>` | FAQs and optional details |
+| `<Files>` / `<Folder>` / `<File>` | Folder structures |
+
+For commands that differ per operating system, consecutive code blocks with a `tab` attribute are
+merged into tabs:
+
+````mdx
+```bash tab="macOS / Linux"
+ls -la
+```
+
+```powershell tab="Windows"
+Get-ChildItem -Force
+```
+````
+
+## Writing style
+
+Our readers are often brand new to development. Write for them.
+
+- **Talk to the reader.** "You", short sentences, one idea per paragraph.
+- **Explain every new word** the first time it appears, or link to the [glossary](/learn/glossary).
+- **Test every command** you write, on every OS you claim it works on.
+- **Show the expected result**, so readers know when it worked.
+- **Be fun, not confusing.** Jokes are welcome, as long as the instructions stay crystal clear.
+- **Link to official docs** for anything that changes often (install commands, prices, versions).
+
+## Open a pull request
+
+New to pull requests? The [Your first pull request](/learn/first-pull-request) tutorial walks you
+through everything. Our CI checks that the site still builds; once a member approves and merges your
+pull request, the site is deployed automatically within a few minutes.

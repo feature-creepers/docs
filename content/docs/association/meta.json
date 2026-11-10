@@ -1,0 +1,18 @@
+{
+  "title": "Association",
+  "description": "Who we are and how to join",
+  "root": true,
+  "icon": "Users",
+  "pages": [
+    "index",
+    "mission",
+    "activities",
+    "projects",
+    "join",
+    "wall-of-creepers",
+    "---Community---",
+    "code-of-conduct",
+    "contributing",
+    "faq"
+  ]
+}

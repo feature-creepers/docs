@@ -1,0 +1,38 @@
+---
+title: CI infrastructure prompt
+description: A template prompt to give an AI agent so it sets up a complete CI infrastructure, locally and for the organization, on a VPS. Coming soon.
+icon: Server
+level: advanced
+---
+
+<Callout type="warn" title="🚧 This page is still on a feature branch">
+  The full prompt is being written and will land here very soon. In the meantime, read
+  [Tests & CI 101](/handbook/testing-and-ci) to get the concepts it builds on.
+</Callout>
+
+## What this will be
+
+When an application becomes significant, a big part of development time goes into **running
+tests**. This page will host our **template prompt**: a detailed brief you give to an AI coding agent
+so it sets up the **full CI infrastructure** for a target repository, both:
+
+- **locally**, so developers (and their agents) can run the same checks on their machines, and
+- **for the organization**, with fast self-hosted runners on a VPS from a provider such as
+  [OVHcloud](https://www.ovhcloud.com).
+
+## What you will likely need
+
+- A **target repository** with tests to run, ideally private (see the
+  [warning about self-hosted runners](/handbook/testing-and-ci#runners-where-ci-actually-runs)).
+- A **VPS** from a hosting provider, with SSH access.
+- **Admin rights** on the GitHub repository or organization, to register runners.
+- An **AI coding agent** such as [Claude Code](/learn/claude-code) or [Codex](/learn/codex), and the
+  habits from [best practices](/learn/best-practices): this is infrastructure work, so read every
+  command before you approve it.
+
+## Get ready
+
+<Cards>
+  <Card title="Tests & CI 101" href="/handbook/testing-and-ci" description="Tests, GitHub Actions, runners, and slow test suites." />
+  <Card title="Best practices with agents" href="/learn/best-practices" description="Stay in control when an agent touches real infrastructure." />
+</Cards>

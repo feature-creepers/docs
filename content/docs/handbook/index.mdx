@@ -1,0 +1,76 @@
+---
+title: When your project gets serious
+description: The Handbook is for the moment your toy project becomes a real app, and keeping it working becomes as important as adding features.
+icon: BookOpenText
+---
+
+It always starts the same way. A dumb idea, a weekend, a deployed joke. Then a friend uses it. Then
+their friends. Then you add a feature, and another one, and one day you realize you are **afraid to
+change anything** because you do not know what will break.
+
+Congratulations: your project got serious. This Handbook is for that moment.
+
+## The symptoms
+
+- You test everything **by hand** before each release, and you still miss things.
+- "It works on my machine" is a sentence you said this week.
+- Several people (and several AI agents) push changes, and they break each other's work.
+- The test suite exists, but it takes **so long** that nobody runs it anymore.
+- An agent "fixed" something and silently broke something else, and you found out from a user.
+
+## The cure: tests, CI, and infrastructure that keeps up
+
+<Steps>
+<Step>
+
+### Automated tests
+
+Code that checks your code, in seconds, every time. They turn "I hope it works" into "I know it
+works".
+
+</Step>
+<Step>
+
+### Continuous integration
+
+A neutral referee that runs every check on every pull request, on a fresh machine, before anything
+reaches `main`.
+
+</Step>
+<Step>
+
+### Infrastructure that scales with you
+
+When the app grows, a big chunk of development time goes into **waiting for tests**. Fast,
+well-configured CI machines (for example your own runners on a VPS) give you that time back.
+
+</Step>
+</Steps>
+
+## Why it matters even more with AI agents
+
+AI agents write code **fast**. That is the point. But your ability to trust that code does not
+magically speed up with it. Tests and CI are how you keep up:
+
+- Agents can **run the tests themselves** and fix what breaks before handing the work back to you.
+- CI catches what the agent (and you) missed, on every pull request, without anyone remembering to
+  check.
+- Fast CI means fast feedback, which means agents and humans can iterate many times a day instead of
+  a few.
+
+Put simply: **the faster you write code, the more you need automated checks**.
+
+## In this Handbook
+
+<Cards>
+  <Card
+    title="Tests & CI 101"
+    href="/handbook/testing-and-ci"
+    description="What tests are, how CI works with GitHub Actions, runners, and what to do when the test suite gets slow."
+  />
+  <Card
+    title="CI infrastructure prompt"
+    href="/handbook/ci-infrastructure"
+    description="Our template prompt to have an AI agent set up a complete CI infrastructure on a VPS. Coming soon."
+  />
+</Cards>

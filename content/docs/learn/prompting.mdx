@@ -1,0 +1,171 @@
+---
+title: How to prompt well
+description: How to ask an AI coding agent for what you want, with a simple structure, before/after examples and a reusable template.
+icon: MessageSquareText
+level: beginner
+duration: 20 min
+---
+
+The single biggest factor in what you get from an agent is **what you ask and how**. The good news:
+prompting is not magic words or secret tricks. It is the same skill as briefing a new teammate.
+
+## The mindset: brief a smart new teammate
+
+Imagine a brilliant developer who joined the team **this morning**. They are fast and they know every
+technology, but they know **nothing** about your project, your goals, or what you tried yesterday.
+And they will do exactly what you ask, so if you ask the wrong thing, they will build the wrong thing
+very efficiently.
+
+What would you tell them? That is your prompt.
+
+## The five ingredients
+
+<Steps>
+<Step>
+
+### The goal
+
+What do you want, and **why**? The why matters: it lets the agent make good decisions on details
+you did not specify.
+
+</Step>
+<Step>
+
+### The context
+
+Where is the relevant code? What did you already try? What error do you see (copy it **exactly**)?
+Point at files directly, for example with `@src/settings.ts` in Claude Code.
+
+</Step>
+<Step>
+
+### The constraints
+
+What must not change? Which libraries or patterns to use (or avoid)? "Follow the style of the
+existing components", "do not add dependencies", "do not touch the database schema".
+
+</Step>
+<Step>
+
+### The definition of done
+
+How will you both know it works? "The tests pass", "the page builds", "clicking Save shows a success
+message", "add a test that reproduces the bug first".
+
+</Step>
+<Step>
+
+### The size of the answer
+
+One file or ten? A plan first, or code directly? An explanation for a beginner, or just the diff?
+
+</Step>
+</Steps>
+
+You do not need all five every time. A tiny fix needs one sentence. But when results disappoint, a
+missing ingredient is almost always the reason.
+
+## Before and after
+
+### Fixing a bug
+
+```text title="❌ Vague"
+fix the save button
+```
+
+```text title="✅ Clear"
+On the /settings page, clicking "Save" does nothing in Firefox (it works in
+Chrome). The console shows: "TypeError: crypto.randomUUID is not a function".
+The click handler is in src/settings/save.ts.
+
+Find the cause and fix it. Then add a test that would have caught it.
+Do not change the layout of the form.
+```
+
+The second one gives the symptom, the exact error, where to look, what "done" means, and what not to
+touch. The agent can go straight to work instead of guessing.
+
+### Adding a feature
+
+```text title="❌ Vague"
+add dark mode
+```
+
+```text title="✅ Clear"
+Add a dark mode to the app.
+
+- Follow the user's system setting by default, with a toggle in the header
+  to override it. Remember the choice in localStorage.
+- We use Tailwind: use the `dark:` variant, no new dependency.
+- Start by listing the components that hardcode colors, and propose a plan
+  before editing anything.
+```
+
+### Learning something
+
+```text title="✅ Great for learning"
+I'm new to React. Explain what useEffect does in src/components/Clock.tsx,
+line by line, like you're talking to a beginner. Then suggest one small
+exercise I could do to practice it. Don't change any code.
+```
+
+Agents are fantastic, infinitely patient teachers. Use them that way.
+
+## Techniques that work
+
+**Plan before coding.** For anything bigger than a small fix, ask for a plan first (or use plan mode
+in Claude Code). Read it, correct it, then let the agent execute. Fixing a plan takes a minute;
+fixing 500 lines of wrong code takes an evening.
+
+**One task at a time.** We know, you are a Feature Creeper and you want 42 features. Ask for them
+**one by one**. Small steps are easier to review, easier to undo, and give better results.
+
+**Show an example.** "Make it like the `UserCard` component" or "follow the pattern in
+`api/projects.ts`" beats a long description.
+
+**Ask it to verify its work.** "Run the tests", "run the build", "start the app and check the page
+loads". Agents that check their own work make far fewer mistakes.
+
+**Invite questions.** End with "If anything is unclear, ask me before you start." It will.
+
+**Correct course early.** If the agent heads in the wrong direction, interrupt it
+(<kbd>Esc</kbd>) and say why. Do not wait for it to finish the wrong thing.
+
+**Start fresh when you switch topics.** Long conversations accumulate noise. When you move to a new
+task, start a new conversation (`/clear` in Claude Code, `/new` in Codex, a new thread in T3 Code).
+
+**Put the recurring stuff in AGENTS.md.** If you repeat the same instructions in every prompt
+("use pnpm", "run the tests with..."), write them once in an [`AGENTS.md`](/learn/agents-md) file.
+
+## Things to avoid
+
+- **Vague requests**: "make it better", "fix it", "clean up the code". Better how? Fix what?
+- **Mega-prompts** asking for ten unrelated things at once.
+- **SHOUTING AND "IMPORTANT!!!" EVERYWHERE.** Modern models follow calm, clear instructions. Explain
+  *why* something matters instead.
+- **Contradictions**: "keep it simple" plus a list of 15 requirements.
+- **Secrets**: never paste API keys, passwords or private data into a prompt.
+- **Blind trust**: a confident answer is not a correct answer. Review and test.
+
+## A template to copy
+
+```text title="prompt-template.txt"
+Goal: <what you want, in one or two sentences>
+Why: <the reason, the user need, the bug impact>
+
+Context:
+- Relevant files: <paths>
+- What I tried / what I see: <exact error messages, observations>
+
+Constraints:
+- <what must not change, libraries to use or avoid, style to follow>
+
+Done when:
+- <tests pass / build passes / behavior you can check>
+
+Start by <proposing a plan | asking questions | writing a failing test>.
+```
+
+Fill in what is useful, delete the rest. After a few weeks, you will not need the template anymore.
+
+**Next:** [best practices](/learn/best-practices) for working with agents day to day.

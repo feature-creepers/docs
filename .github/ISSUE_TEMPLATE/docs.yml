@@ -1,0 +1,30 @@
+name: 📚 Docs problem or idea
+description: Report something wrong, confusing or missing in the docs, or suggest a new tutorial.
+labels: ["docs"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of feedback?
+      options:
+        - Something is wrong or outdated
+        - Something is confusing
+        - I got stuck following a tutorial
+        - Idea for a new page or tutorial
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Which page?
+      description: The URL of the page, if it is about an existing page.
+      placeholder: https://feature-creepers.github.io/docs/learn/git/
+  - type: textarea
+    id: details
+    attributes:
+      label: Tell us more
+      description: |
+        If you got stuck: what did you do, what did you expect, and what happened instead?
+        Paste the exact error message and your OS (Windows, macOS, Linux).
+    validations:
+      required: true

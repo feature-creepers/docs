@@ -1,0 +1,146 @@
+---
+title: AGENTS.md, a README for your robots
+description: What an AGENTS.md file is, which agents read it, what to put in it, and a ready-to-adapt template.
+icon: FileCode
+level: beginner
+duration: 15 min
+---
+
+Every time you start a new session, your AI agent wakes up with **no memory** of your project. It
+does not know how to install it, how to run the tests, or that you hate semicolons. You could repeat
+all that in every prompt… or write it down once, in a file called `AGENTS.md`.
+
+## What is AGENTS.md?
+
+`AGENTS.md` is a plain Markdown file at the root of your repository, written **for AI coding
+agents**. Think of it as a README for robots: the `README.md` explains the project to humans, the
+`AGENTS.md` gives agents the practical context they need to work on it.
+
+It is an [open format](https://agents.md), now stewarded by the Agentic AI Foundation under the Linux
+Foundation, and supported by most agents: **Codex, Cursor, Gemini CLI, GitHub Copilot, Jules, Zed,
+OpenCode, Aider, Windsurf, Devin, Junie, Amp**, and more.
+
+There are no required fields and no special syntax. Just Markdown, with headings that make sense.
+
+## And Claude Code?
+
+Claude Code has its own file, `CLAUDE.md`, and it also reads `AGENTS.md` (in recent versions):
+
+| Your repository has | Claude Code reads |
+| --- | --- |
+| An `AGENTS.md` and no `CLAUDE.md` | Your `AGENTS.md` |
+| An `AGENTS.md` and a `CLAUDE.md` | Your `CLAUDE.md` only |
+| A `CLAUDE.md` that imports `AGENTS.md` | Both, through the import |
+
+Our recommendation: **write everything in `AGENTS.md`**, so every agent gets the same instructions.
+If you also need a `CLAUDE.md` (for Claude-specific settings, or for older versions), make it import
+`AGENTS.md` with a single line:
+
+```md title="CLAUDE.md"
+@AGENTS.md
+```
+
+## What to put in it
+
+The best `AGENTS.md` files answer the questions a new teammate would ask on their first day:
+
+- **Project overview**: what it is, in two or three sentences, and the main technologies.
+- **Commands**: how to install, run, test, lint and build. Exact commands, copy-pasteable.
+- **Project structure**: where things live. Only the important folders.
+- **Code style and conventions**: naming, formatting, patterns to follow, libraries to prefer.
+- **Testing instructions**: how to run one test, what to test, what "done" means.
+- **Git and pull requests**: branch names, commit message style, what to check before pushing.
+- **Security and gotchas**: what never to touch, secrets handling, known traps.
+
+## What not to put in it
+
+- **Secrets.** Never. The file is committed and read by tools.
+- **Novels.** Agents read the whole file at the start of every session. Keep it short (under about
+  200 lines) and specific. Long files cost context and get followed less reliably.
+- **Vague wishes.** "Write clean code" is useless. "Use 2-space indentation" and "Run `pnpm test`
+  before committing" are useful, because they can be checked.
+- **Things that change every week.** Link to a doc instead.
+
+## A template to adapt
+
+Here is a solid starting point for a typical TypeScript web app. Delete what does not apply, add what
+is specific to your project.
+
+````md title="AGENTS.md"
+# AGENTS.md
+
+## Project
+
+Useless App: a to-do app with way too many features. Next.js 16 (App Router),
+TypeScript, Tailwind CSS, SQLite via Drizzle. Package manager: pnpm.
+
+## Commands
+
+- Install: `pnpm install`
+- Dev server: `pnpm dev` (http://localhost:3000)
+- Tests: `pnpm test` (Vitest). One file: `pnpm test src/lib/todo.test.ts`
+- Lint and format: `pnpm lint` / `pnpm format`
+- Type check: `pnpm typecheck`
+- Build: `pnpm build`
+
+Run `pnpm lint && pnpm typecheck && pnpm test` before saying a task is done.
+
+## Structure
+
+- `src/app/`: routes and pages
+- `src/components/`: UI components, one per file, PascalCase names
+- `src/lib/`: business logic, framework-free and unit tested
+- `src/db/`: schema and migrations (never edit old migrations, add a new one)
+
+## Conventions
+
+- TypeScript strict mode, no `any`.
+- Prefer server components; add `"use client"` only when needed.
+- Styling with Tailwind classes only, no CSS files.
+- New logic in `src/lib/` comes with tests.
+
+## Git
+
+- Branch names: `feature/...`, `fix/...`
+- Commit messages: short, imperative ("Add dark mode toggle").
+- Never commit `.env*` files or anything in `tmp/`.
+
+## Gotchas
+
+- The confetti feature uses a canvas: test it in the browser, not only in unit tests.
+- Secrets live in `.env.local`. Ask the user if a key is missing; never invent one.
+````
+
+## Bigger projects: nested files
+
+In a monorepo, you can add an `AGENTS.md` in each sub-project (for example `apps/web/AGENTS.md` and
+`apps/api/AGENTS.md`). Agents use the file **closest** to the code they are editing, so each part can
+have its own commands and rules. And whatever is in the files, an explicit instruction in your prompt
+always wins.
+
+## Generate your first one
+
+You do not have to start from scratch. In your project, ask your agent:
+
+- **Codex**: run `/init`, it creates an `AGENTS.md`.
+- **Claude Code**: run `/init`, it creates a `CLAUDE.md` (rename it to `AGENTS.md` and add a `CLAUDE.md`
+  containing `@AGENTS.md` if you want both).
+- **Any agent**: "Explore this project and write an AGENTS.md with the commands, structure and
+  conventions you find. Keep it under 100 lines."
+
+Then **review it**. Remove what is obvious or wrong, and add what the agent could not guess: the
+traps, the team habits, the "never do this".
+
+## Keep it alive
+
+- When the agent makes **the same mistake twice**, add a line to `AGENTS.md`.
+- When a reviewer catches something the agent should have known, add a line.
+- When a command changes, update the file in the same pull request.
+- Review it like code: it **is** code, for robots.
+
+<Callout type="idea" title="See a real one">
+  This website has its own [`AGENTS.md`](https://github.com/feature-creepers/docs/blob/main/AGENTS.md).
+  Open it to see what we tell agents working on these docs.
+</Callout>
+
+**Next:** you have the basics! When your project grows up, head to the [Handbook](/handbook).

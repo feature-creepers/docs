@@ -1,0 +1,226 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+/* ------------------------------------------------------------------ */
+/*  Feature Creepers theme                                             */
+/*  Light: sunny greenhouse.  Dark: 3 a.m. night shift, neon sprouts.  */
+/* ------------------------------------------------------------------ */
+
+@theme inline {
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-code), ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-heading), var(--font-body), ui-sans-serif, system-ui, sans-serif;
+
+  --color-fc-lime: var(--fc-lime);
+  --color-fc-green: var(--fc-green);
+  --color-fc-violet: var(--fc-violet);
+  --color-fc-pink: var(--fc-pink);
+  --color-fc-orange: var(--fc-orange);
+  --color-fc-night: var(--fc-night);
+}
+
+:root {
+  --fc-lime: hsl(84, 81%, 44%);
+  --fc-green: hsl(152, 76%, 34%);
+  --fc-violet: hsl(262, 83%, 58%);
+  --fc-pink: hsl(330, 81%, 56%);
+  --fc-orange: hsl(25, 95%, 53%);
+  --fc-night: hsl(248, 32%, 7%);
+
+  --color-fd-background: hsl(80, 33%, 98%);
+  --color-fd-foreground: hsl(160, 30%, 9%);
+  --color-fd-primary: hsl(152, 76%, 32%);
+  --color-fd-primary-foreground: hsl(80, 60%, 97%);
+  --color-fd-border: hsla(150, 20%, 40%, 0.18);
+  --color-fd-ring: hsl(152, 76%, 36%);
+  --color-fd-accent: hsl(90, 55%, 91%);
+  --color-fd-accent-foreground: hsl(152, 70%, 20%);
+  --color-fd-muted: hsl(85, 30%, 94%);
+  --color-fd-muted-foreground: hsl(160, 10%, 38%);
+  --color-fd-secondary: hsl(85, 35%, 93%);
+  --color-fd-secondary-foreground: hsl(160, 30%, 12%);
+  --color-fd-card: hsl(80, 40%, 99%);
+  --color-fd-card-foreground: hsl(160, 30%, 9%);
+  --color-fd-popover: hsl(0, 0%, 100%);
+  --color-fd-popover-foreground: hsl(160, 30%, 9%);
+}
+
+.dark {
+  --fc-lime: hsl(84, 85%, 60%);
+  --fc-green: hsl(150, 70%, 50%);
+  --fc-violet: hsl(262, 90%, 72%);
+  --fc-pink: hsl(330, 90%, 68%);
+  --fc-orange: hsl(28, 96%, 62%);
+
+  --color-fd-background: hsl(248, 32%, 6%);
+  --color-fd-foreground: hsl(240, 20%, 94%);
+  --color-fd-primary: hsl(84, 85%, 60%);
+  --color-fd-primary-foreground: hsl(248, 35%, 8%);
+  --color-fd-border: hsla(250, 40%, 70%, 0.12);
+  --color-fd-ring: hsl(84, 85%, 60%);
+  --color-fd-accent: hsl(250, 28%, 15%);
+  --color-fd-accent-foreground: hsl(84, 85%, 72%);
+  --color-fd-muted: hsl(250, 28%, 11%);
+  --color-fd-muted-foreground: hsl(245, 14%, 68%);
+  --color-fd-secondary: hsl(250, 28%, 13%);
+  --color-fd-secondary-foreground: hsl(240, 20%, 94%);
+  --color-fd-card: hsl(250, 30%, 9%);
+  --color-fd-card-foreground: hsl(240, 20%, 94%);
+  --color-fd-popover: hsl(250, 32%, 8%);
+  --color-fd-popover-foreground: hsl(240, 20%, 94%);
+}
+
+.dark #nd-sidebar {
+  --color-fd-muted: hsl(250, 28%, 12%);
+  --color-fd-secondary: hsl(250, 28%, 14%);
+  --color-fd-muted-foreground: hsl(245, 14%, 72%);
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+/* Keep the layout stable when a dialog locks the scroll (overrides inline styles). */
+html > body[data-scroll-locked] {
+  /* biome-ignore lint/complexity/noImportantStyles: must beat inline styles */
+  margin-right: 0px !important;
+  /* biome-ignore lint/complexity/noImportantStyles: must beat inline styles */
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--fc-lime) 45%, transparent);
+}
+
+/* Headings get the display font */
+.font-display,
+.prose :where(h1, h2, h3):not(:where(.not-prose, .not-prose *)),
+#nd-page h1 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Inline code: a little greener */
+.prose :where(:not(pre) > code):not(:where(.not-prose, .not-prose *)) {
+  color: var(--color-fd-accent-foreground);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Decorative utilities used on the landing page                     */
+/* ------------------------------------------------------------------ */
+
+@utility text-gradient {
+  background-image: linear-gradient(100deg, var(--fc-lime), var(--fc-green) 35%, var(--fc-violet) 75%, var(--fc-pink));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--color-fd-border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-fd-border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+}
+
+@utility bg-stars {
+  background-image:
+    radial-gradient(1.5px 1.5px at 20px 30px, currentColor, transparent),
+    radial-gradient(1px 1px at 40px 70px, currentColor, transparent),
+    radial-gradient(1.5px 1.5px at 90px 40px, currentColor, transparent),
+    radial-gradient(1px 1px at 130px 80px, currentColor, transparent),
+    radial-gradient(1px 1px at 160px 30px, currentColor, transparent),
+    radial-gradient(1.5px 1.5px at 200px 110px, currentColor, transparent);
+  background-size: 220px 140px;
+}
+
+@keyframes fc-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes fc-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fc-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes fc-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-6deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(4deg);
+  }
+}
+
+@keyframes fc-twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.fc-marquee {
+  animation: fc-marquee var(--fc-marquee-duration, 60s) linear infinite;
+}
+
+.fc-marquee-reverse {
+  animation-direction: reverse;
+}
+
+.fc-marquee-paused:hover .fc-marquee {
+  animation-play-state: paused;
+}
+
+.fc-line {
+  opacity: 0;
+  animation: fc-line-in 0.35s ease-out forwards;
+}
+
+.fc-cursor {
+  animation: fc-blink 1s step-end infinite;
+}
+
+.fc-float {
+  animation: fc-float 6s ease-in-out infinite;
+}
+
+.fc-twinkle {
+  animation: fc-twinkle 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fc-marquee,
+  .fc-float,
+  .fc-twinkle,
+  .fc-cursor {
+    animation: none;
+  }
+
+  .fc-line {
+    opacity: 1;
+    animation: none;
+  }
+}

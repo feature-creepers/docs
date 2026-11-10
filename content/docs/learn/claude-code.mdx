@@ -1,0 +1,151 @@
+---
+title: Install Claude Code
+description: Install Anthropic's coding agent on Windows, macOS or Linux, log in, and run your first session.
+icon: Sparkles
+level: beginner
+duration: 15 min
+---
+
+**Claude Code** is Anthropic's AI coding agent. It runs in your terminal (and in VS Code, JetBrains
+IDEs, a desktop app and the browser), understands your whole project, edits files, runs commands, and
+works with Git.
+
+<Callout type="warn" title="You need a paid account">
+  Claude Code requires a **Pro, Max, Ultra, Team or Enterprise** Claude plan, or an **Anthropic Console**
+  account (pay per use with an API key). The free Claude plan does not include Claude Code. Check
+  [claude.com/pricing](https://claude.com/pricing) for the current plans.
+</Callout>
+
+## Requirements
+
+- **OS:** macOS 13+, Windows 10 (1809+) or 11, Ubuntu 20.04+, Debian 10+, or Alpine 3.19+
+- **Hardware:** 4 GB of RAM or more
+- **Network:** an internet connection
+- **Recommended on Windows:** [Git for Windows](/learn/git#install-git), so Claude Code can use Git
+  Bash. Without it, it uses PowerShell.
+
+## Install
+
+Pick your system. The native installer is the recommended method: it updates itself in the
+background.
+
+```bash tab="macOS / Linux / WSL"
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+```powershell tab="Windows (PowerShell)"
+irm https://claude.ai/install.ps1 | iex
+```
+
+```bat tab="Windows (CMD)"
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+```
+
+```bash tab="Homebrew"
+brew install --cask claude-code
+```
+
+```powershell tab="WinGet"
+winget install Anthropic.ClaudeCode
+```
+
+<Callout type="idea" title="PowerShell or CMD?">
+  In PowerShell, your prompt starts with `PS C:\`. In CMD, it starts with `C:\` without `PS`. If you
+  see "irm is not recognized", you are in CMD; if you see "The token && is not a valid statement
+  separator", you are in PowerShell.
+</Callout>
+
+The installer shows no progress while it downloads. When it finishes, **open a new terminal** and
+check:
+
+```bash
+claude --version
+```
+
+It should print a version number, like `2.1.300 (Claude Code)`. For a full health check:
+
+```bash
+claude doctor
+```
+
+<Callout title="command not found: claude?">
+  The install folder is not in your `PATH` yet. Close all terminals and open a new one. If it still
+  fails, run `claude doctor` from the full path or follow the official
+  [installation troubleshooting](https://code.claude.com/docs/en/troubleshoot-install) guide.
+</Callout>
+
+## Log in
+
+Go to a project folder (any Git repository works, for example the `useless-app` from
+[the Git tutorial](/learn/git)) and start Claude Code:
+
+```bash
+cd useless-app
+claude
+```
+
+The first time, Claude Code opens your browser to log in with your Claude account. Approve, come
+back to the terminal, and you are in.
+
+## Your first session
+
+You are now in an interactive session. Type in plain English (or French, it does not mind) and press
+<kbd>Enter</kbd>:
+
+```text
+What does this project do? Explain it like I'm new to coding.
+```
+
+Then try a real change:
+
+```text
+Add a "Features" section to the README listing 5 completely useless
+features this app should have. Then show me the diff.
+```
+
+Claude Code will ask for permission before editing the file. Read the proposed change, then accept
+it. Check the result yourself with `git diff`.
+
+### Commands and shortcuts to know
+
+| Command / key | What it does |
+| --- | --- |
+| `/help` | List all commands |
+| `/init` | Analyze the project and generate a `CLAUDE.md` instruction file (see [AGENTS.md](/learn/agents-md)) |
+| `/clear` | Start a fresh conversation (do it when you switch tasks) |
+| `/compact` | Summarize the conversation to free up space in long sessions |
+| `/model` | Choose the model |
+| `@` + file name | Point Claude at a specific file in your prompt |
+| <kbd>Shift</kbd> + <kbd>Tab</kbd> | Cycle permission modes, including **plan mode** (Claude plans before touching anything) |
+| <kbd>Esc</kbd> | Interrupt Claude when it goes in the wrong direction |
+| <kbd>Ctrl</kbd> + <kbd>C</kbd> twice | Quit (or type `/exit`) |
+
+<Callout type="idea" title="Plan mode for bigger tasks">
+  For anything bigger than a small fix, switch to plan mode first. Claude explores the code and
+  proposes a plan, you read it and adjust it, and only then does it start editing. Fewer surprises,
+  better results.
+</Callout>
+
+## Keep it up to date
+
+Native installations update automatically in the background. To update right now:
+
+```bash
+claude update
+```
+
+If you installed with Homebrew or WinGet, update with your package manager instead:
+`brew upgrade claude-code` or `winget upgrade Anthropic.ClaudeCode`.
+
+## Other ways to use Claude Code
+
+- **VS Code and JetBrains**: install the Claude Code extension or plugin to get it inside your editor,
+  with inline diffs.
+- **Desktop app**: a graphical version, if you prefer not to use the terminal.
+- **On the web** at [claude.ai/code](https://claude.ai/code): run tasks on your GitHub repositories
+  from the browser.
+- **[T3 Code](/learn/t3code)**: drive Claude Code (and Codex) from one interface.
+
+Official documentation: [code.claude.com/docs](https://code.claude.com/docs).
+
+**Next:** [install Codex](/learn/codex), or go straight to [how to prompt](/learn/prompting).

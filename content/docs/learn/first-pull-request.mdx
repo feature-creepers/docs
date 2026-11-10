@@ -1,0 +1,225 @@
+---
+title: Your first pull request
+description: A hands-on tutorial to make your first real contribution, by adding yourself to the Wall of Creepers on this very site.
+icon: GitPullRequest
+level: beginner
+duration: 30 min
+---
+
+Time to put the terminal, Git and GitHub together for real. Your mission: **add yourself to the
+[Wall of Creepers](/association/wall-of-creepers)** on this site, with a pull request. When it is
+merged, your face is on the internet. Well, on this page. Still counts.
+
+## Before you start
+
+You need:
+
+- [x] [Git](/learn/git) installed and configured (`git --version`)
+- [x] A [GitHub account](/learn/github) and the GitHub CLI logged in (`gh auth status`)
+- [x] Optional: [Node.js and pnpm](/learn/setup), to preview the site on your machine
+
+## The steps
+
+<Steps>
+<Step>
+
+### Fork and clone the repository
+
+You probably do not have write access to the docs repository yet, so you will work on your own copy,
+a **fork**. One command forks it and clones your fork:
+
+```bash
+gh repo fork feature-creepers/docs --clone
+cd docs
+```
+
+`gh` also sets up two remotes: `origin` (your fork) and `upstream` (the original repository). Check:
+
+```bash
+git remote -v
+```
+
+<Callout title="Already a member of the organization?">
+  You can skip the fork and clone the original directly with
+  `gh repo clone feature-creepers/docs`. The rest is the same.
+</Callout>
+
+</Step>
+<Step>
+
+### Create a branch
+
+Never work directly on `main`. Create a branch named after what you do:
+
+```bash
+git switch -c sign-the-wall
+```
+
+</Step>
+<Step>
+
+### Add yourself to the wall
+
+Open the project in your editor:
+
+```bash
+code .
+```
+
+Open `data/creepers.json`. It is a list of people, between square brackets. Add yourself as a new
+entry, with your real GitHub username:
+
+```json title="data/creepers.json"
+[
+  {
+    "github": "someone-already-here",
+    "name": "Someone"
+  },
+  {
+    "github": "your-github-username",
+    "name": "Your Name",
+    "bio": "Learning to code, one useless feature at a time.",
+    "uselessFeature": "A calculator that rounds everything to 42"
+  }
+]
+```
+
+<Callout type="warn" title="JSON is picky">
+  - Use **double quotes** `"` around every key and text value.
+  - Put a **comma between two entries** (`},` then `{`), but **no comma after the last one**.
+  - If the list is empty (`[]`), just put your entry between the brackets.
+</Callout>
+
+</Step>
+<Step>
+
+### Preview it (optional)
+
+If you installed Node.js and pnpm, run the site locally:
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Open [http://localhost:3000/association/wall-of-creepers](http://localhost:3000/association/wall-of-creepers).
+You should see your card with your GitHub avatar. Press <kbd>Ctrl</kbd> + <kbd>C</kbd> in the
+terminal to stop the server.
+
+</Step>
+<Step>
+
+### Commit
+
+Check what changed, then commit:
+
+```bash
+git status
+git diff
+git add data/creepers.json
+git commit -m "Add Your Name to the Wall of Creepers"
+```
+
+</Step>
+<Step>
+
+### Push your branch
+
+```bash
+git push -u origin sign-the-wall
+```
+
+</Step>
+<Step>
+
+### Open the pull request
+
+```bash
+gh pr create --fill
+```
+
+If `gh` asks which repository to target, choose **feature-creepers/docs** (the original, not your
+fork). `--fill` uses your commit message as the title. `gh` prints the link to your pull request:
+open it! You can also add a description there, like a short hello. 👋
+
+</Step>
+<Step>
+
+### Wait for checks and review
+
+GitHub runs our automated checks (it builds the whole site to make sure nothing is broken). A green
+check mark ✅ means all good. Then a member reviews your pull request, maybe suggests a change, and
+merges it.
+
+A few minutes after the merge, the site is deployed and you are on the wall. **Congratulations, you
+are officially an open source contributor!** 🎉
+
+</Step>
+</Steps>
+
+## If something goes wrong
+
+<Accordions>
+<Accordion title="The check failed with a red cross ❌">
+
+Click **Details** next to the failed check to read the logs. Nine times out of ten, it is a JSON
+syntax error: a missing comma, an extra comma after the last entry, or a missing quote. Fix the file,
+then commit and push again on the same branch:
+
+```bash
+git add data/creepers.json
+git commit -m "Fix JSON syntax"
+git push
+```
+
+The pull request updates automatically.
+
+</Accordion>
+<Accordion title="A reviewer asked for a change">
+
+Totally normal, it happens on every team, every day. Make the change on the same branch, commit, and
+push. No need to open a new pull request.
+
+</Accordion>
+<Accordion title="GitHub says there is a conflict">
+
+Someone else edited the same lines (probably also adding themselves at the end of the list). Bring
+in the latest version of the original repository, then fix the conflict:
+
+```bash
+git fetch upstream
+git merge upstream/main
+```
+
+Git marks the conflicting part of `data/creepers.json`. Keep **both** entries, remove the
+`<<<<<<<`, `=======` and `>>>>>>>` markers, make sure the commas are right, then:
+
+```bash
+git add data/creepers.json
+git commit -m "Merge upstream main"
+git push
+```
+
+</Accordion>
+<Accordion title="gh: command not found">
+
+The GitHub CLI is not installed, or your terminal does not see it yet. Install it (see
+[What is GitHub?](/learn/github#install-the-github-cli)), then **open a new terminal**.
+
+</Accordion>
+</Accordions>
+
+## Bonus: do it with an AI agent
+
+Once you have installed an [AI coding agent](/learn/ai-agents), try the same mission with it. In the
+cloned repository, start your agent and ask:
+
+```text
+Add me to the Wall of Creepers in data/creepers.json.
+GitHub username: your-github-username, name: Your Name,
+bio: "...", useless feature: "...".
+Keep the JSON valid, then show me the diff.
+```
+
+Read the diff it shows you, and do the commit and pull request yourself. That is the Feature Creeper
+way: **use the robots, keep the brain**.

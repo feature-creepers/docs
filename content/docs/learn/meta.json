@@ -1,0 +1,26 @@
+{
+  "title": "Learn",
+  "description": "Tutorials for new developers",
+  "root": true,
+  "icon": "GraduationCap",
+  "pages": [
+    "index",
+    "---Foundations---",
+    "terminal",
+    "setup",
+    "git",
+    "github",
+    "first-pull-request",
+    "---AI coding agents---",
+    "ai-agents",
+    "claude-code",
+    "codex",
+    "t3code",
+    "---Working with agents---",
+    "prompting",
+    "best-practices",
+    "agents-md",
+    "---Reference---",
+    "glossary"
+  ]
+}

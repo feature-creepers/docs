@@ -1,0 +1,93 @@
+---
+title: Projects
+description: Things Feature Creepers built and shipped, plus how to start your own project with the crew.
+icon: Rocket
+---
+
+Real projects, used by real people, built by people who could not stop adding things.
+
+## Shipped
+
+### ⚔️ Suntzu
+
+> _"If you know the enemy and know yourself, you need not fear the result of a hundred battles."_
+
+**A browser extension that enhances the FACEIT experience with detailed matchmaking insights.** Before
+a match, Suntzu shows you who you are playing with and against, so you can pick your maps and your
+strategy like a general.
+
+- **Platforms:** Chrome, Edge, Opera and Firefox
+- **Stack:** TypeScript, React, Vite, Nx monorepo
+- **Links:** [suntzu.gg](https://suntzu.gg) · [source code](https://github.com/feature-creepers/suntzu)
+
+### 🎯 csbot
+
+**A second-screen companion for Counter-Strike 2 squads.** One teammate hosts a room from the desktop
+app, which reads the game through Valve's official Game State Integration and runs the host's own
+Claude Code. The rest of the squad joins from the browser and sees the same scouting, live calls and
+debriefs, with their own job highlighted.
+
+- **Features:** scouting reports, live economy and site calls, shared intel on the map, an AI coach,
+  match debriefs, 2D replays, a Stream Deck plugin, push-to-talk… a textbook case of feature creep.
+- **Stack:** TypeScript, Electron, peer-to-peer rooms, Claude Code
+- **Links:** [source code](https://github.com/feature-creepers/csbot)
+
+## In the oven
+
+More projects are cooking in private repositories. They will show up here when they are ready to
+embarrass us in public. 🤫
+
+## Start your own project
+
+Got an idea? Perfect, that is literally the entry requirement.
+
+<Steps>
+<Step>
+
+### Pitch it
+
+Open an issue on the [docs repository](https://github.com/feature-creepers/docs/issues/new/choose)
+(or talk about it with the crew). Explain what it does, why it is fun, and what you want to learn
+by building it. "Because it would be hilarious" is a valid reason.
+
+</Step>
+<Step>
+
+### Get a repository
+
+A member of the organization creates a repository for it in
+[feature-creepers](https://github.com/feature-creepers), or transfers yours there.
+
+</Step>
+<Step>
+
+### Set it up properly
+
+Every Feature Creepers project gets, at minimum:
+
+- a `README.md` explaining what it is and how to run it,
+- an [`AGENTS.md`](/learn/agents-md) so AI agents (and humans) know the commands and conventions,
+- a `.gitignore` that keeps secrets and build files out of Git.
+
+</Step>
+<Step>
+
+### Build, ship, add features
+
+Open issues for ideas, work in branches, review each other's pull requests, and ship early. When it
+grows up, the [Handbook](/handbook) explains how to add tests and CI.
+
+</Step>
+</Steps>
+
+## Project rules
+
+A few rules we learned the hard way:
+
+- **Original work only.** No art, audio, names or designs copied from existing games or apps, and no
+  copyrighted files in our repositories. Parody and inspiration are fine; copy-paste is not.
+- **Secrets never go in Git.** API keys, passwords and tokens live in a local `.env` file that is
+  ignored by Git. Always.
+- **Local junk stays local.** Scratch files go in an ignored folder (we like `tmp/`).
+- **Be honest about status.** A README that says "pre-alpha, probably broken" is better than one
+  that promises the moon. (We still aim for the moon. 🚀🚀🌙)

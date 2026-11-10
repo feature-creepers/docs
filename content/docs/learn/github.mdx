@@ -1,0 +1,242 @@
+---
+title: What is GitHub?
+description: Understand what GitHub adds on top of Git, create your account, install the GitHub CLI, and learn the pull request workflow.
+icon: GitFork
+level: beginner
+duration: 25 min
+---
+
+If Git is the save system of your project, **GitHub** is the cloud where the saves live, plus a
+social network for code. It hosts Git repositories online and adds everything you need to work with
+other people: discussions, reviews, automation, and even websites. (This site is hosted on GitHub.)
+
+## Git vs GitHub
+
+| Git | GitHub |
+| --- | --- |
+| A program on your computer | A website (and a company, owned by Microsoft) |
+| Tracks the history of your files | Hosts repositories online |
+| Works offline | Adds issues, pull requests, reviews, Actions, Pages… |
+| Free and open source | Free for public and private repos, with paid extras |
+
+Other hosts exist, like [GitLab](https://gitlab.com) and [Codeberg](https://codeberg.org), and they
+work the same way. Feature Creepers lives on GitHub.
+
+## The vocabulary
+
+- **Repository**: a project hosted on GitHub, like
+  [feature-creepers/docs](https://github.com/feature-creepers/docs) (`owner/name`).
+- **Organization**: a shared account owning repositories, like
+  [feature-creepers](https://github.com/feature-creepers).
+- **Issue**: a ticket to report a bug, suggest an idea, or ask a question.
+- **Fork**: your own copy of someone else's repository, to propose changes without write access.
+- **Pull request** (PR): a request to merge your branch into another one. It is where code review
+  happens.
+- **Review**: comments, suggestions and approval on a pull request.
+- **Actions**: automation that runs on GitHub's machines, for example to test every pull request.
+- **Pages**: free static website hosting, straight from a repository.
+- **Star** ⭐: a bookmark, and a way to say "nice project".
+
+## Create your account
+
+<Steps>
+<Step>
+Go to [github.com/signup](https://github.com/signup) and create an account. Pick your username
+carefully: it appears in every URL and commit. Something professional-ish that you will not hate in
+five years.
+</Step>
+<Step>
+Verify your email address.
+</Step>
+<Step>
+Enable **two-factor authentication** (2FA) in **Settings → Password and authentication**. GitHub
+requires it for people who contribute code, and it protects your account. An authenticator app or a
+passkey works great.
+</Step>
+<Step>
+Add a profile picture and a short bio. It makes reviews feel more human, and it will look great on
+the [Wall of Creepers](/association/wall-of-creepers).
+</Step>
+</Steps>
+
+## Install the GitHub CLI
+
+The **GitHub CLI**, called `gh`, lets you do almost everything from the terminal: clone, create
+repositories, open pull requests… It also handles authentication for Git, so you will never type a
+password.
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+```powershell
+winget install --id GitHub.cli -e
+```
+
+</Tab>
+<Tab value="macOS">
+
+```bash
+brew install gh
+```
+
+</Tab>
+<Tab value="Linux">
+
+Follow the official instructions for your distribution at
+[github.com/cli/cli/blob/trunk/docs/install_linux.md](https://github.com/cli/cli/blob/trunk/docs/install_linux.md).
+For Debian and Ubuntu, it is one block of commands to copy and paste.
+
+</Tab>
+</Tabs>
+
+Open a new terminal and check:
+
+```bash
+gh --version
+```
+
+## Log in
+
+```bash
+gh auth login
+```
+
+Answer the questions:
+
+1. **Where do you use GitHub?** `GitHub.com`
+2. **Preferred protocol for Git operations?** `HTTPS`
+3. **Authenticate Git with your GitHub credentials?** `Yes`
+4. **How would you like to authenticate?** `Login with a web browser`
+
+`gh` shows a one-time code and opens your browser. Paste the code, approve, done. Check it:
+
+```bash
+gh auth status
+```
+
+Git now uses your GitHub account automatically when you push or pull.
+
+## Clone a repository
+
+**Cloning** downloads a repository with its full history:
+
+```bash
+gh repo clone feature-creepers/docs
+cd docs
+```
+
+With plain Git, the equivalent is `git clone https://github.com/feature-creepers/docs.git`.
+
+## Put your own project online
+
+Remember the `useless-app` from the [Git tutorial](/learn/git)? Let's publish it. From inside the
+folder:
+
+```bash
+gh repo create useless-app --public --source=. --push
+```
+
+This creates the repository on GitHub, adds it as the `origin` remote, and pushes your commits. Open
+it in your browser:
+
+```bash
+gh repo view --web
+```
+
+From now on, after each commit, send your work with `git push`.
+
+## The pull request workflow
+
+This is how almost every team works, including ours:
+
+<Steps>
+<Step>
+
+### Start from an up-to-date main
+
+```bash
+git switch main
+git pull
+```
+
+</Step>
+<Step>
+
+### Create a branch for your change
+
+```bash
+git switch -c add-confetti
+```
+
+</Step>
+<Step>
+
+### Commit your work
+
+Edit, `git add`, `git commit`. Repeat as needed.
+
+</Step>
+<Step>
+
+### Push the branch
+
+```bash
+git push -u origin add-confetti
+```
+
+`-u` links your local branch to the remote one, so next time a plain `git push` is enough.
+
+</Step>
+<Step>
+
+### Open a pull request
+
+```bash
+gh pr create
+```
+
+`gh` asks for a title and a description. Explain **what** you changed and **why**. Screenshots are
+welcome for anything visual.
+
+</Step>
+<Step>
+
+### Review and merge
+
+Teammates review, comment and suggest changes. Automated checks run. Push new commits to the same
+branch to address feedback: the pull request updates itself. Once approved, it gets merged into
+`main`. 🎉
+
+</Step>
+</Steps>
+
+<Callout title="No write access? Fork it">
+  You cannot push branches to repositories you do not have access to. Instead, **fork** the
+  repository (your own copy), push your branch to your fork, and open the pull request from there.
+  `gh repo fork owner/repo --clone` does the fork and the clone in one go. The
+  [next tutorial](/learn/first-pull-request) shows it step by step.
+</Callout>
+
+## Good GitHub manners
+
+- **Search before opening an issue.** Someone may have asked already.
+- **Write useful issues**: what you did, what you expected, what happened, and the exact error.
+- **Keep pull requests small and focused.** One topic per PR. Reviewers will love you.
+- **Be kind in reviews**, both giving and receiving. See our
+  [code of conduct](/association/code-of-conduct).
+- **Never push secrets.** GitHub scans for leaked keys, but by then it is already too late.
+
+## Useful `gh` commands
+
+| Command | What it does |
+| --- | --- |
+| `gh repo clone owner/repo` | Clone a repository |
+| `gh repo create` | Create a repository |
+| `gh repo fork owner/repo --clone` | Fork and clone |
+| `gh issue list` / `gh issue create` | List or create issues |
+| `gh pr create` | Open a pull request for the current branch |
+| `gh pr list` / `gh pr view --web` | List PRs / open the current one in the browser |
+| `gh pr checkout 42` | Check out pull request #42 locally to test it |
+| `gh pr checks` | See the status of automated checks |
+
+**Next:** put everything together with [your first pull request](/learn/first-pull-request).

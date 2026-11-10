@@ -1,0 +1,109 @@
+---
+title: AI coding agents 101
+description: What an AI coding agent is, how it differs from a chatbot, which ones exist, what they cost, and how to pick your first one.
+icon: Bot
+level: beginner
+duration: 15 min
+---
+
+You have probably chatted with an AI assistant. A **coding agent** goes one step further: instead of
+giving you code to copy and paste, it works **directly in your project**. It reads your files, runs
+commands, edits code, runs the tests, looks at the errors, and tries again, until the task is done.
+
+## Chatbot vs agent
+
+| A chatbot… | An agent… |
+| --- | --- |
+| Only knows what you paste into the chat | Explores your project by itself |
+| Gives you code to copy | Edits the files directly |
+| Cannot check if the code works | Runs your build and tests, and fixes what breaks |
+| Answers once | Works in a loop until the task is done |
+
+Under the hood, an agent repeats a simple loop: **think → act → observe**. It decides what to do
+("I need to read `package.json`"), uses a tool (reads the file, runs a command), looks at the result,
+and decides the next step.
+
+## What they are great at
+
+- **Explaining code**: "What does this project do? Where is the login handled?"
+- **Boilerplate and repetitive work**: forms, configs, tests, migrations.
+- **Debugging**: give it the error, it digs through the code and the logs.
+- **Learning**: it can explain every line it wrote, as many times as you want, with infinite
+  patience.
+- **Adding features.** Lots of features. Dangerously many features. You see why we like them.
+
+## What they are bad at
+
+- **Knowing what you want.** If your request is vague, the result will be too. That is why we have a
+  whole page on [prompting](/learn/prompting).
+- **Being always right.** Agents can be confidently wrong, invent APIs that do not exist, or "fix"
+  a test by deleting it. You review, you decide.
+- **Huge vague tasks.** "Build me Facebook" will not go well. Small, clear steps work.
+- **Your secrets.** An agent can read every file you give it access to. Keep keys out of reach (see
+  [best practices](/learn/best-practices)).
+
+## The main agents
+
+The landscape moves fast. Here are the ones we use and recommend, as of late 2026:
+
+| Agent | Made by | Where it runs | What you need |
+| --- | --- | --- | --- |
+| **[Claude Code](/learn/claude-code)** | Anthropic | Terminal, VS Code, JetBrains, desktop app, web | A paid Claude plan (Pro or above) or an API account |
+| **[Codex](/learn/codex)** | OpenAI | Terminal, VS Code and forks, desktop app, web | A ChatGPT plan (Plus or above) or an API key |
+| **[T3 Code](/learn/t3code)** | T3 (open source) | Desktop, web and mobile app | At least one agent above, installed and logged in |
+
+T3 Code is a bit different: it is not an agent itself, but a **control center** for agents. It gives
+Claude Code, Codex and others a nice interface with threads, diffs and remote access.
+
+Other popular options include [Cursor](https://cursor.com), [GitHub Copilot](https://github.com/features/copilot),
+[Gemini CLI](https://github.com/google-gemini/gemini-cli) and [OpenCode](https://opencode.ai). The
+skills you learn here (prompting, reviewing, `AGENTS.md`) work with all of them.
+
+## How much does it cost?
+
+There are two ways to pay:
+
+- **A subscription** (Claude Pro or Max, ChatGPT Plus or Pro…): a fixed monthly price with usage
+  limits. **Best for beginners**: predictable, no surprise bill.
+- **An API key** (pay per use): you pay for what you consume. Flexible, but a long session on a big
+  project can cost more than you think. Set a spending limit in the provider's console if you go this
+  way.
+
+<Callout type="warn" title="Check the current prices">
+  Plans and prices change often. Always check the official pricing pages before subscribing. Free
+  plans usually do not include the coding agents, or only with tight limits.
+</Callout>
+
+## Which one should I start with?
+
+**The best agent is the one you actually use.** They are all very capable, so do not overthink it:
+
+1. If you already pay for **Claude** or **ChatGPT**, start with the agent that comes with it:
+   [Claude Code](/learn/claude-code) or [Codex](/learn/codex).
+2. If the terminal still intimidates you, add [T3 Code](/learn/t3code) on top for a friendlier
+   interface. (But read [the terminal tutorial](/learn/terminal) anyway, you will need it.)
+3. Try the other one later. Many of us use both, and compare their answers on hard problems.
+
+## Golden rules before your first session
+
+<Steps>
+<Step>
+**Work in a Git repository, and commit before starting.** If the agent makes a mess, `git restore .`
+brings you back to safety. See [What is Git?](/learn/git).
+</Step>
+<Step>
+**Read what it does.** Agents ask for permission before running commands or editing files (at least
+by default). Read before you approve, especially for commands that delete things or install
+packages.
+</Step>
+<Step>
+**Review the result.** Look at the diff (`git diff`), run the app, run the tests. You own the code
+you commit, whoever wrote it.
+</Step>
+<Step>
+**Never paste secrets** (passwords, API keys) into a prompt.
+</Step>
+</Steps>
+
+**Next:** install your first agent: [Claude Code](/learn/claude-code), [Codex](/learn/codex), or
+both.

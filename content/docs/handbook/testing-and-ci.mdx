@@ -1,0 +1,180 @@
+---
+title: Tests & CI 101
+description: What automated tests are, how continuous integration works with GitHub Actions, the difference between runners, and how to keep a growing test suite fast.
+icon: FlaskConical
+level: intermediate
+duration: 30 min
+---
+
+This page gives you the vocabulary and the mental model behind tests and continuous integration
+(CI). It is the foundation for the [CI infrastructure prompt](/handbook/ci-infrastructure).
+
+## Automated tests
+
+A **test** is code that runs your code and checks the result. If the result is not what you expect,
+the test fails and tells you why.
+
+### A first test
+
+Say you have a function that decides whether a feature request is acceptable (it always is):
+
+```ts title="src/features.ts"
+export function shouldAddFeature(idea: string): boolean {
+  return idea.trim().length > 0;
+}
+```
+
+With [Vitest](https://vitest.dev), a popular test runner for JavaScript and TypeScript projects,
+install it once:
+
+```bash
+pnpm add -D vitest
+```
+
+Then write a test next to the code:
+
+```ts title="src/features.test.ts"
+import { describe, expect, it } from 'vitest';
+import { shouldAddFeature } from './features';
+
+describe('shouldAddFeature', () => {
+  it('accepts any idea, no matter how useless', () => {
+    expect(shouldAddFeature('dark mode for the dark mode')).toBe(true);
+  });
+
+  it('rejects an empty idea', () => {
+    expect(shouldAddFeature('   ')).toBe(false);
+  });
+});
+```
+
+And run it:
+
+```bash
+pnpm vitest run
+```
+
+Vitest finds every `*.test.ts` file, runs it, and prints a green ✓ or a red ✗ with the details.
+
+### The kinds of tests
+
+| Kind | What it checks | Speed | How many |
+| --- | --- | --- | --- |
+| **Unit** | One function or component, in isolation | Milliseconds | Lots |
+| **Integration** | Several pieces together (API + database, for example) | Seconds | Some |
+| **End-to-end** (E2E) | The whole app, in a real browser, like a user (with tools like Playwright) | Seconds to minutes | A few critical paths |
+
+This is often drawn as a **pyramid**: many fast unit tests at the bottom, a few slow end-to-end tests
+at the top. Fast tests give fast feedback; slow tests give confidence on the critical paths.
+
+### Other automated checks
+
+Tests are not the only robots guarding your code:
+
+- **Linter** (ESLint, Biome…): catches bugs and style problems without running the code.
+- **Type checker** (`tsc` for TypeScript): catches type errors before runtime.
+- **Formatter** (Prettier, Biome…): keeps the style consistent so reviews focus on what matters.
+- **Build**: if it does not build, it does not ship.
+
+## Continuous integration (CI)
+
+**Continuous integration** means: every time someone pushes code or opens a pull request, a machine
+automatically runs all the checks. If something fails, the pull request shows a red ✗, and you know
+before it reaches `main`.
+
+Why not just run the tests locally? Because:
+
+- People forget. Robots do not.
+- Your machine is not a clean environment ("works on my machine").
+- On a team, CI is the neutral referee everyone trusts.
+
+### GitHub Actions in five minutes
+
+On GitHub, CI is done with **GitHub Actions**. You describe **workflows** in YAML files in
+`.github/workflows/`. A workflow has:
+
+- **triggers** (`on`): when it runs (push, pull request, schedule, manual…),
+- **jobs**: groups of steps, each running on a **runner** (a machine),
+- **steps**: commands to run, or reusable **actions** written by others.
+
+Here is a workflow very close to the one that checks every pull request on this very site:
+
+```yaml title=".github/workflows/ci.yml"
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm types:check
+      - run: pnpm build
+```
+
+Push it, open a pull request, and watch the **Checks** section of the pull request come alive.
+
+<Callout type="idea" title="Make the checks mandatory">
+  In the repository settings, a **branch protection rule** (or **ruleset**) on `main` can require the
+  CI checks to pass before merging. That way, nobody (human or agent) can merge a red pull request by
+  accident.
+</Callout>
+
+## Runners: where CI actually runs
+
+A **runner** is the machine that executes your jobs.
+
+| | GitHub-hosted runners | Self-hosted runners |
+| --- | --- | --- |
+| **What** | Fresh virtual machines provided by GitHub for each job | Your own machine: a server, a VPS, a spare PC |
+| **Setup** | None: `runs-on: ubuntu-latest` | You install and maintain the runner software |
+| **Cost** | Free for public repositories; included minutes, then paid, for private ones | The price of your machine, unlimited minutes |
+| **Speed** | Standard machines, everything downloaded again for each job | As powerful as you want, with warm caches |
+| **Security** | Isolated and thrown away after each job | Your responsibility |
+
+GitHub-hosted runners are perfect to start. Self-hosted runners become interesting when the test
+suite gets heavy: a well-sized VPS with warm caches can run the same checks much faster, as often as
+you want, for a fixed monthly price.
+
+<Callout type="error" title="Self-hosted runners and public repositories">
+  GitHub recommends using self-hosted runners **only with private repositories**. On a public
+  repository, anyone can open a pull request whose code runs on your machine. Keep self-hosted runners
+  for private projects, and keep them isolated from anything sensitive.
+</Callout>
+
+## When the tests get slow
+
+It happens to every growing project: the suite that took 30 seconds now takes 20 minutes, and people
+start skipping it. Some ways out, from easiest to most involved:
+
+1. **Cache dependencies and build outputs** so each run does not start from zero.
+2. **Run jobs in parallel**: lint, type check, unit tests and E2E tests as separate jobs.
+3. **Shard big test suites** across several machines.
+4. **Only test what changed**: monorepo tools like Nx or Turborepo can run checks only for the
+   affected projects.
+5. **Use faster machines**: larger runners, or your own self-hosted runners on a VPS.
+6. **Fix the slow tests**: the 10 slowest tests are often half of the total time.
+
+Setting up option 5 properly (runners, caches, services, security, for one repository or a whole
+organization) is a real project. That is exactly what our
+[CI infrastructure prompt](/handbook/ci-infrastructure) is for.
+
+## Tests, CI and AI agents
+
+- **Document the checks in [`AGENTS.md`](/learn/agents-md)**: the exact commands to run tests, lint
+  and build, and the rule "run them before saying a task is done".
+- **Ask agents for tests with every feature**, and for a failing test before every bug fix.
+- **Watch out for test tampering**: an agent should fix the code, not delete the test that
+  complains.
+- **Let CI have the last word.** Whatever the agent says, the pull request is green or it is not.

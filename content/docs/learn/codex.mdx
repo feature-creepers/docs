@@ -1,0 +1,104 @@
+---
+title: Install Codex
+description: Install OpenAI's coding agent on Windows, macOS or Linux, sign in with ChatGPT, and run your first session.
+icon: Terminal
+level: beginner
+duration: 15 min
+---
+
+**Codex** is OpenAI's AI coding agent. The **Codex CLI** runs in your terminal, reads and edits your
+code, and runs commands in a sandbox. It also exists as an IDE extension, a desktop app and a cloud
+version.
+
+<Callout type="warn" title="You need a ChatGPT plan or an API key">
+  The recommended way is to **sign in with ChatGPT**, which works with the Plus, Pro, Business, Edu
+  and Enterprise plans. You can also use an OpenAI API key (pay per use). Check the current plans on
+  [chatgpt.com/pricing](https://chatgpt.com/pricing).
+</Callout>
+
+## Install
+
+```bash tab="macOS / Linux"
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
+```
+
+```powershell tab="Windows (PowerShell)"
+powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"
+```
+
+```bash tab="npm"
+npm install -g @openai/codex
+```
+
+```bash tab="Homebrew"
+brew install --cask codex
+```
+
+The npm method needs [Node.js](/learn/setup#3-nodejs-and-npm). **Open a new terminal** and check:
+
+```bash
+codex --version
+```
+
+## Sign in
+
+Go to a project folder and start Codex:
+
+```bash
+cd useless-app
+codex
+```
+
+The first time, choose **Sign in with ChatGPT**. Your browser opens, you log in, and you are back in
+the terminal, ready to go. (You can also sign in at any time with `codex login`.)
+
+## Your first session
+
+Type your request and press <kbd>Enter</kbd>:
+
+```text
+Tell me about this project.
+```
+
+Then try a real change:
+
+```text
+Add a CHANGELOG.md file with an entry for version 0.0.1
+describing three features we definitely do not need.
+```
+
+Codex shows what it wants to do. Review, approve, and check the result with `git diff`.
+
+### Commands to know
+
+| Command | What it does |
+| --- | --- |
+| `/init` | Create an [`AGENTS.md`](/learn/agents-md) file with instructions for Codex |
+| `/permissions` | Choose what Codex can do without asking (edit files, run commands) |
+| `/model` | Choose the model and the reasoning effort |
+| `/new` | Start a new conversation |
+| `/status` | Show the current session settings |
+| <kbd>Esc</kbd> | Interrupt Codex |
+
+<Callout type="idea" title="Start careful, loosen later">
+  Keep the default permissions at first, so Codex asks before running commands. Once you are
+  comfortable reading what it does, you can let it do more on its own, inside its sandbox.
+</Callout>
+
+## Keep it up to date
+
+Run the install command again to update. With npm, use `npm install -g @openai/codex@latest`; with
+Homebrew, `brew upgrade --cask codex`.
+
+## Other ways to use Codex
+
+- **IDE extension**: install Codex in VS Code, Cursor or Windsurf.
+- **Desktop app**: run `codex app`.
+- **In the cloud** at [chatgpt.com/codex](https://chatgpt.com/codex): delegate tasks on your GitHub
+  repositories and get pull requests back.
+- **[T3 Code](/learn/t3code)**: drive Codex (and Claude Code) from one interface.
+
+Official documentation: [github.com/openai/codex](https://github.com/openai/codex).
+
+**Next:** [install T3 Code](/learn/t3code) for a friendlier interface, or learn
+[how to prompt](/learn/prompting).

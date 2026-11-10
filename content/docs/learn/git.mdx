@@ -1,0 +1,280 @@
+---
+title: What is Git?
+description: Understand version control, install and configure Git, and learn the everyday commands with a hands-on example.
+icon: GitBranch
+level: beginner
+duration: 30 min
+---
+
+Remember save points in video games? You save before the boss fight, and if it goes wrong, you
+reload. **Git** gives you save points for your code. It also gives you parallel universes (to try
+ideas without breaking anything) and a time machine (to see who changed what, and when).
+
+## What Git does for you
+
+- **History.** Every saved version of your project is kept forever. You can go back to any of them.
+- **Safety.** Break something? Return to the last version that worked. This is also your best friend
+  when an AI agent goes wild in your code.
+- **Experiments.** Try a crazy idea on a separate **branch** without touching the version that works.
+- **Collaboration.** Several people (and agents) can work on the same project and merge their work.
+
+Git runs **locally**, on your machine. [GitHub](/learn/github) is a website that hosts Git projects
+online. They are different things, and we will see GitHub in the next tutorial.
+
+## The vocabulary
+
+| Word | Meaning |
+| --- | --- |
+| **Repository** (repo) | A project folder tracked by Git. Git stores its data in a hidden `.git` folder inside. |
+| **Commit** | A save point: a snapshot of your files, with a message explaining the change. |
+| **Staging area** | The "waiting room" where you put the changes you want in your next commit. |
+| **Branch** | A parallel line of history. `main` is the default one. |
+| **Merge** | Bring the commits of one branch into another. |
+| **Remote** | A copy of the repo somewhere else, usually on GitHub, named `origin` by default. |
+| **Clone** | Download a full copy of a remote repository. |
+| **Push / Pull** | Send your commits to the remote / get the new commits from it. |
+
+The everyday loop looks like this:
+
+```text
+ edit files  ──►  git add  ──►  git commit  ──►  git push
+ (working)        (staging)     (history)        (remote)
+```
+
+## Install Git
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+```powershell
+winget install --id Git.Git -e --source winget
+```
+
+This installs **Git for Windows**, which also includes **Git Bash**, a Bash terminal for Windows.
+Claude Code uses it too, so it is worth having.
+
+</Tab>
+<Tab value="macOS">
+
+Git comes with the Apple command line tools (`xcode-select --install`). For a more recent version:
+
+```bash
+brew install git
+```
+
+</Tab>
+<Tab value="Linux">
+
+```bash
+sudo apt install -y git
+```
+
+</Tab>
+</Tabs>
+
+Open a new terminal and check:
+
+```bash
+git --version
+```
+
+## Configure Git (once)
+
+Git signs every commit with a name and an email. Set them once for your whole machine:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git config --global init.defaultBranch main
+```
+
+<Callout type="idea" title="Which email?">
+  Use the email of your GitHub account, so GitHub links your commits to your profile. If you prefer
+  to keep your email private, GitHub gives you a `noreply` address in **Settings → Emails**.
+</Callout>
+
+Optionally, make VS Code the editor Git opens when it needs you to write something:
+
+```bash
+git config --global core.editor "code --wait"
+```
+
+## Hands-on: your first repository
+
+Let's build the most useless project ever, step by step.
+
+<Steps>
+<Step>
+
+### Create a repository
+
+```bash
+mkdir useless-app
+cd useless-app
+git init
+```
+
+Git answers `Initialized empty Git repository`. The folder is now a repo.
+
+</Step>
+<Step>
+
+### Create a file and check the status
+
+Create a file named `README.md` containing `# Useless app`, with VS Code (`code .`) or with:
+
+```bash
+echo "# Useless app" > README.md
+```
+
+Then ask Git what is going on:
+
+```bash
+git status
+```
+
+Git lists `README.md` under **Untracked files**: it sees the file but does not track it yet.
+`git status` is the command you will type the most. When in doubt, `git status`.
+
+</Step>
+<Step>
+
+### Stage and commit
+
+```bash
+git add README.md
+git commit -m "Add README"
+```
+
+`git add` puts the file in the staging area, `git commit` creates the save point. You can stage
+everything at once with `git add .` (the dot means "this folder").
+
+</Step>
+<Step>
+
+### Change something and look at the difference
+
+Add a line to `README.md`, for example `It does nothing, but beautifully.`, then:
+
+```bash
+git diff
+```
+
+Lines starting with `+` were added, lines starting with `-` were removed. Commit it:
+
+```bash
+git add README.md
+git commit -m "Describe the app"
+```
+
+</Step>
+<Step>
+
+### Read the history
+
+```bash
+git log --oneline
+```
+
+You see your two commits, newest first, each with a short id (like `a1b2c3d`) and its message.
+Press <kbd>Q</kbd> to exit if Git shows the log in a pager.
+
+</Step>
+</Steps>
+
+## Branches: try ideas safely
+
+You want to add a dark mode, but you are not sure it is a good idea. (It is always a good idea.)
+Create a branch:
+
+```bash
+git switch -c dark-mode
+```
+
+You are now on the `dark-mode` branch. Commit as usual. When the feature is done, go back to `main`
+and merge it:
+
+```bash
+git switch main
+git merge dark-mode
+```
+
+Hated the idea? Just switch back to `main` and delete the branch, `main` was never touched:
+
+```bash
+git switch main
+git branch -D dark-mode
+```
+
+<Callout title="Merge conflicts">
+  If two branches changed the same lines, Git cannot decide alone and reports a **conflict**. It marks
+  the conflicting parts in the file with `<<<<<<<`, `=======` and `>>>>>>>`. Edit the file to keep what
+  you want, remove the markers, then `git add` and `git commit`. VS Code has buttons to make this
+  easier. Scary the first time, routine after that.
+</Callout>
+
+## Oops: undoing things
+
+| Situation | Command |
+| --- | --- |
+| Discard changes to a file (not committed yet) | `git restore file.txt` |
+| Remove a file from the staging area | `git restore --staged file.txt` |
+| Fix the message of the last commit (not pushed yet) | `git commit --amend -m "Better message"` |
+| Undo a commit that was already pushed | `git revert <commit-id>` |
+
+<Callout type="warn" title="Careful with reset --hard">
+  You will find `git reset --hard` online. It throws away uncommitted work **for good**. Commit or
+  stash (`git stash`) first if you are not sure.
+</Callout>
+
+## Keep things out of Git: .gitignore
+
+Some files must never be committed: dependencies (`node_modules`), build output, and above all
+**secrets**. List them in a `.gitignore` file at the root of the repo:
+
+```text title=".gitignore"
+node_modules/
+dist/
+.env
+.env.local
+*.log
+```
+
+<Callout type="error" title="Never commit secrets">
+  Passwords, API keys and tokens go in a `.env` file listed in `.gitignore`. Once a secret is pushed
+  to GitHub, consider it leaked, even if you delete it in the next commit: Git remembers everything.
+  If it happens, revoke the key immediately and create a new one.
+</Callout>
+
+## Write good commit messages
+
+Your future self (and your teammates) will read them. A good message says **what** changed, in a
+short imperative sentence, as if completing "This commit will…":
+
+- ✅ `Add dark mode toggle to settings`
+- ✅ `Fix crash when the to-do list is empty`
+- ❌ `stuff`
+- ❌ `fix`
+- ❌ `I changed some files lol`
+
+Commit **small and often**: one logical change per commit. It makes history readable and mistakes
+easy to undo.
+
+## Cheat sheet
+
+| Command | What it does |
+| --- | --- |
+| `git init` | Turn the current folder into a repository |
+| `git clone <url>` | Download a remote repository |
+| `git status` | What changed? What is staged? |
+| `git add <file>` / `git add .` | Stage changes |
+| `git commit -m "message"` | Create a save point |
+| `git diff` | Show unstaged changes |
+| `git log --oneline` | Show history |
+| `git switch -c <branch>` | Create and switch to a branch |
+| `git switch <branch>` | Switch to an existing branch |
+| `git merge <branch>` | Merge a branch into the current one |
+| `git pull` | Get new commits from the remote |
+| `git push` | Send your commits to the remote |
+
+**Next:** [What is GitHub?](/learn/github), to put your code online and work with others.

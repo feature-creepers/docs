@@ -1,0 +1,42 @@
+name: 🚀 Join the crew
+description: Ask to join Feature Creepers. Tell us a bit about yourself!
+title: "Join request: <your name>"
+labels: ["join request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Welcome, future Feature Creeper! 👋
+        Fill this in and a member of the crew will invite you to the GitHub organization.
+        There are no wrong answers (except leaving the useless feature empty).
+  - type: input
+    id: name
+    attributes:
+      label: How should we call you?
+      placeholder: Ada
+    validations:
+      required: true
+  - type: textarea
+    id: about
+    attributes:
+      label: Tell us about yourself
+      description: What do you know already? What do you want to learn or build? Total beginners are very welcome.
+      placeholder: I just finished the terminal tutorial and I want to build a game...
+    validations:
+      required: true
+  - type: input
+    id: useless-feature
+    attributes:
+      label: The most useless feature you dream of building
+      placeholder: A to-do app that reminds you of things you already did
+    validations:
+      required: true
+  - type: checkboxes
+    id: agreements
+    attributes:
+      label: The serious part
+      options:
+        - label: I read the [mission & values](https://feature-creepers.github.io/docs/association/mission/)
+          required: true
+        - label: I agree to follow the [code of conduct](https://feature-creepers.github.io/docs/association/code-of-conduct/)
+          required: true
