@@ -46,8 +46,9 @@ export function SiteFooter({ lang }: { lang: Lang }) {
 
   return (
     <footer className="border-t bg-fd-card/40">
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-[1.4fr_repeat(3,1fr)]">
-        <div>
+      {/* phones: the logo block on its own row, then the link columns two by two */}
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-6 py-14 md:grid-cols-[1.4fr_repeat(3,1fr)]">
+        <div className="col-span-2 md:col-span-1">
           <Logo />
           <p className="mt-4 max-w-xs text-sm text-fd-muted-foreground">{t.tagline}</p>
           <div className="mt-5 flex flex-wrap items-center gap-3 text-sm">

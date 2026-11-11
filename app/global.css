@@ -108,6 +108,11 @@ html > body[data-scroll-locked] {
   flex-shrink: 0;
 }
 
+/* Long URLs and inline commands in content wrap instead of running off small screens */
+.prose :where(a, :not(pre) > code):not(:where(.not-prose, .not-prose *)) {
+  overflow-wrap: anywhere;
+}
+
 /* Inline code: a little greener */
 .prose :where(:not(pre) > code):not(:where(.not-prose, .not-prose *)) {
   color: var(--color-fd-accent-foreground);

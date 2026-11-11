@@ -272,7 +272,7 @@ const fr: Messages = {
     name: 'Feature Creepers',
     tagline: 'Des applis géniales. Et des débiles. Avec beaucoup trop de fonctionnalités.',
     description:
-      'La maison de Feature Creepers, une association de développeurs qui codent pour le plaisir : qui on est, comment nous rejoindre, et des tutoriels pour débutants sur le terminal, Git, GitHub et les agents de code IA.',
+      'La maison de Feature Creepers, une association de développeurs qui codent pour le plaisir : qui on est, comment nous rejoindre, et des tutoriels pour débutants sur le terminal, Git, GitHub et les agents de code IA.',
     ogTitle: 'Des applis géniales. Et des débiles.',
     ogDescription: 'Une association de développeurs qui ne disent jamais non à une fonctionnalité de plus.',
     ogFooter: 'Des applis géniales. Et des débiles.',
@@ -314,7 +314,7 @@ const fr: Messages = {
       ],
       features: 'fonctionnalités',
       scope: 'périmètre',
-      scopeValue: 'quel périmètre ?',
+      scopeValue: 'quel périmètre ?',
       happiness: 'bonheur',
     },
     marquee: {
@@ -346,24 +346,24 @@ const fr: Messages = {
       text: 'Que tu veuilles nous rejoindre, apprendre, ou remettre d’aplomb un projet qui a un peu trop grandi.',
       association: {
         title: 'L’Association',
-        text: 'Qui on est, ce qu’on défend, ce qu’on fait ensemble, et comment nous rejoindre. La partie « sérieuse ». Elle est courte.',
+        text: 'Qui on est, ce qu’on défend, ce qu’on fait ensemble, et comment nous rejoindre. La partie « sérieuse ». Elle est courte.',
         cta: 'Rencontrer l’équipage',
       },
       learn: {
         title: 'Apprendre',
-        text: 'De « c’est quoi un terminal ? » jusqu’à coder avec des agents IA. Pour débutants, sans élitisme, sans question bête.',
+        text: 'De « c’est quoi un terminal ? » jusqu’à coder avec des agents IA. Pour débutants, sans élitisme, sans question bête.',
         cta: 'Suivre le parcours',
       },
       handbook: {
         title: 'Manuel',
-        text: 'Pour le jour où ton projet jouet devient une vraie appli : tests, intégration continue et une infra qui suit.',
+        text: 'Pour le jour où ton projet jouet devient une vraie appli : tests, intégration continue et une infra qui suit.',
         cta: 'Ouvrir le manuel',
       },
     },
     community: {
       eyebrow: 'Là où traîne l’équipage',
       titleStart: 'Viens dire bonjour sur',
-      text: 'Notre serveur Discord, c’est là que vit l’équipage : questions, entraide, show & tell, sessions de build et une radio qui ne s’arrête jamais. Le code, lui, vit sur notre organisation GitHub. C’est tout : deux endroits, pas de newsletter, pas de spam.',
+      text: 'Notre serveur Discord, c’est là que vit l’équipage : questions, entraide, show & tell, sessions de build et une radio qui ne s’arrête jamais. Le code, lui, vit sur notre organisation GitHub. C’est tout : deux endroits, pas de newsletter, pas de spam.',
       joinDiscord: 'Rejoindre notre Discord',
       github: 'Notre GitHub',
       note: 'Ouvert à tout le monde. Les débutants sont les bienvenus.',
@@ -374,7 +374,7 @@ const fr: Messages = {
         {
           emoji: '💬',
           title: 'Pose tes questions',
-          text: 'Bloqué sur un tuto ou un bug ? Demande. Quelqu’un ici a déjà cassé la même chose.',
+          text: 'Bloqué sur un tuto ou un bug ? Demande. Quelqu’un ici a déjà cassé la même chose.',
         },
         {
           emoji: '🛠️',
@@ -384,7 +384,7 @@ const fr: Messages = {
         {
           emoji: '📣',
           title: 'Show & tell',
-          text: 'Tu as sorti un truc ? Tu as tout cassé de façon spectaculaire ? Montre-nous, on veut voir.',
+          text: 'Tu as sorti un truc ? Tu as tout cassé de façon spectaculaire ? Montre-nous, on veut voir.',
         },
         {
           emoji: '📻',
@@ -399,7 +399,7 @@ const fr: Messages = {
       items: [
         {
           title: 'Chaque idée mérite sa branche.',
-          text: 'C’est avec les idées débiles qu’on prototype les bonnes. Personne ici ne te demandera « mais pourquoi ? ». Enfin si, mais par curiosité.',
+          text: 'C’est avec les idées débiles qu’on prototype les bonnes. Personne ici ne te demandera « mais pourquoi ? ». Enfin si, mais par curiosité.',
         },
         {
           title: 'Livre, puis rigole.',
@@ -419,7 +419,7 @@ const fr: Messages = {
     learningPath: {
       eyebrow: 'Le parcours',
       title: 'De zéro à la mise en ligne, une étape à la fois',
-      text: 'Jamais ouvert de terminal ? Parfait, c’est l’étape un. Chaque tutoriel est écrit pour de vrais débutants et prend moins de temps qu’une pause café (une longue).',
+      text: 'Jamais ouvert de terminal ? Parfait, c’est l’étape un. Chaque tutoriel est écrit pour de vrais débutants et prend moins de temps qu’une pause café (une longue).',
       steps: {
         terminal: { title: 'Le terminal', text: 'Parle à ton ordinateur en texte.' },
         setup: { title: 'Prépare ta machine', text: 'Éditeur, Node.js, gestionnaires de paquets.' },
@@ -439,16 +439,16 @@ const fr: Messages = {
       radioCreepBot:
         'Le DJ de la radio 24 h/24 de notre Discord. Cherche dans tout Apple Music, demande des morceaux, vote pour passer, garde tes favoris. Il pilote l’Apple Music du PC de la radio comme le ferait un lecteur d’écran, et la musique ne s’arrête jamais.',
       marianne:
-        'Un assistant citoyen sur ordinateur pour les personnes qui vivent en France : droits, démarches, papiers et échéances. Il fonctionne avec ton propre Claude Code, Codex ou Mistral Vibe, et garde tout dans une archive chiffrée sur ton ordinateur.',
+        'Un assistant citoyen sur ordinateur pour les personnes qui vivent en France : droits, démarches, papiers et échéances. Il fonctionne avec ton propre Claude Code, Codex ou Mistral Vibe, et garde tout dans une archive chiffrée sur ton ordinateur.',
       audioEnhancer:
-        'Un outil en ligne de commande qui affine le spectre des MP3 compressés : EQ correctif adaptatif, dynamique légère, et le même volume perçu. Pas de sur-boost. Nettoyage IA des artefacts en option.',
+        'Un outil en ligne de commande qui affine le spectre des MP3 compressés : EQ correctif adaptatif, dynamique légère, et le même volume perçu. Pas de sur-boost. Nettoyage IA des artefacts en option.',
       source: 'Source',
       ideaTitle: 'Ton idée débile',
       ideaText: 'Elle a sa place ici. Viens la construire avec nous.',
       all: 'Tous nos projets',
     },
     finalCta: {
-      titleStart: 'Une idée débile ?',
+      titleStart: 'Une idée débile ?',
       titleHighlight: 'Parfait.',
       text: 'C’est la seule condition d’entrée. Apporte ta curiosité, tes questions et ta demande de fonctionnalité la plus inutile. On s’occupe des snacks et des revues de code.',
       joinDiscord: 'Rejoindre notre Discord',
@@ -506,15 +506,15 @@ const fr: Messages = {
     levels: { beginner: 'Débutant', intermediate: 'Intermédiaire', advanced: 'Avancé' },
   },
   wall: {
-    dreamFeature: 'Fonctionnalité inutile rêvée :',
+    dreamFeature: 'Fonctionnalité inutile rêvée :',
     empty: 'Le mur est étrangement vide.',
-    more: 'Ta tête ici ?',
+    more: 'Ta tête ici ?',
     cta: 'Signe-le avec ta toute première pull request →',
   },
   prompt: {
     lines: 'lignes',
     copy: 'Copier',
-    copied: 'Copié !',
+    copied: 'Copié !',
     failed: 'La copie a échoué, utilise Télécharger',
     download: 'Télécharger',
     readHere: 'Le lire ici',
