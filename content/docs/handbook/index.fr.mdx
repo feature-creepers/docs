@@ -1,0 +1,81 @@
+---
+title: Quand ton projet devient sérieux
+description: Le Manuel, c'est pour le moment où ton projet jouet devient une vraie appli, et où le garder en état de marche compte autant qu'ajouter des fonctionnalités.
+icon: BookOpenText
+---
+
+Ça commence toujours pareil. Une idée débile, un week-end, une blague déployée. Puis un pote s'en
+sert. Puis ses potes. Puis tu ajoutes une fonctionnalité, puis une autre, et un jour tu te rends
+compte que tu as **peur de toucher à quoi que ce soit**, parce que tu ne sais pas ce qui va casser.
+
+Félicitations : ton projet est devenu sérieux. Ce Manuel est fait pour ce moment-là.
+
+## Les symptômes [#the-symptoms]
+
+- Tu testes tout **à la main** avant chaque nouvelle version, et des trucs t'échappent quand même.
+- « Ça marche sur ma machine » est une phrase que tu as prononcée cette semaine.
+- Plusieurs personnes (et plusieurs agents IA) poussent des modifs, et chacun casse le travail des
+  autres.
+- La suite de tests existe, mais elle est **tellement longue** que plus personne ne la lance.
+- Un agent a « réparé » un truc et en a cassé un autre en silence, et tu l'as appris par un
+  utilisateur.
+
+## Le remède : des tests, de la CI et une infra qui suit le rythme [#the-cure-tests-ci-and-infrastructure-that-keeps-up]
+
+<Steps>
+<Step>
+
+### Des tests automatisés [#automated-tests]
+
+Du code qui vérifie ton code, en quelques secondes, à chaque fois. Ils transforment « j'espère que
+ça marche » en « je sais que ça marche ».
+
+</Step>
+<Step>
+
+### L'intégration continue [#continuous-integration]
+
+Un arbitre neutre qui lance toutes les vérifications sur chaque pull request, sur une machine toute
+neuve, avant que quoi que ce soit n'arrive sur `main`.
+
+</Step>
+<Step>
+
+### Une infrastructure qui grandit avec toi [#infrastructure-that-scales-with-you]
+
+Quand l'appli grandit, une grosse partie du temps de développement part à **attendre les tests**.
+Des machines de CI rapides et bien configurées (par exemple tes propres runners sur un VPS) te
+rendent ce temps.
+
+</Step>
+</Steps>
+
+## Pourquoi c'est encore plus important avec les agents IA [#why-it-matters-even-more-with-ai-agents]
+
+Les agents IA écrivent du code **vite**. C'est tout l'intérêt. Mais ta capacité à faire confiance à
+ce code, elle, n'accélère pas comme par magie. Les tests et la CI, c'est comme ça que tu suis le
+rythme :
+
+- Les agents peuvent **lancer les tests eux-mêmes** et réparer ce qui casse avant de te rendre le
+  travail.
+- La CI attrape ce que l'agent (et toi) avez raté, sur chaque pull request, sans que personne n'ait
+  à penser à vérifier.
+- Une CI rapide, c'est un retour rapide : les agents et les humains peuvent itérer plein de fois
+  par jour au lieu de deux ou trois.
+
+En clair : **plus tu écris du code vite, plus tu as besoin de vérifications automatiques**.
+
+## Dans ce Manuel [#in-this-handbook]
+
+<Cards>
+  <Card
+    title="Tests et CI : les bases"
+    href="/handbook/testing-and-ci"
+    description="Ce que sont les tests, comment marche la CI avec GitHub Actions, les runners, et quoi faire quand la suite de tests devient lente."
+  />
+  <Card
+    title="Prompt d'infrastructure CI"
+    href="/handbook/ci-infrastructure"
+    description="Notre brief pour un agent IA : mesurer ta CI, la rendre rapide, économique et solide, jusqu'aux runners auto-hébergés sur des VPS OVHcloud."
+  />
+</Cards>

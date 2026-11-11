@@ -1,0 +1,195 @@
+---
+title: "Tests et CI : les bases"
+description: Ce que sont les tests automatisés, comment marche l'intégration continue avec GitHub Actions, la différence entre les runners, et comment garder rapide une suite de tests qui grossit.
+icon: FlaskConical
+level: intermediate
+duration: 30 min
+---
+
+Cette page te donne le vocabulaire et le modèle mental derrière les tests et l'intégration continue
+(CI). C'est la base du [prompt d'infrastructure CI](/handbook/ci-infrastructure).
+
+## Les tests automatisés [#automated-tests]
+
+Un **test**, c'est du code qui lance ton code et vérifie le résultat. Si le résultat n'est pas celui
+que tu attends, le test échoue et te dit pourquoi.
+
+### Un premier test [#a-first-test]
+
+Imaginons que tu as une fonction qui décide si une demande de fonctionnalité est acceptable (elle
+l'est toujours) :
+
+```ts title="src/features.ts"
+export function shouldAddFeature(idea: string): boolean {
+  return idea.trim().length > 0;
+}
+```
+
+Prends [Vitest](https://vitest.dev), un lanceur de tests (test runner) populaire pour les projets
+JavaScript et TypeScript, et installe-le une fois :
+
+```bash
+pnpm add -D vitest
+```
+
+Puis écris un test à côté du code :
+
+```ts title="src/features.test.ts"
+import { describe, expect, it } from 'vitest';
+import { shouldAddFeature } from './features';
+
+describe('shouldAddFeature', () => {
+  it('accepte toutes les idées, même les plus inutiles', () => {
+    expect(shouldAddFeature('un mode sombre pour le mode sombre')).toBe(true);
+  });
+
+  it('refuse une idée vide', () => {
+    expect(shouldAddFeature('   ')).toBe(false);
+  });
+});
+```
+
+Et lance-le :
+
+```bash
+pnpm vitest run
+```
+
+Vitest trouve tous les fichiers `*.test.ts`, les lance, et affiche un ✓ vert ou un ✗ rouge avec les
+détails.
+
+### Les types de tests [#the-kinds-of-tests]
+
+| Type | Ce qu'il vérifie | Vitesse | Combien |
+| --- | --- | --- | --- |
+| **Unitaire** | Une fonction ou un composant, isolé du reste | Des millisecondes | Beaucoup |
+| **D'intégration** | Plusieurs morceaux ensemble (API + base de données, par exemple) | Des secondes | Quelques-uns |
+| **De bout en bout** (E2E) | Toute l'appli, dans un vrai navigateur, comme un utilisateur (avec des outils comme Playwright) | De quelques secondes à quelques minutes | Quelques parcours critiques |
+
+On le dessine souvent comme une **pyramide** : plein de tests unitaires rapides en bas, quelques
+tests de bout en bout lents en haut. Les tests rapides donnent un retour rapide ; les tests lents
+donnent confiance sur les parcours critiques.
+
+### Les autres vérifications automatiques [#other-automated-checks]
+
+Les tests ne sont pas les seuls robots qui veillent sur ton code :
+
+- **Linter** (ESLint, Biome…) : repère les bugs et les problèmes de style sans exécuter le code.
+- **Vérificateur de types** (`tsc` pour TypeScript) : repère les erreurs de type avant l'exécution.
+- **Formateur** (Prettier, Biome…) : garde un style cohérent, pour que les revues de code se
+  concentrent sur l'essentiel.
+- **Build** : si ça ne build pas, ça ne part pas en prod.
+
+## L'intégration continue (CI) [#continuous-integration-ci]
+
+L'**intégration continue**, ça veut dire : chaque fois que quelqu'un pousse du code ou ouvre une
+pull request, une machine lance automatiquement toutes les vérifications. Si quelque chose échoue,
+la pull request affiche un ✗ rouge, et tu le sais avant que ça arrive sur `main`.
+
+Pourquoi ne pas simplement lancer les tests en local ? Parce que :
+
+- Les humains oublient. Les robots, non.
+- Ta machine n'est pas un environnement propre (« ça marche sur ma machine »).
+- En équipe, la CI est l'arbitre neutre en qui tout le monde a confiance.
+
+### GitHub Actions en cinq minutes [#github-actions-in-five-minutes]
+
+Sur GitHub, la CI se fait avec **GitHub Actions**. Tu décris des **workflows** dans des fichiers
+YAML, dans `.github/workflows/`. Un workflow contient :
+
+- des **déclencheurs** (`on`) : quand il se lance (push, pull request, planification, lancement
+  manuel…),
+- des **jobs** : des groupes d'étapes, chacun tournant sur un **runner** (une machine),
+- des **étapes** (steps) : des commandes à lancer, ou des **actions** réutilisables écrites par
+  d'autres.
+
+Voici un workflow très proche de celui qui vérifie chaque pull request de ce site même :
+
+```yaml title=".github/workflows/ci.yml"
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm types:check
+      - run: pnpm build
+```
+
+Pousse-le, ouvre une pull request, et regarde la section **Checks** de la pull request prendre vie.
+
+<Callout type="idea" title="Rends les vérifications obligatoires">
+  Dans les paramètres du dépôt, une **règle de protection de branche** (branch protection rule, ou
+  **ruleset**) sur `main` peut exiger que les vérifications de la CI passent avant de fusionner.
+  Comme ça, personne (humain ou agent) ne peut fusionner une pull request rouge par accident.
+</Callout>
+
+## Les runners : là où tourne vraiment la CI [#runners-where-ci-actually-runs]
+
+Un **runner**, c'est la machine qui exécute tes jobs.
+
+| | Runners hébergés par GitHub | Runners auto-hébergés |
+| --- | --- | --- |
+| **Quoi** | Des machines virtuelles toutes neuves, fournies par GitHub pour chaque job | Ta propre machine : un serveur, un VPS, un vieux PC qui traîne |
+| **Mise en place** | Aucune : `runs-on: ubuntu-latest` | Tu installes et tu maintiens le logiciel du runner |
+| **Coût** | Gratuit pour les dépôts publics ; pour les privés, des minutes incluses, puis payant | Le prix de ta machine, minutes illimitées |
+| **Vitesse** | Machines standard, tout est retéléchargé à chaque job | Aussi puissant que tu veux, avec des caches déjà chauds |
+| **Sécurité** | Isolés, et jetés après chaque job | Sous ta responsabilité |
+
+Les runners hébergés par GitHub sont parfaits pour commencer. Les runners auto-hébergés deviennent
+intéressants quand la suite de tests s'alourdit : un VPS bien dimensionné, avec des caches chauds,
+peut lancer les mêmes vérifications beaucoup plus vite, aussi souvent que tu veux, pour un prix
+mensuel fixe.
+
+<Callout type="error" title="Runners auto-hébergés et dépôts publics">
+  GitHub recommande d'utiliser les runners auto-hébergés **uniquement avec des dépôts privés**. Sur
+  un dépôt public, n'importe qui peut ouvrir une pull request dont le code s'exécute sur ta machine.
+  Garde les runners auto-hébergés pour les projets privés, et isole-les de tout ce qui est sensible.
+</Callout>
+
+## Quand les tests deviennent lents [#when-the-tests-get-slow]
+
+Ça arrive à tous les projets qui grandissent : la suite qui prenait 30 secondes en prend maintenant
+20 minutes, et les gens commencent à la sauter. Quelques portes de sortie, de la plus simple à la
+plus costaude :
+
+1. **Mets en cache les dépendances et les résultats de build**, pour que chaque exécution ne reparte
+   pas de zéro.
+2. **Lance les jobs en parallèle** : lint, vérification des types, tests unitaires et tests E2E dans
+   des jobs séparés.
+3. **Découpe les grosses suites de tests** (sharding) sur plusieurs machines.
+4. **Ne teste que ce qui a changé** : des outils de monorepo comme Nx ou Turborepo savent lancer les
+   vérifications uniquement pour les projets concernés.
+5. **Prends des machines plus rapides** : des runners plus gros, ou tes propres runners
+   auto-hébergés sur un VPS.
+6. **Répare les tests lents** : les 10 tests les plus lents représentent souvent la moitié du temps
+   total.
+
+Bien mettre en place l'option 5 (runners, caches, services, sécurité, pour un dépôt ou pour toute
+une organisation), c'est un vrai projet. C'est exactement à ça que sert notre
+[prompt d'infrastructure CI](/handbook/ci-infrastructure).
+
+## Tests, CI et agents IA [#tests-ci-and-ai-agents]
+
+- **Documente les vérifications dans [`AGENTS.md`](/learn/agents-md)** : les commandes exactes pour
+  lancer les tests, le lint et le build, et la règle « lance-les avant de dire qu'une tâche est
+  terminée ».
+- **Demande des tests aux agents avec chaque fonctionnalité**, et un test qui échoue avant chaque
+  correction de bug.
+- **Méfie-toi des tests trafiqués** : un agent doit réparer le code, pas supprimer le test qui
+  râle.
+- **Laisse le dernier mot à la CI.** Quoi que dise l'agent, la pull request est verte ou elle ne
+  l'est pas.

@@ -3,7 +3,15 @@ import { Check, Copy, X } from 'lucide-react';
 import { useState } from 'react';
 
 /** Fetches a text file from the site and copies its content to the clipboard. */
-export function CopyFileButton({ url, className }: { url: string; className?: string }) {
+export function CopyFileButton({
+  url,
+  className,
+  labels,
+}: {
+  url: string;
+  className?: string;
+  labels: { copy: string; copied: string; failed: string };
+}) {
   const [state, setState] = useState<'idle' | 'copied' | 'failed'>('idle');
 
   async function copy() {
@@ -23,7 +31,7 @@ export function CopyFileButton({ url, className }: { url: string; className?: st
   return (
     <button type="button" onClick={copy} className={className} aria-live="polite">
       <Icon className="size-4" aria-hidden="true" />
-      {state === 'copied' ? 'Copied!' : state === 'failed' ? 'Copy failed, use Download' : 'Copy to clipboard'}
+      {state === 'copied' ? labels.copied : state === 'failed' ? labels.failed : labels.copy}
     </button>
   );
 }

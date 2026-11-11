@@ -1,0 +1,118 @@
+---
+title: "Agents de code IA : les bases"
+description: Ce qu'est un agent de code IA, en quoi il diffère d'un chatbot, lesquels existent, combien ils coûtent et comment choisir ton premier.
+icon: Bot
+level: beginner
+duration: 15 min
+---
+
+Tu as sûrement déjà discuté avec un assistant IA. Un **agent de code** va un cran plus loin : au lieu
+de te donner du code à copier-coller, il travaille **directement dans ton projet**. Il lit tes
+fichiers, lance des commandes, modifie le code, lance les tests, regarde les erreurs et recommence,
+jusqu'à ce que la tâche soit terminée.
+
+## Chatbot ou agent [#chatbot-vs-agent]
+
+| Un chatbot… | Un agent… |
+| --- | --- |
+| Ne connaît que ce que tu colles dans la conversation | Explore ton projet tout seul |
+| Te donne du code à copier | Modifie directement les fichiers |
+| Ne peut pas vérifier si le code marche | Lance ton build et tes tests, et répare ce qui casse |
+| Répond une fois | Travaille en boucle jusqu'à ce que la tâche soit finie |
+
+Sous le capot, un agent répète une boucle toute simple : **réfléchir → agir → observer**. Il décide
+quoi faire (« il faut que je lise `package.json` »), utilise un outil (il lit le fichier, lance une
+commande), regarde le résultat et décide de l'étape suivante.
+
+## Ce qu'ils font très bien [#what-they-are-great-at]
+
+- **Expliquer du code** : « Que fait ce projet ? Où est gérée la connexion ? »
+- **Le code répétitif et sans surprise** : formulaires, configs, tests, migrations.
+- **Déboguer** : donne-lui l'erreur, il fouille dans le code et dans les logs.
+- **T'apprendre des choses** : il peut t'expliquer chaque ligne qu'il a écrite, autant de fois que
+  tu veux, avec une patience infinie.
+- **Ajouter des fonctionnalités.** Plein de fonctionnalités. Dangereusement plein de
+  fonctionnalités. Tu comprends pourquoi on les aime.
+
+## Ce qu'ils font mal [#what-they-are-bad-at]
+
+- **Deviner ce que tu veux.** Si ta demande est floue, le résultat le sera aussi. C'est pour ça
+  qu'on a une page entière sur [l'art du prompt](/learn/prompting).
+- **Avoir toujours raison.** Les agents peuvent se tromper avec un aplomb total, inventer des API
+  qui n'existent pas, ou « réparer » un test en le supprimant. C'est toi qui relis, c'est toi qui
+  décides.
+- **Les tâches énormes et floues.** « Fais-moi un Facebook », ça va mal se passer. Les petites
+  étapes claires, ça marche.
+- **Tes secrets.** Un agent peut lire tous les fichiers auxquels tu lui donnes accès. Garde tes clés
+  hors de portée (voir les [bonnes pratiques](/learn/best-practices)).
+
+## Les principaux agents [#the-main-agents]
+
+Le paysage bouge vite. Voici ceux qu'on utilise et qu'on recommande, fin 2026 :
+
+| Agent | Créé par | Où il tourne | Ce qu'il te faut |
+| --- | --- | --- | --- |
+| **[Claude Code](/learn/claude-code)** | Anthropic | Terminal, VS Code, JetBrains, appli de bureau, web | Un abonnement Claude payant (Pro ou supérieur) ou un compte API |
+| **[Codex](/learn/codex)** | OpenAI | Terminal, VS Code et ses forks, appli de bureau, web | Un abonnement ChatGPT (Plus ou supérieur) ou une clé API |
+| **[T3 Code](/learn/t3code)** | T3 (open source) | Appli de bureau, web et mobile | Au moins un des agents ci-dessus, installé et connecté |
+
+T3 Code est un peu à part : ce n'est pas un agent en soi, mais un **centre de contrôle** pour
+agents. Il offre à Claude Code, Codex et d'autres une jolie interface, avec des threads, des diffs et
+un accès à distance.
+
+Parmi les autres options populaires, il y a [Cursor](https://cursor.com), [GitHub Copilot](https://github.com/features/copilot),
+[Gemini CLI](https://github.com/google-gemini/gemini-cli) et [OpenCode](https://opencode.ai). Ce que
+tu apprends ici (prompter, relire, `AGENTS.md`) marche avec tous.
+
+## Combien ça coûte ? [#how-much-does-it-cost]
+
+Il y a deux façons de payer :
+
+- **Un abonnement** (Claude Pro ou Max, ChatGPT Plus ou Pro…) : un prix mensuel fixe, avec des
+  limites d'utilisation. **Idéal pour débuter** : c'est prévisible, pas de facture surprise.
+- **Une clé API** (paiement à l'usage) : tu paies ce que tu consommes. C'est souple, mais une longue
+  session sur un gros projet peut coûter plus cher que tu ne le crois. Si tu choisis cette option,
+  fixe une limite de dépenses dans la console du fournisseur.
+
+<Callout type="warn" title="Vérifie les prix actuels">
+  Les abonnements et les prix changent souvent. Vérifie toujours les pages de tarifs officielles
+  avant de t'abonner. Les offres gratuites n'incluent généralement pas les agents de code, ou alors
+  avec des limites très serrées.
+</Callout>
+
+## Par lequel commencer ? [#which-one-should-i-start-with]
+
+**Le meilleur agent, c'est celui que tu utilises vraiment.** Ils sont tous très capables, alors ne
+te prends pas la tête :
+
+1. Si tu paies déjà **Claude** ou **ChatGPT**, commence par l'agent qui va avec :
+   [Claude Code](/learn/claude-code) ou [Codex](/learn/codex).
+2. Si le terminal t'intimide encore, ajoute [T3 Code](/learn/t3code) par-dessus pour une interface
+   plus accueillante. (Mais lis quand même [le tutoriel sur le terminal](/learn/terminal), tu en
+   auras besoin.)
+3. Essaie l'autre plus tard. Beaucoup d'entre nous utilisent les deux, et comparent leurs réponses
+   sur les problèmes difficiles.
+
+## Les règles d'or avant ta première session [#golden-rules-before-your-first-session]
+
+<Steps>
+<Step>
+**Travaille dans un dépôt Git, et fais un commit avant de commencer.** Si l'agent met le bazar,
+`git restore .` te ramène en lieu sûr. Voir [C'est quoi, Git ?](/learn/git).
+</Step>
+<Step>
+**Lis ce qu'il fait.** Les agents demandent la permission avant de lancer des commandes ou de
+modifier des fichiers (du moins par défaut). Lis avant d'approuver, surtout pour les commandes qui
+suppriment des choses ou qui installent des paquets.
+</Step>
+<Step>
+**Vérifie le résultat.** Regarde le diff (`git diff`), lance l'appli, lance les tests. Le code que
+tu commites, c'est le tien, peu importe qui l'a écrit.
+</Step>
+<Step>
+**Ne colle jamais de secrets** (mots de passe, clés API) dans un prompt.
+</Step>
+</Steps>
+
+**La suite :** installe ton premier agent, [Claude Code](/learn/claude-code),
+[Codex](/learn/codex) ou les deux.

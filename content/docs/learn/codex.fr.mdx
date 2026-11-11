@@ -1,0 +1,107 @@
+---
+title: Installer Codex
+description: Installe l'agent de code d'OpenAI sur Windows, macOS ou Linux, connecte-toi avec ChatGPT et lance ta première session.
+icon: Terminal
+level: beginner
+duration: 15 min
+---
+
+**Codex** est l'agent de code IA d'OpenAI. **Codex CLI**, sa version en ligne de commande, tourne dans
+ton terminal, lit et modifie ton code, et lance des commandes dans une sandbox (bac à sable). Codex
+existe aussi en extension pour IDE, en appli de bureau et en version cloud.
+
+<Callout type="warn" title="Il te faut un abonnement ChatGPT ou une clé API">
+  La méthode recommandée, c'est de **te connecter avec ChatGPT**, ce qui marche avec les abonnements
+  Plus, Pro, Business, Edu et Enterprise. Tu peux aussi utiliser une clé API OpenAI (paiement à
+  l'usage). Consulte les offres actuelles sur [chatgpt.com/pricing](https://chatgpt.com/pricing).
+</Callout>
+
+## Installation [#install]
+
+```bash tab="macOS / Linux"
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
+```
+
+```powershell tab="Windows (PowerShell)"
+powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"
+```
+
+```bash tab="npm"
+npm install -g @openai/codex
+```
+
+```bash tab="Homebrew"
+brew install --cask codex
+```
+
+La méthode npm nécessite [Node.js](/learn/setup#3-nodejs-and-npm). **Ouvre un nouveau terminal** et
+vérifie :
+
+```bash
+codex --version
+```
+
+## Se connecter [#sign-in]
+
+Va dans un dossier de projet et lance Codex :
+
+```bash
+cd useless-app
+codex
+```
+
+La première fois, choisis **Sign in with ChatGPT** (se connecter avec ChatGPT). Ton navigateur
+s'ouvre, tu te connectes, et te revoilà dans le terminal, prêt à démarrer. (Tu peux aussi te
+connecter à tout moment avec `codex login`.)
+
+## Ta première session [#your-first-session]
+
+Tape ta demande et appuie sur <kbd>Entrée</kbd> :
+
+```text
+Parle-moi de ce projet.
+```
+
+Ensuite, essaie une vraie modification :
+
+```text
+Ajoute un fichier CHANGELOG.md avec une entrée pour la version 0.0.1
+qui décrit trois fonctionnalités dont on n'a absolument pas besoin.
+```
+
+Codex te montre ce qu'il veut faire. Relis, approuve, et vérifie le résultat avec `git diff`.
+
+### Les commandes à connaître [#commands-to-know]
+
+| Commande | Ce qu'elle fait |
+| --- | --- |
+| `/init` | Crée un fichier [`AGENTS.md`](/learn/agents-md) avec des instructions pour Codex |
+| `/permissions` | Choisit ce que Codex peut faire sans demander (modifier des fichiers, lancer des commandes) |
+| `/model` | Choisit le modèle et l'effort de raisonnement |
+| `/new` | Démarre une nouvelle conversation |
+| `/status` | Affiche les réglages de la session en cours |
+| <kbd>Échap</kbd> | Interrompt Codex |
+
+<Callout type="idea" title="Commence prudemment, lâche la bride ensuite">
+  Garde les permissions par défaut au début, pour que Codex demande avant de lancer des commandes.
+  Une fois que tu es à l'aise pour lire ce qu'il fait, tu peux le laisser faire plus de choses tout
+  seul, dans sa sandbox.
+</Callout>
+
+## Le garder à jour [#keep-it-up-to-date]
+
+Relance la commande d'installation pour mettre à jour. Avec npm, utilise
+`npm install -g @openai/codex@latest` ; avec Homebrew, `brew upgrade --cask codex`.
+
+## D'autres façons d'utiliser Codex [#other-ways-to-use-codex]
+
+- **Extension pour IDE** : installe Codex dans VS Code, Cursor ou Windsurf.
+- **Appli de bureau** : lance `codex app`.
+- **Dans le cloud**, sur [chatgpt.com/codex](https://chatgpt.com/codex) : délègue des tâches sur tes
+  dépôts GitHub et récupère des pull requests en retour.
+- **[T3 Code](/learn/t3code)** : pilote Codex (et Claude Code) depuis une seule interface.
+
+Documentation officielle : [github.com/openai/codex](https://github.com/openai/codex).
+
+**La suite :** [installe T3 Code](/learn/t3code) pour une interface plus accueillante, ou
+apprends [à bien prompter](/learn/prompting).

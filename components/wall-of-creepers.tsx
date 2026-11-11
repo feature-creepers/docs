@@ -1,6 +1,8 @@
 import { Sprout } from 'lucide-react';
 import Link from 'next/link';
 import creepers from '@/data/creepers.json';
+import { defaultLang, type Lang, localePath } from '@/lib/i18n';
+import { getMessages } from '@/lib/messages';
 
 export interface Creeper {
   /** GitHub username, without the @ */
@@ -15,7 +17,9 @@ export interface Creeper {
 
 const list = (creepers as Creeper[]).toSorted((a, b) => a.name.localeCompare(b.name));
 
-export function WallOfCreepers() {
+export function WallOfCreepers({ lang = defaultLang }: { lang?: Lang }) {
+  const t = getMessages(lang).wall;
+
   return (
     <div className="not-prose grid gap-3 sm:grid-cols-2">
       {list.map((creeper) => (
@@ -42,14 +46,14 @@ export function WallOfCreepers() {
             {creeper.bio && <p className="mt-0.5 text-fd-muted-foreground">{creeper.bio}</p>}
             {creeper.uselessFeature && (
               <p className="mt-2 text-xs text-fd-muted-foreground">
-                <span className="font-medium text-fd-foreground">Dream useless feature:</span> {creeper.uselessFeature}
+                <span className="font-medium text-fd-foreground">{t.dreamFeature}</span> {creeper.uselessFeature}
               </p>
             )}
           </div>
         </a>
       ))}
       <Link
-        href="/learn/first-pull-request"
+        href={localePath(lang, '/learn/first-pull-request')}
         className="flex items-center gap-3 rounded-xl border border-dashed p-4 text-sm text-fd-muted-foreground transition-colors hover:border-fd-primary hover:text-fd-primary"
       >
         <span className="flex size-12 shrink-0 items-center justify-center rounded-full border border-dashed">
@@ -57,9 +61,9 @@ export function WallOfCreepers() {
         </span>
         <span>
           <span className="block font-display font-semibold text-fd-foreground">
-            {list.length === 0 ? 'The wall is suspiciously empty.' : 'Your face here?'}
+            {list.length === 0 ? t.empty : t.more}
           </span>
-          Sign it with your very first pull request →
+          {t.cta}
         </span>
       </Link>
     </div>

@@ -1,0 +1,227 @@
+---
+title: Ta première pull request
+description: Un tutoriel pratique pour faire ta première vraie contribution, en t'ajoutant au Mur des Creepers sur ce site même.
+icon: GitPullRequest
+level: beginner
+duration: 30 min
+---
+
+C'est le moment d'assembler le terminal, Git et GitHub pour de vrai. Ta mission : **t'ajouter au
+[Mur des Creepers](/association/wall-of-creepers)** sur ce site, avec une pull request. Une fois
+qu'elle est fusionnée, ta tête est sur Internet. Bon, sur cette page. Ça compte quand même.
+
+## Avant de commencer [#before-you-start]
+
+Il te faut :
+
+- [x] [Git](/learn/git) installé et configuré (`git --version`)
+- [x] Un [compte GitHub](/learn/github) et la GitHub CLI connectée (`gh auth status`)
+- [x] Optionnel : [Node.js et pnpm](/learn/setup), pour prévisualiser le site sur ta machine
+
+## Les étapes [#the-steps]
+
+<Steps>
+<Step>
+
+### Forker et cloner le dépôt [#fork-and-clone-the-repository]
+
+Tu n'as sûrement pas encore les droits d'écriture sur le dépôt de la doc, donc tu vas travailler sur
+ta propre copie, un **fork**. Une seule commande forke le dépôt et clone ton fork :
+
+```bash
+gh repo fork feature-creepers/docs --clone
+cd docs
+```
+
+`gh` configure aussi deux remotes : `origin` (ton fork) et `upstream` (le dépôt d'origine). Vérifie :
+
+```bash
+git remote -v
+```
+
+<Callout title="Déjà membre de l'organisation ?">
+  Tu peux sauter le fork et cloner directement l'original avec
+  `gh repo clone feature-creepers/docs`. La suite est identique.
+</Callout>
+
+</Step>
+<Step>
+
+### Créer une branche [#create-a-branch]
+
+Ne travaille jamais directement sur `main`. Crée une branche dont le nom dit ce que tu fais :
+
+```bash
+git switch -c sign-the-wall
+```
+
+</Step>
+<Step>
+
+### T'ajouter au mur [#add-yourself-to-the-wall]
+
+Ouvre le projet dans ton éditeur :
+
+```bash
+code .
+```
+
+Ouvre `data/creepers.json`. C'est une liste de personnes, entre crochets. Ajoute-toi comme nouvelle
+entrée, avec ton vrai nom d'utilisateur GitHub :
+
+```json title="data/creepers.json"
+[
+  {
+    "github": "deja-sur-le-mur",
+    "name": "Quelqu'un"
+  },
+  {
+    "github": "ton-pseudo-github",
+    "name": "Ton Nom",
+    "bio": "J'apprends à coder, une fonctionnalité inutile à la fois.",
+    "uselessFeature": "Une calculatrice qui arrondit tout à 42"
+  }
+]
+```
+
+<Callout type="warn" title="Le JSON est pointilleux">
+  - Mets des **guillemets doubles** `"` autour de chaque clé et de chaque valeur texte.
+  - Mets une **virgule entre deux entrées** (`},` puis `{`), mais **pas de virgule après la
+    dernière**.
+  - Si la liste est vide (`[]`), mets simplement ton entrée entre les crochets.
+</Callout>
+
+</Step>
+<Step>
+
+### Le prévisualiser (optionnel) [#preview-it-optional]
+
+Si tu as installé Node.js et pnpm, lance le site en local :
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Ouvre [http://localhost:3000/association/wall-of-creepers](http://localhost:3000/association/wall-of-creepers).
+Tu devrais voir ta carte avec ton avatar GitHub. Appuie sur <kbd>Ctrl</kbd> + <kbd>C</kbd> dans le
+terminal pour arrêter le serveur.
+
+</Step>
+<Step>
+
+### Commiter [#commit]
+
+Vérifie ce qui a changé, puis commite :
+
+```bash
+git status
+git diff
+git add data/creepers.json
+git commit -m "Add Your Name to the Wall of Creepers"
+```
+
+</Step>
+<Step>
+
+### Pousser ta branche [#push-your-branch]
+
+```bash
+git push -u origin sign-the-wall
+```
+
+</Step>
+<Step>
+
+### Ouvrir la pull request [#open-the-pull-request]
+
+```bash
+gh pr create --fill
+```
+
+Si `gh` te demande quel dépôt cibler, choisis **feature-creepers/docs** (l'original, pas ton fork).
+`--fill` utilise ton message de commit comme titre. `gh` affiche le lien vers ta pull request :
+ouvre-le ! Tu peux aussi y ajouter une description, comme un petit bonjour. 👋
+
+</Step>
+<Step>
+
+### Attendre les vérifications et la revue [#wait-for-checks-and-review]
+
+GitHub lance nos vérifications automatiques (il construit tout le site pour s'assurer que rien n'est
+cassé). Une coche verte ✅ veut dire que tout va bien. Ensuite, un membre relit ta pull request,
+suggère peut-être un changement, et la fusionne.
+
+Quelques minutes après le merge, le site est déployé et tu es sur le mur. **Félicitations, tu viens
+officiellement de contribuer à l'open source !** 🎉
+
+</Step>
+</Steps>
+
+## Si quelque chose tourne mal [#if-something-goes-wrong]
+
+<Accordions>
+<Accordion title="La vérification a échoué avec une croix rouge ❌">
+
+Clique sur **Details** à côté de la vérification qui a échoué pour lire les logs. Neuf fois sur dix,
+c'est une erreur de syntaxe JSON : une virgule manquante, une virgule en trop après la dernière
+entrée, ou un guillemet manquant. Corrige le fichier, puis commite et pousse à nouveau sur la même
+branche :
+
+```bash
+git add data/creepers.json
+git commit -m "Fix JSON syntax"
+git push
+```
+
+La pull request se met à jour automatiquement.
+
+</Accordion>
+<Accordion title="On m'a demandé un changement pendant la revue">
+
+Tout à fait normal, ça arrive dans toutes les équipes, tous les jours. Fais le changement sur la même
+branche, commite, et pousse. Pas besoin d'ouvrir une nouvelle pull request.
+
+</Accordion>
+<Accordion title="GitHub signale un conflit">
+
+Quelqu'un d'autre a modifié les mêmes lignes (sûrement en s'ajoutant, lui aussi, à la fin de la
+liste). Récupère la dernière version du dépôt d'origine, puis règle le conflit :
+
+```bash
+git fetch upstream
+git merge upstream/main
+```
+
+Git marque la partie en conflit dans `data/creepers.json`. Garde **les deux** entrées, enlève les
+marqueurs `<<<<<<<`, `=======` et `>>>>>>>`, vérifie que les virgules sont bien placées, puis :
+
+```bash
+git add data/creepers.json
+git commit -m "Merge upstream main"
+git push
+```
+
+</Accordion>
+<Accordion title="gh: command not found">
+
+La GitHub CLI n'est pas installée, ou ton terminal ne la voit pas encore. Installe-la (voir
+[C'est quoi, GitHub ?](/learn/github#install-the-github-cli)), puis **ouvre un nouveau terminal**.
+
+</Accordion>
+</Accordions>
+
+## Bonus : le faire avec un agent IA [#bonus-do-it-with-an-ai-agent]
+
+Une fois que tu as installé un [agent de code IA](/learn/ai-agents), retente la même mission avec
+lui. Dans le dépôt cloné, lance ton agent et demande-lui :
+
+```text
+Ajoute-moi au Mur des Creepers dans data/creepers.json.
+Pseudo GitHub : ton-pseudo-github, nom : Ton Nom,
+bio : "...", fonctionnalité inutile : "...".
+Garde le JSON valide, puis montre-moi le diff.
+```
+
+Lis le diff qu'il te montre, et fais le commit et la pull request toi-même. C'est ça, l'esprit
+Feature Creeper : **utilise les robots, garde ton cerveau**.

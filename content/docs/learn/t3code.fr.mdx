@@ -1,0 +1,175 @@
+---
+title: Installer et configurer T3 Code
+description: Installe T3 Code, le centre de contrôle open source pour agents de code, connecte Claude Code et Codex, et lance ton premier thread.
+icon: LayoutDashboard
+level: beginner
+duration: 15 min
+---
+
+**[T3 Code](https://t3.codes)** est un **centre de contrôle pour agents de code IA**, open source
+(sous licence MIT). Au lieu de jongler entre plusieurs terminaux, tu pilotes Claude Code, Codex et
+d'autres depuis une seule interface : tu lances plusieurs conversations en parallèle, tu relis les
+diffs, tu commites et tu ouvres des pull requests, et tu peux même suivre tes agents depuis ton
+téléphone.
+
+Il ne vend pas d'utilisation d'IA : il se branche sur les abonnements que tu as déjà, sur ta propre
+machine.
+
+## Pourquoi l'utiliser ? [#why-use-it]
+
+- **Une interface plus accueillante** qu'un terminal brut, surtout quand tu débutes.
+- **Plusieurs agents côte à côte.** Claude Code sur une tâche, Codex sur une autre, et tu compares.
+- **Des threads** (fils de discussion) pour chaque tâche, chacun sur sa propre branche, pour que le
+  travail en parallèle ne se télescope pas.
+- **Relecture intégrée.** Lis le diff directement dans l'interface, puis commite, pousse et ouvre
+  une pull request d'un seul coup.
+- **Partout.** Appli de bureau, appli web et applis mobiles (iOS et Android).
+
+<Callout type="warn" title="C'est encore tout jeune">
+  T3 Code évolue vite et l'équipe prévient que le projet n'en est qu'à ses débuts : attends-toi à
+  quelques bugs, et mets-le à jour souvent.
+</Callout>
+
+## 1. Installer au moins un agent et s'y connecter [#1-install-and-log-in-to-at-least-one-agent]
+
+T3 Code pilote des agents **déjà installés et connectés** sur la machine où il tourne. Commence par
+ça :
+
+| Agent | Installation | Connexion |
+| --- | --- | --- |
+| Claude Code | [Installer Claude Code](/learn/claude-code) | `claude auth login` |
+| Codex | [Installer Codex](/learn/codex) | `codex login` |
+| OpenCode | [opencode.ai](https://opencode.ai) | `opencode auth login` |
+
+Cursor, Grok Build, Google Antigravity et fx sont aussi pris en charge. Regarde le
+[README de T3 Code](https://github.com/pingdotgg/t3code) pour leur configuration.
+
+## 2. Installer T3 Code [#2-install-t3-code]
+
+### L'appli de bureau (recommandé) [#the-desktop-app-recommended]
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+```powershell
+winget install T3Tools.T3Code
+```
+
+Ou avec Scoop : `scoop install extras/t3code`.
+
+</Tab>
+<Tab value="macOS">
+
+```bash
+brew install --cask t3-code
+```
+
+</Tab>
+<Tab value="Linux">
+
+Sur Debian ou Ubuntu, télécharge le fichier `.deb` depuis la
+[dernière release](https://github.com/pingdotgg/t3code/releases), puis :
+
+```bash
+sudo apt install ./T3-Code-*.deb
+```
+
+Sur Arch Linux : `yay -S t3code-bin`. Sur Nix :
+`nix profile add github:NixOS/nixpkgs/nixos-unstable#t3code`.
+
+</Tab>
+</Tabs>
+
+Tu peux aussi télécharger les installateurs pour toutes les plateformes depuis les
+[releases GitHub](https://github.com/pingdotgg/t3code/releases).
+
+### Ou : le serveur et l'appli web en ligne de commande [#or-the-server-and-web-app-from-the-command-line]
+
+Pratique sur une machine distante ou un serveur, ou si tu préfères le navigateur :
+
+```bash tab="macOS / Linux"
+curl -fsSL https://t3.codes/install.sh | sh
+```
+
+```powershell tab="Windows (PowerShell)"
+irm https://t3.codes/install.ps1 | iex
+```
+
+Ensuite :
+
+```bash
+t3                   # démarre le serveur et ouvre l'appli web locale
+t3 service install   # optionnel : le garde en marche en arrière-plan
+t3 update            # met à jour vers la dernière version
+```
+
+Tu veux juste l'essayer une fois, sans rien installer ? `npx t3@latest` (nécessite
+[Node.js](/learn/setup)).
+
+## 3. Ton premier thread [#3-your-first-thread]
+
+<Steps>
+<Step>
+
+### Ouvrir un projet [#open-a-project]
+
+Lance T3 Code et ajoute un projet : indique-lui un dossier sur ta machine. Utilise un dépôt Git (le
+`useless-app` du [tutoriel Git](/learn/git) est parfait), pour que chaque modification puisse être
+relue et annulée.
+
+</Step>
+<Step>
+
+### Démarrer un thread et choisir un agent [#start-a-thread-and-pick-an-agent]
+
+Un **thread**, c'est une conversation avec un agent, sur une tâche. Choisis l'agent (Claude Code,
+Codex…) et le modèle. Tu peux changer de modèle en plein milieu d'un thread si besoin.
+
+</Step>
+<Step>
+
+### Demander quelque chose de petit [#ask-for-something-small]
+
+```text
+Ajoute une section "Anecdotes" au README avec trois anecdotes fausses mais
+plausibles sur cette appli. Pas plus de 10 lignes.
+```
+
+Regarde l'agent travailler. Selon le mode de permission, il te demande ton accord avant de modifier
+des fichiers ou de lancer des commandes.
+
+</Step>
+<Step>
+
+### Relire, puis commiter [#review-then-commit]
+
+Lis le diff directement dans l'interface. Content ? Commite et pousse, et T3 Code peut ouvrir la
+pull request pour toi, avec un titre et une description générés (relis-les avant de publier). Pas
+content ? Dis à l'agent quoi changer dans le même thread, ou jette la modification.
+
+</Step>
+</Steps>
+
+## 4. Le configurer à ta façon [#4-set-it-up-your-way]
+
+- **Modes de permission** : décide de ce que les agents peuvent faire sans demander. Commence
+  strict, assouplis ensuite.
+- **Réglages par projet** : des options pour chaque projet, pour que chaque dépôt ait sa propre
+  configuration.
+- **Plusieurs comptes** : T3 Code gère plusieurs comptes pour Codex et Claude, pratique si tu as un
+  abonnement perso et un abonnement pro.
+- **Accès à distance** : fais tourner T3 Code sur une machine puissante (ou un serveur) et suis tes
+  threads depuis un portable ou ton téléphone, grâce aux applis web et mobiles.
+- **Raccourcis clavier et apparence** : dans les réglages. Mode sombre, évidemment.
+
+<Callout type="idea" title="Une tâche par thread">
+  Traite les threads comme des branches : un sujet chacun. Des threads petits et ciblés donnent de
+  meilleurs résultats qu'une conversation sans fin sur tout et n'importe quoi, et ils sont bien plus
+  faciles à relire.
+</Callout>
+
+Liens officiels : [t3.codes](https://t3.codes) ·
+[github.com/pingdotgg/t3code](https://github.com/pingdotgg/t3code).
+
+**La suite :** apprends [à bien prompter](/learn/prompting) pour que tes agents construisent ce
+que tu veux vraiment.

@@ -1,0 +1,155 @@
+---
+title: Installer Claude Code
+description: Installe l'agent de code d'Anthropic sur Windows, macOS ou Linux, connecte-toi et lance ta première session.
+icon: Sparkles
+level: beginner
+duration: 15 min
+---
+
+**Claude Code** est l'agent de code IA d'Anthropic. Il tourne dans ton terminal (et aussi dans
+VS Code, dans les IDE JetBrains, dans une appli de bureau et dans le navigateur), comprend tout ton
+projet, modifie des fichiers, lance des commandes et sait se servir de Git.
+
+<Callout type="warn" title="Il te faut un compte payant">
+  Claude Code nécessite un abonnement Claude **Pro, Max, Ultra, Team ou Enterprise**, ou un compte
+  **Anthropic Console** (paiement à l'usage avec une clé API). L'offre gratuite de Claude n'inclut
+  pas Claude Code. Consulte [claude.com/pricing](https://claude.com/pricing) pour voir les offres
+  actuelles.
+</Callout>
+
+## Prérequis [#requirements]
+
+- **Système :** macOS 13+, Windows 10 (1809+) ou 11, Ubuntu 20.04+, Debian 10+ ou Alpine 3.19+
+- **Matériel :** 4 Go de RAM ou plus
+- **Réseau :** une connexion internet
+- **Recommandé sur Windows :** [Git for Windows](/learn/git#install-git), pour que Claude Code puisse
+  utiliser Git Bash. Sans lui, il utilise PowerShell.
+
+## Installation [#install]
+
+Choisis ton système. L'installateur natif est la méthode recommandée : il se met à jour tout seul en
+arrière-plan.
+
+```bash tab="macOS / Linux / WSL"
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+```powershell tab="Windows (PowerShell)"
+irm https://claude.ai/install.ps1 | iex
+```
+
+```bat tab="Windows (CMD)"
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+```
+
+```bash tab="Homebrew"
+brew install --cask claude-code
+```
+
+```powershell tab="WinGet"
+winget install Anthropic.ClaudeCode
+```
+
+<Callout type="idea" title="PowerShell ou CMD ?">
+  Dans PowerShell, ton invite de commande commence par `PS C:\`. Dans CMD, elle commence par `C:\`,
+  sans `PS`. Si tu vois « irm is not recognized », tu es dans CMD ; si tu vois « The token && is not
+  a valid statement separator », tu es dans PowerShell.
+</Callout>
+
+L'installateur n'affiche aucune progression pendant le téléchargement. Quand il a fini, **ouvre un
+nouveau terminal** et vérifie :
+
+```bash
+claude --version
+```
+
+Il doit afficher un numéro de version, comme `2.1.300 (Claude Code)`. Pour un bilan de santé
+complet :
+
+```bash
+claude doctor
+```
+
+<Callout title="command not found: claude ?">
+  Le dossier d'installation n'est pas encore dans ton `PATH`. Ferme tous les terminaux et ouvres-en
+  un nouveau. Si ça ne marche toujours pas, lance `claude doctor` avec le chemin complet, ou suis le
+  guide officiel de [dépannage de l'installation](https://code.claude.com/docs/en/troubleshoot-install).
+</Callout>
+
+## Se connecter [#log-in]
+
+Va dans un dossier de projet (n'importe quel dépôt Git fait l'affaire, par exemple le `useless-app`
+du [tutoriel Git](/learn/git)) et lance Claude Code :
+
+```bash
+cd useless-app
+claude
+```
+
+La première fois, Claude Code ouvre ton navigateur pour que tu te connectes avec ton compte Claude.
+Valide, reviens dans le terminal, et voilà, tu es dedans.
+
+## Ta première session [#your-first-session]
+
+Te voilà dans une session interactive. Écris en français, tout simplement (ou en anglais, ça lui
+est bien égal), et appuie sur <kbd>Entrée</kbd> :
+
+```text
+Que fait ce projet ? Explique-le-moi comme si je débutais en code.
+```
+
+Ensuite, essaie une vraie modification :
+
+```text
+Ajoute une section "Fonctionnalités" au README avec 5 fonctionnalités
+complètement inutiles que cette appli devrait avoir. Puis montre-moi le diff.
+```
+
+Claude Code va te demander la permission avant de modifier le fichier. Lis la modification proposée,
+puis accepte-la. Vérifie toi-même le résultat avec `git diff`.
+
+### Les commandes et raccourcis à connaître [#commands-and-shortcuts-to-know]
+
+| Commande / touche | Ce qu'elle fait |
+| --- | --- |
+| `/help` | Liste toutes les commandes |
+| `/init` | Analyse le projet et génère un fichier d'instructions `CLAUDE.md` (voir [AGENTS.md](/learn/agents-md)) |
+| `/clear` | Démarre une nouvelle conversation (à faire quand tu changes de tâche) |
+| `/compact` | Résume la conversation pour libérer de la place pendant les longues sessions |
+| `/model` | Choisit le modèle |
+| `@` + nom de fichier | Désigne à Claude un fichier précis dans ton prompt |
+| <kbd>Maj</kbd> + <kbd>Tab</kbd> | Fait défiler les modes de permission, dont le **mode plan** (Claude prépare un plan avant de toucher à quoi que ce soit) |
+| <kbd>Échap</kbd> | Interrompt Claude quand il part dans la mauvaise direction |
+| <kbd>Ctrl</kbd> + <kbd>C</kbd> deux fois | Quitte (ou tape `/exit`) |
+
+<Callout type="idea" title="Le mode plan pour les grosses tâches">
+  Pour tout ce qui dépasse un petit correctif, passe d'abord en mode plan. Claude explore le code et
+  propose un plan, tu le lis et tu l'ajustes, et c'est seulement ensuite qu'il commence à modifier.
+  Moins de surprises, de meilleurs résultats.
+</Callout>
+
+## Le garder à jour [#keep-it-up-to-date]
+
+Les installations natives se mettent à jour automatiquement en arrière-plan. Pour mettre à jour tout
+de suite :
+
+```bash
+claude update
+```
+
+Si tu l'as installé avec Homebrew ou WinGet, mets-le plutôt à jour avec ton gestionnaire de paquets :
+`brew upgrade claude-code` ou `winget upgrade Anthropic.ClaudeCode`.
+
+## D'autres façons d'utiliser Claude Code [#other-ways-to-use-claude-code]
+
+- **VS Code et JetBrains** : installe l'extension ou le plugin Claude Code pour l'avoir directement
+  dans ton éditeur, avec les diffs affichés dans le code.
+- **Appli de bureau** : une version graphique, si tu préfères te passer du terminal.
+- **Sur le web**, sur [claude.ai/code](https://claude.ai/code) : lance des tâches sur tes dépôts
+  GitHub depuis le navigateur.
+- **[T3 Code](/learn/t3code)** : pilote Claude Code (et Codex) depuis une seule interface.
+
+Documentation officielle : [code.claude.com/docs](https://code.claude.com/docs).
+
+**La suite :** [installe Codex](/learn/codex), ou file directement voir
+[comment bien prompter](/learn/prompting).

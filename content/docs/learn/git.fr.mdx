@@ -1,0 +1,293 @@
+---
+title: C'est quoi, Git ?
+description: Comprends la gestion de versions, installe et configure Git, et apprends les commandes du quotidien avec un exemple concret.
+icon: GitBranch
+level: beginner
+duration: 30 min
+---
+
+Tu te souviens des points de sauvegarde dans les jeux vidéo ? Tu sauvegardes avant le boss, et si ça
+tourne mal, tu recharges. **Git** te donne des points de sauvegarde pour ton code. Il te donne aussi
+des univers parallèles (pour tester des idées sans rien casser) et une machine à remonter le temps
+(pour voir qui a changé quoi, et quand).
+
+## Ce que Git fait pour toi [#what-git-does-for-you]
+
+- **L'historique.** Chaque version enregistrée de ton projet est gardée pour toujours. Tu peux
+  revenir à n'importe laquelle.
+- **La sécurité.** Tu as cassé quelque chose ? Reviens à la dernière version qui marchait. C'est aussi
+  ton meilleur allié quand un agent IA part en vrille dans ton code.
+- **Les expériences.** Teste une idée folle sur une **branche** séparée, sans toucher à la version qui
+  marche.
+- **La collaboration.** Plusieurs personnes (et agents) peuvent travailler sur le même projet et
+  fusionner leur travail.
+
+Git tourne **en local**, sur ta machine. [GitHub](/learn/github) est un site web qui héberge des
+projets Git en ligne. Ce sont deux choses différentes, et on verra GitHub dans le prochain tutoriel.
+
+## Le vocabulaire [#the-vocabulary]
+
+| Mot | Signification |
+| --- | --- |
+| **Dépôt** (repository, ou repo) | Un dossier de projet suivi par Git. Git range ses données dans un dossier caché `.git` à l'intérieur. |
+| **Commit** | Un point de sauvegarde : une photo de tes fichiers, avec un message qui explique le changement. |
+| **Staging area** (zone de staging) | La « salle d'attente » où tu mets les changements que tu veux dans ton prochain commit. |
+| **Branche** | Une ligne d'historique parallèle. `main` est celle par défaut. |
+| **Merge** (fusion) | Faire entrer les commits d'une branche dans une autre. |
+| **Remote** (dépôt distant) | Une copie du dépôt ailleurs, en général sur GitHub, nommée `origin` par défaut. |
+| **Cloner** (clone) | Télécharger une copie complète d'un dépôt distant. |
+| **Push / Pull** | Envoyer tes commits vers le remote / récupérer les nouveaux commits depuis le remote. |
+
+La boucle du quotidien ressemble à ça :
+
+```text
+ tu modifies  ──►  git add  ──►  git commit  ──►  git push
+ (ton dossier)     (staging)     (historique)     (remote)
+```
+
+## Installer Git [#install-git]
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+```powershell
+winget install --id Git.Git -e --source winget
+```
+
+Ça installe **Git for Windows**, qui inclut aussi **Git Bash**, un terminal Bash pour Windows.
+Claude Code s'en sert aussi, donc ça vaut le coup de l'avoir.
+
+</Tab>
+<Tab value="macOS">
+
+Git est fourni avec les outils en ligne de commande d'Apple (`xcode-select --install`). Pour une
+version plus récente :
+
+```bash
+brew install git
+```
+
+</Tab>
+<Tab value="Linux">
+
+```bash
+sudo apt install -y git
+```
+
+</Tab>
+</Tabs>
+
+Ouvre un nouveau terminal et vérifie :
+
+```bash
+git --version
+```
+
+## Configurer Git (une seule fois) [#configure-git-once]
+
+Git signe chaque commit avec un nom et un e-mail. Règle-les une fois pour toute ta machine :
+
+```bash
+git config --global user.name "Ton Nom"
+git config --global user.email "toi@example.com"
+git config --global init.defaultBranch main
+```
+
+<Callout type="idea" title="Quel e-mail ?">
+  Utilise l'e-mail de ton compte GitHub, pour que GitHub relie tes commits à ton profil. Si tu
+  préfères garder ton e-mail privé, GitHub te donne une adresse `noreply` dans
+  **Settings → Emails**.
+</Callout>
+
+Si tu veux, fais de VS Code l'éditeur que Git ouvre quand il a besoin que tu écrives quelque chose :
+
+```bash
+git config --global core.editor "code --wait"
+```
+
+## En pratique : ton premier dépôt [#hands-on-your-first-repository]
+
+Construisons le projet le plus inutile de tous les temps, étape par étape.
+
+<Steps>
+<Step>
+
+### Créer un dépôt [#create-a-repository]
+
+```bash
+mkdir useless-app
+cd useless-app
+git init
+```
+
+Git répond `Initialized empty Git repository`. Le dossier est maintenant un dépôt.
+
+</Step>
+<Step>
+
+### Créer un fichier et vérifier l'état [#create-a-file-and-check-the-status]
+
+Crée un fichier nommé `README.md` qui contient `# Appli inutile`, avec VS Code (`code .`) ou avec :
+
+```bash
+echo "# Appli inutile" > README.md
+```
+
+Puis demande à Git ce qui se passe :
+
+```bash
+git status
+```
+
+Git liste `README.md` sous **Untracked files** (fichiers non suivis) : il voit le fichier mais ne le
+suit pas encore. `git status` est la commande que tu taperas le plus. Dans le doute, `git status`.
+
+</Step>
+<Step>
+
+### Ajouter et commiter [#stage-and-commit]
+
+```bash
+git add README.md
+git commit -m "Add README"
+```
+
+`git add` met le fichier dans la zone de staging, `git commit` crée le point de sauvegarde. Tu peux
+tout ajouter d'un coup avec `git add .` (le point veut dire « ce dossier »).
+
+</Step>
+<Step>
+
+### Changer quelque chose et regarder la différence [#change-something-and-look-at-the-difference]
+
+Ajoute une ligne à `README.md`, par exemple `Elle ne fait rien, mais avec style.`, puis :
+
+```bash
+git diff
+```
+
+Les lignes qui commencent par `+` ont été ajoutées, celles qui commencent par `-` ont été supprimées.
+Commite le changement :
+
+```bash
+git add README.md
+git commit -m "Describe the app"
+```
+
+</Step>
+<Step>
+
+### Lire l'historique [#read-the-history]
+
+```bash
+git log --oneline
+```
+
+Tu vois tes deux commits, du plus récent au plus ancien, chacun avec un identifiant court (comme
+`a1b2c3d`) et son message. Appuie sur <kbd>Q</kbd> pour sortir si Git affiche le log dans un pager
+(une vue page par page).
+
+</Step>
+</Steps>
+
+## Les branches : tester des idées sans risque [#branches-try-ideas-safely]
+
+Tu veux ajouter un mode sombre, mais tu te demandes si c'est une bonne idée. (C'est toujours une
+bonne idée.) Crée une branche :
+
+```bash
+git switch -c dark-mode
+```
+
+Te voilà sur la branche `dark-mode`. Commite comme d'habitude. Quand la fonctionnalité est finie,
+reviens sur `main` et fusionne-la :
+
+```bash
+git switch main
+git merge dark-mode
+```
+
+Finalement, l'idée est nulle ? Reviens simplement sur `main` et supprime la branche (`main` n'a
+jamais été touchée) :
+
+```bash
+git switch main
+git branch -D dark-mode
+```
+
+<Callout title="Les conflits de merge">
+  Si deux branches ont modifié les mêmes lignes, Git ne peut pas trancher seul et signale un
+  **conflit**. Il marque les parties en conflit dans le fichier avec `<<<<<<<`, `=======` et
+  `>>>>>>>`. Modifie le fichier pour garder ce que tu veux, enlève les marqueurs, puis `git add` et
+  `git commit`. VS Code a des boutons pour te faciliter la vie. Flippant la première fois, la routine
+  ensuite.
+</Callout>
+
+## Oups : annuler des choses [#oops-undoing-things]
+
+| Situation | Commande |
+| --- | --- |
+| Annuler les modifications d'un fichier (pas encore commitées) | `git restore file.txt` |
+| Retirer un fichier de la zone de staging | `git restore --staged file.txt` |
+| Corriger le message du dernier commit (pas encore poussé) | `git commit --amend -m "Better message"` |
+| Annuler un commit déjà poussé | `git revert <commit-id>` |
+
+<Callout type="warn" title="Attention à reset --hard">
+  Tu trouveras `git reset --hard` sur Internet. Cette commande jette le travail non commité **pour de
+  bon**. Commite ou mets-le de côté (`git stash`) avant, si tu as un doute.
+</Callout>
+
+## Garder des choses hors de Git : .gitignore [#keep-things-out-of-git-gitignore]
+
+Certains fichiers ne doivent jamais être commités : les dépendances (`node_modules`), les fichiers
+générés par le build, et surtout les **secrets**. Liste-les dans un fichier `.gitignore` à la racine
+du dépôt :
+
+```text title=".gitignore"
+node_modules/
+dist/
+.env
+.env.local
+*.log
+```
+
+<Callout type="error" title="Ne commite jamais de secrets">
+  Les mots de passe, les clés d'API et les tokens vont dans un fichier `.env` listé dans
+  `.gitignore`. Dès qu'un secret est poussé sur GitHub, considère qu'il a fuité, même si tu le
+  supprimes dans le commit suivant : Git se souvient de tout. Si ça arrive, révoque la clé tout de
+  suite et crées-en une nouvelle.
+</Callout>
+
+## Écrire de bons messages de commit [#write-good-commit-messages]
+
+Ton futur toi (et tes coéquipiers) les liront. Un bon message dit **ce qui** a changé, en une phrase
+courte à l'impératif, comme pour compléter « This commit will… » (« Ce commit va… ») :
+
+- ✅ `Add dark mode toggle to settings`
+- ✅ `Fix crash when the to-do list is empty`
+- ❌ `stuff`
+- ❌ `fix`
+- ❌ `I changed some files lol`
+
+Commite **petit et souvent** : un changement logique par commit. Ça rend l'historique lisible et les
+erreurs faciles à annuler.
+
+## Antisèche [#cheat-sheet]
+
+| Commande | Ce qu'elle fait |
+| --- | --- |
+| `git init` | Transforme le dossier courant en dépôt |
+| `git clone <url>` | Télécharge un dépôt distant |
+| `git status` | Qu'est-ce qui a changé ? Qu'est-ce qui est en staging ? |
+| `git add <file>` / `git add .` | Ajoute des changements au staging |
+| `git commit -m "message"` | Crée un point de sauvegarde |
+| `git diff` | Montre les changements qui ne sont pas encore en staging |
+| `git log --oneline` | Montre l'historique |
+| `git switch -c <branch>` | Crée une branche et bascule dessus |
+| `git switch <branch>` | Bascule sur une branche existante |
+| `git merge <branch>` | Fusionne une branche dans la branche courante |
+| `git pull` | Récupère les nouveaux commits du remote |
+| `git push` | Envoie tes commits vers le remote |
+
+**La suite :** [C'est quoi, GitHub ?](/learn/github), pour mettre ton code en ligne et travailler avec
+d'autres.

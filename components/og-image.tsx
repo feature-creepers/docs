@@ -4,11 +4,14 @@ export function OgImage({
   title,
   description,
   section,
+  footer,
   logo,
 }: {
   title: string;
   description?: string;
   section?: string;
+  /** the tagline at the bottom left, in the page's language */
+  footer: string;
   /** data URI of public/logo.svg, from loadOgLogo() */
   logo: string;
 }) {
@@ -63,7 +66,7 @@ export function OgImage({
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 24, color: '#8f8ea8' }}>
-        <div style={{ display: 'flex' }}>Build awesome apps. And dumb ones.</div>
+        <div style={{ display: 'flex' }}>{footer}</div>
         <div style={{ display: 'flex' }}>feature-creepers.github.io/docs</div>
       </div>
     </div>

@@ -8,9 +8,9 @@
 
 The home of [Feature Creepers](https://github.com/feature-creepers), a developer association for
 happy builders: who we are, how to join, and beginner-friendly tutorials on the terminal, Git,
-GitHub and AI coding agents.
+GitHub and AI coding agents. In English and in French (the site picks your language).
 
-**[feature-creepers.github.io/docs](https://feature-creepers.github.io/docs/)** · **[Join our Discord](https://discord.gg/eXqmagTNrr)**
+**[feature-creepers.github.io/docs](https://feature-creepers.github.io/docs/)** · **[En français](https://feature-creepers.github.io/docs/fr/)** · **[Join our Discord](https://discord.gg/eXqmagTNrr)**
 
 </div>
 
@@ -49,16 +49,17 @@ Then open http://localhost:3000.
 ## Project structure
 
 ```text
-app/                 Next.js routes: landing page, docs pages, OG images, search index, llms.txt
+app/(en)/, app/fr/   One route tree per language (English at the root, French under /fr)
+app/                 Also: OG images, search index, llms.txt, the bilingual 404 page
 components/          React components (landing page, MDX components, logo, footer)
-content/docs/        The pages, in MDX
+content/docs/        The pages, in MDX: page.mdx (English) and page.fr.mdx (French)
   association/       About the association
   learn/             Tutorials
   handbook/          Advanced guides
 data/creepers.json   The Wall of Creepers
 public/prompts/      Prompts for AI agents, downloadable as is (e.g. the CI infrastructure brief)
 public/logo.*        The logo (SVG, and a 1024 px PNG for avatars and slides)
-lib/                 Content source, shared constants and layout options
+lib/                 Content source, languages (i18n.ts), interface text (messages.ts), constants
 .github/workflows/   CI (pull requests) and deployment (GitHub Pages)
 ```
 

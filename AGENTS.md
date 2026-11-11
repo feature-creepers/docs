@@ -7,6 +7,9 @@ tutorials. Built with Fumadocs 16 on Next.js 16 (App Router), React 19, Tailwind
 TypeScript. Exported as a static site and deployed to GitHub Pages
 (https://feature-creepers.github.io/docs/). Package manager: pnpm. Node.js 22+ (CI uses `.nvmrc`).
 
+The site is bilingual: **English** (default, at the site root: `/learn/git`) and **French** (under
+`/fr`: `/fr/learn/git`). Every page and every piece of interface text exists in both languages.
+
 ## Commands
 
 - Install: `pnpm install`
@@ -21,11 +24,18 @@ Run `pnpm check` before saying a task is done.
 ## Structure
 
 - `content/docs/<section>/*.mdx`: the pages. Sections are `association`, `learn` and `handbook`.
-  Each folder's `meta.json` sets the sidebar order: **add every new page there**.
-- `app/(home)/`: landing page. `app/(docs)/[...slug]/`: docs pages, served at the site root
-  (`/learn/git`, not `/docs/learn/git`).
-- `app/og/`, `app/llms.mdx/`, `app/llms.txt/`, `app/api/search/`: static OG images, Markdown
-  exports and the static search index.
+  `page.mdx` is English, `page.fr.mdx` is French. Each folder's `meta.json` (and `meta.fr.json`) sets
+  the sidebar order: **add every new page there, in both languages**.
+- `app/(en)/` and `app/fr/`: one route tree per language, each with its own root layout
+  (`<html lang>`). Their files are thin wrappers around shared views: `components/home-shell.tsx`,
+  `components/home/sections.tsx`, `components/docs-page.tsx`, `components/root-document.tsx`.
+- `app/global-not-found.tsx`: the bilingual 404 page (GitHub Pages serves it for every missing URL).
+- `lib/i18n.ts`: languages, path helpers (`localePath`, `localizeHref`). `lib/messages.ts`: every
+  piece of interface text (home page, navigation, footer, components) in both languages, plus the
+  French labels of Fumadocs' own interface.
+- `app/og/`, `app/llms.mdx/`, `app/llms.txt/`, `app/api/search/`: static OG images
+  (`/og/<lang>/...`), Markdown exports (`/llms.mdx/<lang>/...`), `llms.txt` per language
+  (`/llms.txt`, `/fr/llms.txt`) and the static search index (both languages, filtered by locale).
 - `components/`: React components. `components/mdx.tsx` registers the components available in MDX.
 - `lib/source.ts`: content loader and frontmatter schema. `lib/shared.ts`: site constants and links.
 - `data/creepers.json`: the Wall of Creepers (people add themselves via pull requests).
@@ -36,6 +46,22 @@ Run `pnpm check` before saying a task is done.
   aliases for languages Shiki does not ship). If a change to `lib/source.ts` options does not apply,
   delete `.next/` and `.source/` (stale build cache).
 - `app/global.css`: the theme (colors for light and dark mode, fonts, landing page animations).
+
+## Languages
+
+- **Auto-detection:** English pages run a tiny script in `<head>` (`components/root-document.tsx`):
+  if the visitor chose French with the language switcher, or their browser prefers French, they go
+  to the same page under `/fr`. Any other language stays in English. The switcher stores the choice
+  in `localStorage` (`fc-lang`), so an explicit choice always wins.
+- **New page:** write `page.mdx` and `page.fr.mdx`, and list it in `meta.json` and `meta.fr.json`.
+- **French headings keep the English IDs**: end each heading with ` [#english-id]`, e.g.
+  `## Installer Git [#install-git]`, so anchors and links work in both languages.
+- **Links in content stay absolute and unprefixed** (`/learn/git`): `components/mdx.tsx` adds `/fr`
+  on French pages. In code, use `localePath(lang, '/learn/git')`.
+- **Interface text** goes in `lib/messages.ts` (both languages; TypeScript checks the French object
+  has the same shape as the English one), never hardcoded in components.
+- French: "tu", natural tone, French typography (no-break space before `: ; ! ?`, « guillemets »).
+- The CI brief in `public/prompts/` stays in English on purpose (it is written for AI agents).
 
 ## Writing content
 

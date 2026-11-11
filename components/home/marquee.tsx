@@ -1,24 +1,4 @@
-const rowA = [
-  '🌗 Dark mode for the dark mode',
-  '🎉 Confetti on every git push',
-  '⚙️ A settings page for the settings page',
-  '🧀 Variables named after cheeses',
-  '↩️ Undo for the undo button',
-  '⏳ A loading bar for the loading bar',
-  '🏆 Achievements for closing browser tabs',
-  '🔘 A button that does nothing, beautifully',
-];
-
-const rowB = [
-  '📜 README written as a sonnet',
-  '🥚 An easter egg inside the easter egg',
-  '⌨️ A shortcut that opens more shortcuts',
-  '🌦️ Weather widget for the server room',
-  '🎵 Playlists generated from commit messages',
-  '🤖 An AI that apologizes for the other AI',
-  '📳 Haptic feedback for the terms of service',
-  '🗂️ A to-do list for your to-do lists',
-];
+import type { Messages } from '@/lib/messages';
 
 function Row({ items, reverse, duration }: { items: string[]; reverse?: boolean; duration: string }) {
   return (
@@ -42,18 +22,18 @@ function Row({ items, reverse, duration }: { items: string[]; reverse?: boolean;
   );
 }
 
-export function FeatureMarquee() {
+export function FeatureMarquee({ t }: { t: Messages['home']['marquee'] }) {
   return (
     <section aria-labelledby="useless-features" className="fc-marquee-paused border-y bg-fd-muted/40 py-8">
       <h2
         id="useless-features"
         className="mb-5 text-center font-mono text-xs uppercase tracking-[0.2em] text-fd-muted-foreground"
       >
-        Feature requests we would happily accept
+        {t.title}
       </h2>
       <div className="flex flex-col gap-3">
-        <Row items={rowA} duration="70s" />
-        <Row items={rowB} duration="80s" reverse />
+        <Row items={t.rowA} duration="70s" />
+        <Row items={t.rowB} duration="80s" reverse />
       </div>
     </section>
   );
