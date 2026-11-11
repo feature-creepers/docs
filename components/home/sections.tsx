@@ -69,11 +69,13 @@ function Hero({ lang, t }: { lang: Lang; t: HomeText }) {
 
       <div className="relative mx-auto grid max-w-7xl gap-14 px-6 pt-16 pb-20 lg:grid-cols-[1.35fr_1fr] lg:items-center lg:pt-24 lg:pb-28">
         <div className="min-w-0">
-          <p className="mb-6 inline-flex items-center gap-2 rounded-full border bg-fd-card/70 px-3 py-1 text-xs font-medium text-fd-muted-foreground backdrop-blur">
-            <span aria-hidden="true">🚀🚀🌙</span>
+          <p className="mb-6 inline-flex items-center gap-2 rounded-2xl border bg-fd-card/70 px-3 py-1 text-xs font-medium text-fd-muted-foreground backdrop-blur sm:rounded-full">
+            <span aria-hidden="true" className="shrink-0 whitespace-nowrap">
+              🚀🚀🌙
+            </span>
             {hero.badge}
           </p>
-          <h1 className="font-display text-[2.6rem] font-extrabold leading-[1.04] tracking-tight sm:text-6xl lg:text-5xl xl:text-[3.9rem]">
+          <h1 className="font-display text-[2.25rem] font-extrabold leading-[1.04] tracking-tight min-[375px]:text-[2.6rem] sm:text-6xl lg:text-5xl xl:text-[3.9rem]">
             {hero.titleLines.map((line) => (
               <span key={line}>
                 {line}
@@ -164,8 +166,9 @@ function Community({ t }: { t: HomeText }) {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_0%_0%,var(--color-fc-discord),transparent_45%),radial-gradient(circle_at_100%_100%,var(--fc-lime),transparent_40%)] opacity-20"
         />
-        <div className="relative grid gap-10 p-8 md:p-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
-          <div>
+        {/* minmax(0, …) tracks: the columns never grow wider than the screen to fit their content */}
+        <div className="relative grid grid-cols-1 gap-10 p-5 sm:p-8 md:p-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-center">
+          <div className="min-w-0">
             <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-fc-discord">{c.eyebrow}</p>
             <h2 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
               {c.titleStart} <span className="text-fc-discord">Discord</span>
@@ -182,15 +185,16 @@ function Community({ t }: { t: HomeText }) {
             <p className="mt-5 text-sm text-fd-muted-foreground">{c.note}</p>
           </div>
 
-          <div className="rounded-2xl border bg-fd-background/80 p-5 shadow-2xl shadow-fc-discord/10 backdrop-blur">
+          <div className="min-w-0 rounded-2xl border bg-fd-background/80 p-4 shadow-2xl shadow-fc-discord/10 backdrop-blur sm:p-5">
             <p className="font-mono text-[11px] uppercase tracking-wider text-fd-muted-foreground">{c.invite}</p>
-            <div className="mt-3 flex items-center gap-3">
+            {/* on narrow screens the button goes under the name instead of squeezing it */}
+            <div className="mt-3 flex flex-wrap items-center gap-3">
               <span className="fc-logo">
                 <LogoMark className="size-12" />
               </span>
-              <div className="min-w-0">
+              <div className="min-w-40 flex-1">
                 <p className="font-display font-bold">Feature Creepers</p>
-                <p className="truncate text-xs text-fd-muted-foreground">
+                <p className="text-xs text-fd-muted-foreground">
                   <span aria-hidden="true">🚀🚀🌙</span> {c.serverTagline}
                 </p>
               </div>
@@ -198,7 +202,7 @@ function Community({ t }: { t: HomeText }) {
                 href={links.discord}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="ml-auto shrink-0 rounded-md bg-fc-discord px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-fc-discord/85"
+                className="w-full shrink-0 rounded-md bg-fc-discord px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-fc-discord/85 sm:ml-auto sm:w-auto"
               >
                 {c.join}
               </a>

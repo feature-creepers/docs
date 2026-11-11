@@ -16,7 +16,7 @@ export function Terminal({ t }: { t: Messages['home']['terminal'] }) {
           <span className="size-3 rounded-full bg-[#28c840]" />
           <span className="ml-3 font-mono text-xs text-fd-muted-foreground">{t.folder}</span>
         </div>
-        <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-6">
+        <pre className="overflow-x-auto p-4 font-mono text-[11.5px] leading-6 sm:p-5 sm:text-[13px]">
           {t.lines.map((line, i) => (
             <div
               // biome-ignore lint/suspicious/noArrayIndexKey: static list
