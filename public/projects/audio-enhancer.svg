@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <title>Audio Enhancer</title>
+  <defs>
+    <linearGradient id="bg" x1="4" y1="4" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1e1b4b"/>
+      <stop offset="1" stop-color="#0b1230"/>
+    </linearGradient>
+    <linearGradient id="bars" x1="0" y1="50" x2="0" y2="14" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#bef264"/>
+    </linearGradient>
+  </defs>
+  <!-- a spectrum, and the smooth corrective EQ curve drawn over it -->
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#bg)"/>
+  <rect x="11" y="35" width="4.2" height="14" rx="1.4" fill="url(#bars)"/>
+  <rect x="17.5" y="27" width="4.2" height="22" rx="1.4" fill="url(#bars)"/>
+  <rect x="24" y="18" width="4.2" height="31" rx="1.4" fill="url(#bars)"/>
+  <rect x="30.5" y="22" width="4.2" height="27" rx="1.4" fill="url(#bars)"/>
+  <rect x="37" y="30" width="4.2" height="19" rx="1.4" fill="url(#bars)"/>
+  <rect x="43.5" y="24" width="4.2" height="25" rx="1.4" fill="url(#bars)"/>
+  <rect x="50" y="36" width="4.2" height="13" rx="1.4" fill="url(#bars)"/>
+  <path d="M9 31c7-10 13-15.5 21-14 7 1.5 10 12 17 12.5 4 .3 6.5-2.5 8.5-4.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="30" cy="17" r="2.6" fill="#fff"/>
+</svg>

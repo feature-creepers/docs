@@ -4,6 +4,7 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import type { MDXComponents } from 'mdx/types';
+import { ProjectLogo } from '@/components/project-logo';
 import { PromptFile } from '@/components/prompt-file';
 import { WallOfCreepers } from '@/components/wall-of-creepers';
 
@@ -15,6 +16,7 @@ export function getMDXComponents(components?: MDXComponents) {
     File,
     Files,
     Folder,
+    ProjectLogo,
     PromptFile,
     Step,
     Steps,

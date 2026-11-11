@@ -57,7 +57,7 @@ export function Logo({ className }: { className?: string }) {
     <span className={cn('fc-logo inline-flex items-center gap-2', className)}>
       <LogoMark />
       <span className="font-display text-[15px] font-bold tracking-tight">
-        Feature<span className="text-fd-primary">Creepers</span>
+        Feature<span className="ml-[0.16em] text-fd-primary">Creepers</span>
       </span>
     </span>
   );

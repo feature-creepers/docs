@@ -16,6 +16,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { DiscordIcon, GithubIcon } from '@/components/icons';
 import { LogoMark } from '@/components/logo';
+import { ProjectLogo } from '@/components/project-logo';
 import { cn } from '@/lib/cn';
 import { links } from '@/lib/shared';
 import { FeatureMarquee } from './marquee';
@@ -364,8 +365,15 @@ function LearningPath() {
 
 const projects = [
   {
+    name: 'Radio Creep Bot',
+    logo: '/projects/radio-creep-bot.svg',
+    text: 'The DJ of our Discord’s 24/7 radio. Search all of Apple Music, request songs, vote to skip, save favorites. It drives the radio PC’s Apple Music like a screen reader would, and the music never stops.',
+    tags: ['Python', 'discord.py', 'Apple Music', 'Windows'],
+    links: [{ label: 'Source', href: 'https://github.com/feature-creepers/radio-creep-bot' }],
+  },
+  {
     name: 'Marianne',
-    emoji: '🏛️',
+    logo: '/projects/marianne.png',
     text: 'A desktop citizen assistant for people living in France: rights, formalities, papers and deadlines. It runs on your own Claude Code, Codex or Mistral Vibe, and keeps everything in an encrypted archive on your computer.',
     tags: ['TypeScript', 'Electron', 'Local-first', 'Claude Code'],
     links: [
@@ -374,15 +382,8 @@ const projects = [
     ],
   },
   {
-    name: 'Radio Creep Bot',
-    emoji: '📻',
-    text: 'The DJ of our Discord’s 24/7 radio. Search all of Apple Music, request songs, vote to skip, save favorites. It drives the radio PC’s Apple Music like a screen reader would, and the music never stops.',
-    tags: ['Python', 'discord.py', 'Apple Music', 'Windows'],
-    links: [{ label: 'Source', href: 'https://github.com/feature-creepers/radio-creep-bot' }],
-  },
-  {
     name: 'Audio Enhancer',
-    emoji: '🎧',
+    logo: '/projects/audio-enhancer.svg',
     text: 'A command-line tool that refines the spectrum of compressed MP3s: adaptive corrective EQ, light dynamics, and the same perceived loudness. No over-boosting. Optional AI cleanup for artifacts.',
     tags: ['Python', 'FFmpeg', 'CLI', 'Audio'],
     links: [{ label: 'Source', href: 'https://github.com/feature-creepers/audio-enhancer' }],
@@ -398,9 +399,7 @@ function Projects() {
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
         {projects.map((project) => (
           <article key={project.name} className="flex flex-col rounded-2xl border bg-fd-card p-6">
-            <span aria-hidden="true" className="text-3xl">
-              {project.emoji}
-            </span>
+            <ProjectLogo src={project.logo} name={project.name} />
             <h3 className="mt-3 font-display text-xl font-bold">{project.name}</h3>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-fd-muted-foreground">{project.text}</p>
             <ul className="mt-4 flex flex-wrap gap-1.5">
