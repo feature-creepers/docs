@@ -10,7 +10,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
       tree={source.getPageTree()}
       {...options}
       // The section tabs already cover Association / Learn / Handbook in the sidebar.
-      links={links?.filter((link) => link.type === 'button')}
+      links={links?.filter((link) => link.type === 'button' || link.type === 'icon')}
     >
       {children}
     </DocsLayout>

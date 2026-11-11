@@ -1,5 +1,8 @@
 blank_issues_enabled: true
 contact_links:
+  - name: 💬 Chat with the crew on Discord
+    url: https://discord.gg/eXqmagTNrr
+    about: Questions, help, ideas and show & tell. Faster than an issue.
   - name: 🌱 Read the docs
     url: https://feature-creepers.github.io/docs/
     about: Tutorials, FAQ and everything about the association.

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GithubIcon } from '@/components/icons';
+import { DiscordIcon, GithubIcon } from '@/components/icons';
 import { Logo } from '@/components/logo';
 import { links, withBasePath } from '@/lib/shared';
 
@@ -48,7 +48,16 @@ export function SiteFooter() {
           <p className="mt-4 max-w-xs text-sm text-fd-muted-foreground">
             A developer association for happy builders. Awesome apps, dumb apps, and way too many features.
           </p>
-          <div className="mt-5 flex items-center gap-3 text-sm">
+          <div className="mt-5 flex flex-wrap items-center gap-3 text-sm">
+            <a
+              href={links.discord}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="inline-flex items-center gap-2 rounded-full bg-fc-discord px-4 py-2 font-semibold text-white transition-colors hover:bg-fc-discord/85"
+            >
+              <DiscordIcon className="size-4" />
+              Join our Discord
+            </a>
             <a
               href={links.org}
               target="_blank"
