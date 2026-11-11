@@ -10,7 +10,7 @@ The home of [Feature Creepers](https://github.com/feature-creepers), a developer
 happy builders: who we are, how to join, and beginner-friendly tutorials on the terminal, Git,
 GitHub and AI coding agents.
 
-**[feature-creepers.github.io/docs](https://feature-creepers.github.io/docs/)**
+**[feature-creepers.github.io/docs](https://feature-creepers.github.io/docs/)** · **[Join our Discord](https://discord.gg/eXqmagTNrr)**
 
 </div>
 

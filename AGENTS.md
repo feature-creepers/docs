@@ -49,6 +49,8 @@ Run `pnpm check` before saying a task is done.
 - Install commands, prices and plans change: verify them against the official docs and link to them.
 - MDX gotcha: a bare `<` or `{` in prose is parsed as JSX. Put code in backticks.
 - Do not mention private repositories of the organization on this public site.
+- The community lives in two places only: the Discord server (`links.discord` in `lib/shared.ts`)
+  and the GitHub organization. Point people there; never invent other channels.
 
 ## Code conventions
 

@@ -18,6 +18,7 @@
   --color-fc-pink: var(--fc-pink);
   --color-fc-orange: var(--fc-orange);
   --color-fc-night: var(--fc-night);
+  --color-fc-discord: #5865f2;
 }
 
 :root {

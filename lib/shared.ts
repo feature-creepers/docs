@@ -29,7 +29,9 @@ export const gitConfig = {
   branch: 'main',
 };
 
+/** Our two community places: Discord to talk, GitHub for the code. There are no others. */
 export const links = {
+  discord: 'https://discord.gg/eXqmagTNrr',
   org: 'https://github.com/feature-creepers',
   repo: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
   joinIssue: `https://github.com/${gitConfig.user}/${gitConfig.repo}/issues/new?template=join.yml`,

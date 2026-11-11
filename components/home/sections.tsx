@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { GithubIcon } from '@/components/icons';
+import { DiscordIcon, GithubIcon } from '@/components/icons';
 import { LogoMark } from '@/components/logo';
 import { cn } from '@/lib/cn';
 import { links } from '@/lib/shared';
@@ -28,6 +28,10 @@ const buttonPrimary = cn(
   'bg-fd-primary text-fd-primary-foreground shadow-lg shadow-fc-lime/20 hover:-translate-y-0.5 hover:shadow-fc-lime/40',
 );
 const buttonSecondary = cn(buttonBase, 'border bg-fd-card hover:border-fd-primary/60 hover:text-fd-primary');
+const buttonDiscord = cn(
+  buttonBase,
+  'bg-fc-discord text-white shadow-lg shadow-fc-discord/25 hover:-translate-y-0.5 hover:shadow-fc-discord/40',
+);
 
 function SectionHeading({ eyebrow, title, children }: { eyebrow: string; title: ReactNode; children?: ReactNode }) {
   return (
@@ -77,9 +81,9 @@ function Hero() {
             <Link href="/learn" className={buttonPrimary}>
               Start learning <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
-            <Link href="/association" className={buttonSecondary}>
-              Meet the crew
-            </Link>
+            <a href={links.discord} target="_blank" rel="noreferrer noopener" className={buttonDiscord}>
+              <DiscordIcon className="size-4" /> Join our Discord
+            </a>
           </div>
           <p className="mt-6 text-sm text-fd-muted-foreground">
             No experience required. Bad ideas welcome. Scope creep encouraged.
@@ -159,6 +163,103 @@ function Paths() {
             </div>
           </Link>
         ))}
+      </div>
+    </section>
+  );
+}
+
+const discordPerks = [
+  {
+    emoji: '💬',
+    title: 'Ask anything',
+    text: 'Stuck on a tutorial or a bug? Ask. Someone here has broken the same thing before.',
+  },
+  {
+    emoji: '🛠️',
+    title: 'Build together',
+    text: 'Pitch an idea, find people for your project, pair up, get your pull requests reviewed.',
+  },
+  {
+    emoji: '📣',
+    title: 'Show & tell',
+    text: 'Shipped something? Broke something spectacularly? Show it, we want to see.',
+  },
+  {
+    emoji: '📻',
+    title: 'A 24/7 radio',
+    text: 'Music all day, DJ’d by our own Radio Creep Bot. Request a song, vote to skip.',
+  },
+];
+
+function Community() {
+  return (
+    <section className="mx-auto max-w-6xl px-6 pb-24">
+      <div className="relative overflow-hidden rounded-3xl border bg-fd-card">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_0%_0%,var(--color-fc-discord),transparent_45%),radial-gradient(circle_at_100%_100%,var(--fc-lime),transparent_40%)] opacity-20"
+        />
+        <div className="relative grid gap-10 p-8 md:p-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
+          <div>
+            <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-fc-discord">
+              Where the crew hangs out
+            </p>
+            <h2 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
+              Come say hi on <span className="text-fc-discord">Discord</span>
+            </h2>
+            <p className="mt-4 text-fd-muted-foreground">
+              Our Discord server is where the crew lives: questions, help, show & tell, build sessions and a radio that
+              never stops. The code lives on our GitHub organization. That is it: two places, no newsletter, no spam.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href={links.discord} target="_blank" rel="noreferrer noopener" className={buttonDiscord}>
+                <DiscordIcon className="size-4" /> Join our Discord
+              </a>
+              <a href={links.org} target="_blank" rel="noreferrer noopener" className={buttonSecondary}>
+                <GithubIcon className="size-4" /> Our GitHub
+              </a>
+            </div>
+            <p className="mt-5 text-sm text-fd-muted-foreground">Open to everyone. Beginners very welcome.</p>
+          </div>
+
+          <div className="rounded-2xl border bg-fd-background/80 p-5 shadow-2xl shadow-fc-discord/10 backdrop-blur">
+            <p className="font-mono text-[11px] uppercase tracking-wider text-fd-muted-foreground">
+              You have been invited to join a server
+            </p>
+            <div className="mt-3 flex items-center gap-3">
+              <span className="fc-logo">
+                <LogoMark className="size-12" />
+              </span>
+              <div className="min-w-0">
+                <p className="font-display font-bold">Feature Creepers</p>
+                <p className="truncate text-xs text-fd-muted-foreground">
+                  <span aria-hidden="true">🚀🚀🌙</span> Developers who build for the fun of it
+                </p>
+              </div>
+              <a
+                href={links.discord}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="ml-auto shrink-0 rounded-md bg-fc-discord px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-fc-discord/85"
+              >
+                Join
+              </a>
+            </div>
+            <ul className="mt-5 grid gap-3 border-t pt-5 sm:grid-cols-2">
+              {discordPerks.map((perk) => (
+                <li key={perk.title} className="flex gap-3">
+                  <span aria-hidden="true" className="text-xl">
+                    {perk.emoji}
+                  </span>
+                  <span>
+                    <span className="block text-sm font-semibold">{perk.title}</span>
+                    <span className="block text-xs leading-relaxed text-fd-muted-foreground">{perk.text}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -370,12 +471,12 @@ function FinalCta() {
             request. We will bring the snacks and the code reviews.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link href="/association/join" className={buttonPrimary}>
-              Join the crew <ArrowRight className="size-4" aria-hidden="true" />
-            </Link>
-            <a href={links.org} target="_blank" rel="noreferrer noopener" className={buttonSecondary}>
-              <GithubIcon className="size-4" /> Visit us on GitHub
+            <a href={links.discord} target="_blank" rel="noreferrer noopener" className={buttonDiscord}>
+              <DiscordIcon className="size-4" /> Join our Discord
             </a>
+            <Link href="/association/join" className={buttonSecondary}>
+              How to join <ArrowRight className="size-4" aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </div>
@@ -389,6 +490,7 @@ export function HomeSections() {
       <Hero />
       <FeatureMarquee />
       <Paths />
+      <Community />
       <Creed />
       <LearningPath />
       <Projects />
