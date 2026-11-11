@@ -44,10 +44,13 @@ export function baseOptions(lang: Lang): BaseLayoutProps {
       },
       {
         type: 'button',
-        text: t.join,
+        // never on two lines ("Rejoindre l'équipage" is long)
+        text: <span className="whitespace-nowrap">{t.join}</span>,
         url: localePath(lang, '/association/join'),
         icon: <Rocket />,
-        on: 'nav',
+        // In the right-hand group, shown from 1024px wide; narrower screens find it in the header's
+        // menu. Next to the section links it pushed them onto two lines between 640px and 1024px.
+        secondary: true,
       },
     ],
   };
