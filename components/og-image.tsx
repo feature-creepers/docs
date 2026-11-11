@@ -32,7 +32,7 @@ export function OgImage({
         {/* biome-ignore lint/performance/noImgElement: rendered by next/og, not in the browser */}
         <img src={logo} width={64} height={64} alt="" />
         <div style={{ display: 'flex', fontSize: 34, fontWeight: 800 }}>
-          Feature<span style={{ color: '#a3e635' }}>Creepers</span>
+          Feature<span style={{ color: '#a3e635', marginLeft: 6 }}>Creepers</span>
         </div>
         {section ? (
           <div
