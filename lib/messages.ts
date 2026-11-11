@@ -1,0 +1,605 @@
+import type { Translations } from 'fumadocs-ui/i18n';
+import type { Lang } from './i18n';
+
+/**
+ * Every piece of interface text that is not page content, in each language. Page content lives in
+ * `content/docs` (`page.mdx` in English, `page.fr.mdx` in French). The French object must have the
+ * same shape as the English one: TypeScript checks it.
+ */
+const en = {
+  site: {
+    name: 'Feature Creepers',
+    tagline: 'Build awesome apps. And dumb ones. With way too many features.',
+    description:
+      'The home of Feature Creepers, a developer association for happy builders: who we are, how to join, and beginner-friendly tutorials on the terminal, Git, GitHub and AI coding agents.',
+    ogTitle: 'Build awesome apps. And dumb ones.',
+    ogDescription: 'A developer association for happy builders who never say no to one more feature.',
+    ogFooter: 'Build awesome apps. And dumb ones.',
+    sections: { association: 'Association', learn: 'Learn', handbook: 'Handbook' },
+  },
+  nav: {
+    association: 'Association',
+    learn: 'Learn',
+    handbook: 'Handbook',
+    join: 'Join the crew',
+    discord: 'Our Discord server',
+  },
+  home: {
+    hero: {
+      badge: 'Developer association · France · since 2022',
+      titleLines: ['Build awesome apps.', 'And dumb ones.'],
+      titleHighlight: 'With way too many features.',
+      intro:
+        'Feature Creepers is a crew of developers who build for the fun of it. We ship side projects, games and gloriously useless features, and we help newcomers fall in love with code too.',
+      startLearning: 'Start learning',
+      joinDiscord: 'Join our Discord',
+      footnote: 'No experience required. Bad ideas welcome. Scope creep encouraged.',
+    },
+    terminal: {
+      label: 'A fake terminal session adding more and more features to a todo app',
+      folder: '~/side-projects/todo-app',
+      lines: [
+        { kind: 'cmd', text: 'creep new todo-app' },
+        { kind: 'ok', text: 'Created todo-app (1 feature, how boring)' },
+        { kind: 'cmd', text: 'creep add "dark mode"' },
+        { kind: 'ok', text: 'Feature #2 added' },
+        { kind: 'cmd', text: 'creep add "dark mode for the dark mode"' },
+        { kind: 'ok', text: 'Feature #3 added' },
+        { kind: 'cmd', text: 'creep add "confetti on every keystroke"' },
+        { kind: 'ok', text: 'Feature #4 added 🎉' },
+        { kind: 'cmd', text: 'creep add "AI that names variables after cheeses"' },
+        { kind: 'ok', text: 'Feature #5 added 🧀' },
+        { kind: 'cmd', text: 'creep status' },
+      ],
+      features: 'features',
+      scope: 'scope',
+      scopeValue: 'what scope?',
+      happiness: 'happiness',
+    },
+    marquee: {
+      title: 'Feature requests we would happily accept',
+      rowA: [
+        '🌗 Dark mode for the dark mode',
+        '🎉 Confetti on every git push',
+        '⚙️ A settings page for the settings page',
+        '🧀 Variables named after cheeses',
+        '↩️ Undo for the undo button',
+        '⏳ A loading bar for the loading bar',
+        '🏆 Achievements for closing browser tabs',
+        '🔘 A button that does nothing, beautifully',
+      ],
+      rowB: [
+        '📜 README written as a sonnet',
+        '🥚 An easter egg inside the easter egg',
+        '⌨️ A shortcut that opens more shortcuts',
+        '🌦️ Weather widget for the server room',
+        '🎵 Playlists generated from commit messages',
+        '🤖 An AI that apologizes for the other AI',
+        '📳 Haptic feedback for the terms of service',
+        '🗂️ A to-do list for your to-do lists',
+      ],
+    },
+    paths: {
+      eyebrow: 'Pick your door',
+      title: 'Three ways in',
+      text: 'Whether you want to join, learn, or level up a project that got out of hand.',
+      association: {
+        title: 'The Association',
+        text: 'Who we are, what we believe in, what we do together, and how to join. The "serious" part. It is short.',
+        cta: 'Meet the crew',
+      },
+      learn: {
+        title: 'Learn',
+        text: 'From "what is a terminal?" to shipping with AI coding agents. Beginner-friendly, no gatekeeping, no dumb questions.',
+        cta: 'Start the path',
+      },
+      handbook: {
+        title: 'Handbook',
+        text: 'For when your toy project becomes a real app: tests, continuous integration and infrastructure that keeps up.',
+        cta: 'Open the handbook',
+      },
+    },
+    community: {
+      eyebrow: 'Where the crew hangs out',
+      titleStart: 'Come say hi on',
+      text: 'Our Discord server is where the crew lives: questions, help, show & tell, build sessions and a radio that never stops. The code lives on our GitHub organization. That is it: two places, no newsletter, no spam.',
+      joinDiscord: 'Join our Discord',
+      github: 'Our GitHub',
+      note: 'Open to everyone. Beginners very welcome.',
+      invite: 'You have been invited to join a server',
+      serverTagline: 'Developers who build for the fun of it',
+      join: 'Join',
+      perks: [
+        {
+          emoji: '💬',
+          title: 'Ask anything',
+          text: 'Stuck on a tutorial or a bug? Ask. Someone here has broken the same thing before.',
+        },
+        {
+          emoji: '🛠️',
+          title: 'Build together',
+          text: 'Pitch an idea, find people for your project, pair up, get your pull requests reviewed.',
+        },
+        {
+          emoji: '📣',
+          title: 'Show & tell',
+          text: 'Shipped something? Broke something spectacularly? Show it, we want to see.',
+        },
+        {
+          emoji: '📻',
+          title: 'A 24/7 radio',
+          text: 'Music all day, DJ’d by our own Radio Creep Bot. Request a song, vote to skip.',
+        },
+      ],
+    },
+    creed: {
+      eyebrow: 'The creed',
+      title: 'What a Feature Creeper believes',
+      items: [
+        {
+          title: 'Every idea deserves a branch.',
+          text: 'Dumb ideas are how good ideas get prototyped. Nobody here will ask "but why?" Well, they will, but out of curiosity.',
+        },
+        {
+          title: 'Ship it, then laugh at it.',
+          text: 'Done and silly beats perfect and imaginary. A deployed joke teaches you more than a planned masterpiece.',
+        },
+        {
+          title: 'Nobody learns alone.',
+          text: 'Ask questions, pair up, review each other’s code. Kindly. Everybody was a beginner who broke production once.',
+        },
+        {
+          title: 'Use the robots, keep the brain.',
+          text: 'AI coding agents are power tools. We use them a lot, and we stay the ones who understand and own the code.',
+        },
+      ],
+      manifesto: 'Read the full manifesto',
+    },
+    learningPath: {
+      eyebrow: 'The learning path',
+      title: 'From zero to shipping, one step at a time',
+      text: 'Never opened a terminal? Perfect, that is step one. Every tutorial is written for real beginners and takes less time than a coffee break (a long one).',
+      steps: {
+        terminal: { title: 'The terminal', text: 'Talk to your computer in text.' },
+        setup: { title: 'Set up your machine', text: 'Editor, Node.js, package managers.' },
+        git: { title: 'Git', text: 'Save points for your code.' },
+        github: { title: 'GitHub', text: 'Where code lives and people meet.' },
+        firstPullRequest: { title: 'Your first pull request', text: 'Sign the Wall of Creepers.' },
+        aiAgents: { title: 'AI coding agents', text: 'Claude Code, Codex, T3 Code.' },
+        prompting: { title: 'Prompting', text: 'Ask well, get good code.' },
+        agentsMd: { title: 'AGENTS.md', text: 'A README for your robots.' },
+        testing: { title: 'Tests & CI', text: 'Ship without fear.' },
+      },
+    },
+    projects: {
+      eyebrow: 'Made by creepers',
+      title: 'Things we shipped (with extra features)',
+      text: 'Real projects, used by real people, built by people who could not stop adding things.',
+      radioCreepBot:
+        'The DJ of our Discord’s 24/7 radio. Search all of Apple Music, request songs, vote to skip, save favorites. It drives the radio PC’s Apple Music like a screen reader would, and the music never stops.',
+      marianne:
+        'A desktop citizen assistant for people living in France: rights, formalities, papers and deadlines. It runs on your own Claude Code, Codex or Mistral Vibe, and keeps everything in an encrypted archive on your computer.',
+      audioEnhancer:
+        'A command-line tool that refines the spectrum of compressed MP3s: adaptive corrective EQ, light dynamics, and the same perceived loudness. No over-boosting. Optional AI cleanup for artifacts.',
+      source: 'Source',
+      ideaTitle: 'Your dumb idea',
+      ideaText: 'It belongs here. Come build it with us.',
+      all: 'All our projects',
+    },
+    finalCta: {
+      titleStart: 'Got a dumb idea?',
+      titleHighlight: 'Perfect.',
+      text: 'That is the only entry requirement. Bring your curiosity, your questions and your most useless feature request. We will bring the snacks and the code reviews.',
+      joinDiscord: 'Join our Discord',
+      howToJoin: 'How to join',
+    },
+  },
+  footer: {
+    tagline: 'A developer association for happy builders. Awesome apps, dumb apps, and way too many features.',
+    joinDiscord: 'Join our Discord',
+    github: 'Feature Creepers on GitHub',
+    llms: 'These docs as plain text, for your AI agents',
+    columns: {
+      association: {
+        title: 'Association',
+        items: {
+          who: 'Who we are',
+          mission: 'Mission & values',
+          activities: 'Activities',
+          projects: 'Projects',
+          join: 'Join us',
+          conduct: 'Code of conduct',
+          faq: 'FAQ',
+        },
+      },
+      learn: {
+        title: 'Learn',
+        items: {
+          start: 'Start here',
+          terminal: 'The terminal',
+          git: 'Git',
+          github: 'GitHub',
+          agents: 'AI coding agents',
+          prompting: 'Prompting',
+          agentsMd: 'AGENTS.md',
+        },
+      },
+      handbook: {
+        title: 'Handbook',
+        items: {
+          overview: 'Overview',
+          testing: 'Tests & CI',
+          ci: 'CI infrastructure prompt',
+          contributing: 'Contribute to the docs',
+        },
+      },
+    },
+    madeIn: 'Made with way too many features in France',
+    builtWith: 'Built with',
+    hosted: 'Hosted on GitHub Pages',
+    edit: 'Edit on GitHub',
+  },
+  docs: {
+    editOnGitHub: 'Edit this page on GitHub',
+    levels: { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' },
+  },
+  wall: {
+    dreamFeature: 'Dream useless feature:',
+    empty: 'The wall is suspiciously empty.',
+    more: 'Your face here?',
+    cta: 'Sign it with your very first pull request →',
+  },
+  prompt: {
+    lines: 'lines',
+    copy: 'Copy to clipboard',
+    copied: 'Copied!',
+    failed: 'Copy failed, use Download',
+    download: 'Download',
+    readHere: 'Read it here',
+  },
+  notFound: {
+    title: 'This page got cut from the scope.',
+    text: 'Which is weird, because we never cut scope. Maybe it is still on a feature branch somewhere. In the meantime, here are some pages that actually shipped.',
+    backHome: 'Back home',
+    startLearning: 'Start learning',
+  },
+};
+
+export type Messages = typeof en;
+
+const fr: Messages = {
+  site: {
+    name: 'Feature Creepers',
+    tagline: 'Des applis géniales. Et des débiles. Avec beaucoup trop de fonctionnalités.',
+    description:
+      'La maison de Feature Creepers, une association de développeurs qui codent pour le plaisir : qui on est, comment nous rejoindre, et des tutoriels pour débutants sur le terminal, Git, GitHub et les agents de code IA.',
+    ogTitle: 'Des applis géniales. Et des débiles.',
+    ogDescription: 'Une association de développeurs qui ne disent jamais non à une fonctionnalité de plus.',
+    ogFooter: 'Des applis géniales. Et des débiles.',
+    sections: { association: 'Association', learn: 'Apprendre', handbook: 'Manuel' },
+  },
+  nav: {
+    association: 'Association',
+    learn: 'Apprendre',
+    handbook: 'Manuel',
+    join: 'Rejoindre l’équipage',
+    discord: 'Notre serveur Discord',
+  },
+  home: {
+    hero: {
+      badge: 'Association de développeurs · France · depuis 2022',
+      titleLines: ['Des applis géniales.', 'Et des débiles.'],
+      titleHighlight: 'Avec beaucoup trop de fonctionnalités.',
+      intro:
+        'Feature Creepers, c’est un équipage de développeurs qui codent pour le plaisir. On sort des projets perso, des jeux et des fonctionnalités magnifiquement inutiles, et on aide les débutants à tomber amoureux du code, eux aussi.',
+      startLearning: 'Commencer à apprendre',
+      joinDiscord: 'Rejoindre notre Discord',
+      footnote: 'Aucune expérience requise. Mauvaises idées bienvenues. Feature creep encouragé.',
+    },
+    terminal: {
+      label: 'Une fausse session de terminal qui ajoute toujours plus de fonctionnalités à une appli de tâches',
+      folder: '~/projets-perso/todo-app',
+      lines: [
+        { kind: 'cmd', text: 'creep new todo-app' },
+        { kind: 'ok', text: 'todo-app créée (1 fonctionnalité, quel ennui)' },
+        { kind: 'cmd', text: 'creep add "mode sombre"' },
+        { kind: 'ok', text: 'Fonctionnalité n°2 ajoutée' },
+        { kind: 'cmd', text: 'creep add "mode sombre pour le mode sombre"' },
+        { kind: 'ok', text: 'Fonctionnalité n°3 ajoutée' },
+        { kind: 'cmd', text: 'creep add "confettis à chaque touche"' },
+        { kind: 'ok', text: 'Fonctionnalité n°4 ajoutée 🎉' },
+        { kind: 'cmd', text: 'creep add "IA qui nomme les variables en fromages"' },
+        { kind: 'ok', text: 'Fonctionnalité n°5 ajoutée 🧀' },
+        { kind: 'cmd', text: 'creep status' },
+      ],
+      features: 'fonctionnalités',
+      scope: 'périmètre',
+      scopeValue: 'quel périmètre ?',
+      happiness: 'bonheur',
+    },
+    marquee: {
+      title: 'Des demandes de fonctionnalités qu’on accepterait avec joie',
+      rowA: [
+        '🌗 Un mode sombre pour le mode sombre',
+        '🎉 Des confettis à chaque git push',
+        '⚙️ Une page de réglages pour la page de réglages',
+        '🧀 Des variables qui portent des noms de fromages',
+        '↩️ Un bouton annuler pour le bouton annuler',
+        '⏳ Une barre de chargement pour la barre de chargement',
+        '🏆 Des succès à débloquer en fermant des onglets',
+        '🔘 Un bouton qui ne fait rien, mais avec style',
+      ],
+      rowB: [
+        '📜 Un README écrit en alexandrins',
+        '🥚 Un easter egg dans l’easter egg',
+        '⌨️ Un raccourci qui ouvre d’autres raccourcis',
+        '🌦️ La météo de la salle serveur',
+        '🎵 Des playlists générées à partir des commits',
+        '🤖 Une IA qui s’excuse pour l’autre IA',
+        '📳 Un retour haptique pendant la lecture des CGU',
+        '🗂️ Une to-do list pour tes to-do lists',
+      ],
+    },
+    paths: {
+      eyebrow: 'Choisis ta porte',
+      title: 'Trois façons d’entrer',
+      text: 'Que tu veuilles nous rejoindre, apprendre, ou remettre d’aplomb un projet qui a un peu trop grandi.',
+      association: {
+        title: 'L’Association',
+        text: 'Qui on est, ce qu’on défend, ce qu’on fait ensemble, et comment nous rejoindre. La partie « sérieuse ». Elle est courte.',
+        cta: 'Rencontrer l’équipage',
+      },
+      learn: {
+        title: 'Apprendre',
+        text: 'De « c’est quoi un terminal ? » jusqu’à coder avec des agents IA. Pour débutants, sans élitisme, sans question bête.',
+        cta: 'Suivre le parcours',
+      },
+      handbook: {
+        title: 'Manuel',
+        text: 'Pour le jour où ton projet jouet devient une vraie appli : tests, intégration continue et une infra qui suit.',
+        cta: 'Ouvrir le manuel',
+      },
+    },
+    community: {
+      eyebrow: 'Là où traîne l’équipage',
+      titleStart: 'Viens dire bonjour sur',
+      text: 'Notre serveur Discord, c’est là que vit l’équipage : questions, entraide, show & tell, sessions de build et une radio qui ne s’arrête jamais. Le code, lui, vit sur notre organisation GitHub. C’est tout : deux endroits, pas de newsletter, pas de spam.',
+      joinDiscord: 'Rejoindre notre Discord',
+      github: 'Notre GitHub',
+      note: 'Ouvert à tout le monde. Les débutants sont les bienvenus.',
+      invite: 'Tu as été invité à rejoindre un serveur',
+      serverTagline: 'Des développeurs qui codent pour le plaisir',
+      join: 'Rejoindre',
+      perks: [
+        {
+          emoji: '💬',
+          title: 'Pose tes questions',
+          text: 'Bloqué sur un tuto ou un bug ? Demande. Quelqu’un ici a déjà cassé la même chose.',
+        },
+        {
+          emoji: '🛠️',
+          title: 'Construis avec nous',
+          text: 'Propose une idée, trouve du monde pour ton projet, code en binôme, fais relire tes pull requests.',
+        },
+        {
+          emoji: '📣',
+          title: 'Show & tell',
+          text: 'Tu as sorti un truc ? Tu as tout cassé de façon spectaculaire ? Montre-nous, on veut voir.',
+        },
+        {
+          emoji: '📻',
+          title: 'Une radio 24 h/24',
+          text: 'De la musique toute la journée, avec notre Radio Creep Bot aux platines. Demande un morceau, vote pour passer.',
+        },
+      ],
+    },
+    creed: {
+      eyebrow: 'Le credo',
+      title: 'Ce que croit un Feature Creeper',
+      items: [
+        {
+          title: 'Chaque idée mérite sa branche.',
+          text: 'C’est avec les idées débiles qu’on prototype les bonnes. Personne ici ne te demandera « mais pourquoi ? ». Enfin si, mais par curiosité.',
+        },
+        {
+          title: 'Livre, puis rigole.',
+          text: 'Fini et absurde vaut mieux que parfait et imaginaire. Une blague déployée t’en apprend plus qu’un chef-d’œuvre planifié.',
+        },
+        {
+          title: 'Personne n’apprend seul.',
+          text: 'Pose des questions, code en binôme, relis le code des autres. Avec gentillesse. Tout le monde a été un débutant qui a cassé la prod un jour.',
+        },
+        {
+          title: 'Utilise les robots, garde ton cerveau.',
+          text: 'Les agents de code IA sont des outils puissants. On s’en sert beaucoup, et c’est nous qui comprenons et assumons le code.',
+        },
+      ],
+      manifesto: 'Lire le manifeste complet',
+    },
+    learningPath: {
+      eyebrow: 'Le parcours',
+      title: 'De zéro à la mise en ligne, une étape à la fois',
+      text: 'Jamais ouvert de terminal ? Parfait, c’est l’étape un. Chaque tutoriel est écrit pour de vrais débutants et prend moins de temps qu’une pause café (une longue).',
+      steps: {
+        terminal: { title: 'Le terminal', text: 'Parle à ton ordinateur en texte.' },
+        setup: { title: 'Prépare ta machine', text: 'Éditeur, Node.js, gestionnaires de paquets.' },
+        git: { title: 'Git', text: 'Des points de sauvegarde pour ton code.' },
+        github: { title: 'GitHub', text: 'Là où vit le code, là où on se retrouve.' },
+        firstPullRequest: { title: 'Ta première pull request', text: 'Signe le Mur des Creepers.' },
+        aiAgents: { title: 'Agents de code IA', text: 'Claude Code, Codex, T3 Code.' },
+        prompting: { title: 'Bien prompter', text: 'Demande bien, obtiens du bon code.' },
+        agentsMd: { title: 'AGENTS.md', text: 'Un README pour tes robots.' },
+        testing: { title: 'Tests et CI', text: 'Livre sans avoir peur.' },
+      },
+    },
+    projects: {
+      eyebrow: 'Fait par des creepers',
+      title: 'Ce qu’on a sorti (avec des fonctionnalités en plus)',
+      text: 'De vrais projets, utilisés par de vraies personnes, construits par des gens qui n’arrivaient pas à arrêter d’en rajouter.',
+      radioCreepBot:
+        'Le DJ de la radio 24 h/24 de notre Discord. Cherche dans tout Apple Music, demande des morceaux, vote pour passer, garde tes favoris. Il pilote l’Apple Music du PC de la radio comme le ferait un lecteur d’écran, et la musique ne s’arrête jamais.',
+      marianne:
+        'Un assistant citoyen sur ordinateur pour les personnes qui vivent en France : droits, démarches, papiers et échéances. Il fonctionne avec ton propre Claude Code, Codex ou Mistral Vibe, et garde tout dans une archive chiffrée sur ton ordinateur.',
+      audioEnhancer:
+        'Un outil en ligne de commande qui affine le spectre des MP3 compressés : EQ correctif adaptatif, dynamique légère, et le même volume perçu. Pas de sur-boost. Nettoyage IA des artefacts en option.',
+      source: 'Source',
+      ideaTitle: 'Ton idée débile',
+      ideaText: 'Elle a sa place ici. Viens la construire avec nous.',
+      all: 'Tous nos projets',
+    },
+    finalCta: {
+      titleStart: 'Une idée débile ?',
+      titleHighlight: 'Parfait.',
+      text: 'C’est la seule condition d’entrée. Apporte ta curiosité, tes questions et ta demande de fonctionnalité la plus inutile. On s’occupe des snacks et des revues de code.',
+      joinDiscord: 'Rejoindre notre Discord',
+      howToJoin: 'Comment nous rejoindre',
+    },
+  },
+  footer: {
+    tagline:
+      'Une association de développeurs qui codent pour le plaisir. Des applis géniales, des applis débiles, et beaucoup trop de fonctionnalités.',
+    joinDiscord: 'Rejoindre notre Discord',
+    github: 'Feature Creepers sur GitHub',
+    llms: 'Cette doc en texte brut, pour tes agents IA',
+    columns: {
+      association: {
+        title: 'Association',
+        items: {
+          who: 'Qui on est',
+          mission: 'Mission et valeurs',
+          activities: 'Activités',
+          projects: 'Projets',
+          join: 'Nous rejoindre',
+          conduct: 'Code de conduite',
+          faq: 'FAQ',
+        },
+      },
+      learn: {
+        title: 'Apprendre',
+        items: {
+          start: 'Par où commencer',
+          terminal: 'Le terminal',
+          git: 'Git',
+          github: 'GitHub',
+          agents: 'Agents de code IA',
+          prompting: 'Bien prompter',
+          agentsMd: 'AGENTS.md',
+        },
+      },
+      handbook: {
+        title: 'Manuel',
+        items: {
+          overview: 'Vue d’ensemble',
+          testing: 'Tests et CI',
+          ci: 'Le prompt d’infra CI',
+          contributing: 'Contribuer à la doc',
+        },
+      },
+    },
+    madeIn: 'Fait avec beaucoup trop de fonctionnalités en France',
+    builtWith: 'Construit avec',
+    hosted: 'Hébergé sur GitHub Pages',
+    edit: 'Modifier sur GitHub',
+  },
+  docs: {
+    editOnGitHub: 'Modifier cette page sur GitHub',
+    levels: { beginner: 'Débutant', intermediate: 'Intermédiaire', advanced: 'Avancé' },
+  },
+  wall: {
+    dreamFeature: 'Fonctionnalité inutile rêvée :',
+    empty: 'Le mur est étrangement vide.',
+    more: 'Ta tête ici ?',
+    cta: 'Signe-le avec ta toute première pull request →',
+  },
+  prompt: {
+    lines: 'lignes',
+    copy: 'Copier',
+    copied: 'Copié !',
+    failed: 'La copie a échoué, utilise Télécharger',
+    download: 'Télécharger',
+    readHere: 'Le lire ici',
+  },
+  notFound: {
+    title: 'Cette page a été retirée du périmètre.',
+    text: 'Bizarre, on ne retire jamais rien du périmètre. Elle traîne peut-être encore sur une branche quelque part. En attendant, voici des pages qui, elles, ont bien été livrées.',
+    backHome: 'Retour à l’accueil',
+    startLearning: 'Commencer à apprendre',
+  },
+};
+
+const messages: Record<Lang, Messages> = { en, fr };
+
+export function getMessages(lang: Lang): Messages {
+  return messages[lang];
+}
+
+/** Fumadocs' own interface text (search, table of contents, page actions…) in French. */
+export const fumadocsTranslations: Partial<Record<Lang, Partial<Translations>>> = {
+  fr: {
+    displayName: 'Français',
+    'Ask AI(AI chat button)': 'Demander à l’IA',
+    'Back to Home(404 not found page)': 'Retour à l’accueil',
+    'Choose a language(language switcher)': 'Choisir une langue',
+    'Choose a language(language switcher)(aria-label)': 'Choisir une langue',
+    'Close Banner(banner)(aria-label)': 'Fermer la bannière',
+    'Close Search(search dialog)(aria-label)': 'Fermer la recherche',
+    'Close Sidebar(aria-label)': 'Fermer la barre latérale',
+    'Close Sidebar(sidebar)(aria-label)': 'Fermer la barre latérale',
+    'Close(image zoom)(aria-label)': 'Fermer',
+    'Collapse Sidebar(sidebar)(aria-label)': 'Réduire la barre latérale',
+    'Copied Anchor Link(heading anchor)(aria-label)': 'Lien de l’ancre copié',
+    'Copied Link(accordion)(aria-label)': 'Lien copié',
+    'Copied Markdown(page actions)': 'Markdown copié',
+    'Copied Text(code block)(aria-label)': 'Texte copié',
+    'Copy Anchor Link(heading anchor)(aria-label)': 'Copier le lien de l’ancre',
+    'Copy Link(accordion)(aria-label)': 'Copier le lien',
+    'Copy Markdown(page actions)': 'Copier le Markdown',
+    'Copy Text(code block)(aria-label)': 'Copier le texte',
+    'Dark(theme switcher)(aria-label)': 'Sombre',
+    'Default(type table)': 'Par défaut',
+    'Edit on GitHub(edit page)': 'Modifier sur GitHub',
+    'Hide Sidebar(sidebar)': 'Masquer la barre latérale',
+    'Image Viewer(image zoom)(aria-label)': 'Visionneuse d’images',
+    'Language(language switcher)': 'Langue',
+    'Last updated on(page footer)': 'Dernière mise à jour le',
+    'Layout Tab(layout tab trigger)': 'Onglet',
+    'Light(theme switcher)(aria-label)': 'Clair',
+    'Next Image(image zoom)(aria-label)': 'Image suivante',
+    'Next Page(pagination)': 'Page suivante',
+    'No Headings(table of contents)': 'Aucun titre',
+    'No results found(search dialog)': 'Aucun résultat',
+    'On this page(table of contents)': 'Sur cette page',
+    'Open Search(search trigger)(aria-label)': 'Ouvrir la recherche',
+    'Open Sidebar(aria-label)': 'Ouvrir la barre latérale',
+    'Open Sidebar(sidebar)(aria-label)': 'Ouvrir la barre latérale',
+    'Open in ChatGPT(page actions)': 'Ouvrir dans ChatGPT',
+    'Open in Claude(page actions)': 'Ouvrir dans Claude',
+    'Open in Cursor(page actions)': 'Ouvrir dans Cursor',
+    'Open in GitHub(page actions)': 'Ouvrir dans GitHub',
+    'Open in Scira AI(page actions)': 'Ouvrir dans Scira AI',
+    'Open(page actions)': 'Ouvrir',
+    'Options(aria-label)': 'Options',
+    'Page Not Found(404 not found page)': 'Page introuvable',
+    'Parameters(type table)': 'Paramètres',
+    'Previous Image(image zoom)(aria-label)': 'Image précédente',
+    'Previous Page(pagination)': 'Page précédente',
+    'Prop(type table)': 'Prop',
+    'Read {url}, I want to ask questions about it.(page actions)': 'Lis {url}, je veux te poser des questions dessus.',
+    'Returns(type table)': 'Retourne',
+    'Search failed(search dialog)': 'La recherche a échoué',
+    'Search failed, showing results for {query}(search dialog)': 'La recherche a échoué, résultats pour {query}',
+    'Search(search dialog)': 'Rechercher',
+    'Search(search trigger)': 'Rechercher',
+    'Show Sidebar(sidebar)': 'Afficher la barre latérale',
+    'Skip to Content(skip link)': 'Aller au contenu',
+    'System(theme switcher)(aria-label)': 'Système',
+    'Table of Contents(inline table of contents)': 'Table des matières',
+    'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.(404 not found page)':
+      'La page que tu cherches a peut-être été supprimée, renommée, ou n’est plus disponible pour le moment.',
+    'Theme(site menu)': 'Thème',
+    'Toggle Menu(home layout header)(aria-label)': 'Ouvrir le menu',
+    'Toggle Theme(theme switcher)(aria-label)': 'Changer de thème',
+    'Type(type table)': 'Type',
+    'View as Markdown(page actions)': 'Voir en Markdown',
+  },
+};

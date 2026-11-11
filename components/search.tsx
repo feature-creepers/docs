@@ -11,12 +11,16 @@ import {
   SearchDialogOverlay,
   type SharedProps,
 } from 'fumadocs-ui/components/dialog/search';
+import { useI18n } from 'fumadocs-ui/contexts/i18n';
 import { withBasePath } from '@/lib/shared';
 
 export default function DefaultSearchDialog(props: SharedProps) {
-  // The search index is exported as a static file, so it must include the base path.
+  const { locale } = useI18n();
+  // The search index is exported as a static file, so it must include the base path. It holds both
+  // languages; `locale` keeps the results in the language of the page.
   const search = useStaticSearch({
     from: withBasePath('/api/search'),
+    locale,
   });
 
   return (

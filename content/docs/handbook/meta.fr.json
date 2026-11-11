@@ -1,0 +1,7 @@
+{
+  "title": "Manuel",
+  "description": "Quand ton projet devient sérieux",
+  "root": true,
+  "icon": "BookOpenText",
+  "pages": ["index", "testing-and-ci", "ci-infrastructure"]
+}

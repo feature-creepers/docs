@@ -1,0 +1,221 @@
+---
+title: Prépare ta machine
+description: Installe un gestionnaire de paquets, un éditeur de code et Node.js, la boîte à outils de base utilisée dans tous les autres tutoriels.
+icon: Laptop
+level: beginner
+duration: 25 min
+---
+
+Avant de construire des applis géniales (et débiles), il te faut un établi. Voici l'installation
+minimale qu'on recommande. Elle marche pour presque tous les projets de l'organisation Feature
+Creepers.
+
+| Outil | À quoi il sert |
+| --- | --- |
+| **Un gestionnaire de paquets** pour ton système | Installer des outils de dev en une seule commande |
+| **Visual Studio Code** | Écrire et lire du code |
+| **Node.js** (avec npm) | Faire tourner des outils JavaScript, et installer plein de CLI |
+| **pnpm** | Le gestionnaire de paquets qu'utilisent la plupart de nos projets |
+| **Git** | La gestion de versions, vue dans le [tutoriel suivant](/learn/git) |
+
+Tu vas avoir besoin du [terminal](/learn/terminal) pour celui-ci. C'est parti ? Choisis ton système.
+
+## 1. Un gestionnaire de paquets pour ton système [#1-a-package-manager-for-your-system]
+
+Un **gestionnaire de paquets** installe, met à jour et supprime des logiciels depuis la ligne de
+commande. Fini les installateurs téléchargés sur des sites douteux.
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+Windows 10 et 11 sont livrés avec **WinGet**. Vérifie qu'il fonctionne :
+
+```powershell
+winget --version
+```
+
+Si tu obtiens une erreur, mets à jour **App Installer** depuis le Microsoft Store.
+
+</Tab>
+<Tab value="macOS">
+
+Installe d'abord les outils en ligne de commande d'Apple (ils incluent Git et des compilateurs) :
+
+```bash
+xcode-select --install
+```
+
+Ensuite, installe **[Homebrew](https://brew.sh)**, le gestionnaire de paquets qu'utilisent tous les
+devs sur Mac :
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+À la fin, Homebrew affiche quelques commandes **« Next steps »** (prochaines étapes) pour l'ajouter à
+ton `PATH`. Lance-les, puis vérifie :
+
+```bash
+brew --version
+```
+
+</Tab>
+<Tab value="Linux">
+
+Ta distribution en a déjà un : **APT** sur Debian et Ubuntu, **DNF** sur Fedora. Mets-le à jour et
+installe les bases (les exemples utilisent APT) :
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y build-essential curl wget unzip
+```
+
+</Tab>
+</Tabs>
+
+## 2. Un éditeur de code : Visual Studio Code [#2-a-code-editor-visual-studio-code]
+
+Il existe plein d'éditeurs, mais [VS Code](https://code.visualstudio.com) est gratuit, marche
+partout, et a des extensions pour tous les langages et la plupart des agents IA.
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+```powershell
+winget install --id Microsoft.VisualStudioCode -e
+```
+
+</Tab>
+<Tab value="macOS">
+
+```bash
+brew install --cask visual-studio-code
+```
+
+</Tab>
+<Tab value="Linux">
+
+Télécharge le paquet `.deb` (Debian, Ubuntu) ou `.rpm` (Fedora) sur
+[code.visualstudio.com/download](https://code.visualstudio.com/download), puis installe-le :
+
+```bash
+sudo apt install ./code_*.deb
+```
+
+</Tab>
+</Tabs>
+
+Ouvre un nouveau terminal et vérifie que la commande `code` fonctionne. Elle ouvre le dossier courant
+dans VS Code :
+
+```bash
+code .
+```
+
+<Callout type="idea" title="Sur macOS, la commande code est introuvable ?">
+  Ouvre VS Code, appuie sur <kbd>Cmd</kbd> + <kbd>Maj</kbd> + <kbd>P</kbd>, et lance
+  **Shell Command: Install 'code' command in PATH**.
+</Callout>
+
+## 3. Node.js et npm [#3-nodejs-and-npm]
+
+**[Node.js](https://nodejs.org)** fait tourner du JavaScript en dehors du navigateur. Il fait marcher
+la plupart des outils du web, et il est livré avec **npm**, un gestionnaire de paquets pour les
+bibliothèques et les CLI JavaScript. Installe la version **LTS** (Long Term Support, la version
+stable).
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+```powershell
+winget install --id OpenJS.NodeJS.LTS -e
+```
+
+</Tab>
+<Tab value="macOS">
+
+```bash
+brew install node
+```
+
+</Tab>
+<Tab value="Linux">
+
+Les paquets des distributions sont souvent dépassés, alors utilise les instructions officielles sur
+[nodejs.org/en/download](https://nodejs.org/en/download) : choisis la version LTS, ton système, et la
+méthode « nvm » ou « fnm », puis copie les commandes qu'on te donne.
+
+</Tab>
+</Tabs>
+
+**Ferme ton terminal, ouvres-en un nouveau**, et vérifie :
+
+```bash
+node --version
+npm --version
+```
+
+Les deux devraient afficher un numéro de version, comme `v24.11.0` et `11.6.0` (les tiens seront
+sûrement plus récents).
+
+<Callout title="Besoin de plusieurs versions de Node.js ?">
+  Certains projets demandent une version précise. Les gestionnaires de versions comme
+  [fnm](https://github.com/Schniz/fnm) ou [nvm](https://github.com/nvm-sh/nvm) te permettent de
+  changer de version selon le projet. Pas besoin d'en avoir un pour commencer, mais retiens le nom
+  pour plus tard.
+</Callout>
+
+## 4. pnpm [#4-pnpm]
+
+**[pnpm](https://pnpm.io)** est une alternative à npm, plus rapide et plus économe en espace disque.
+La plupart des projets Feature Creepers l'utilisent (cherche un fichier `pnpm-lock.yaml` dans un
+projet). Installe-le avec npm :
+
+```bash
+npm install -g pnpm
+pnpm --version
+```
+
+L'option `-g` veut dire **global** : la commande `pnpm` devient disponible partout, pas seulement dans
+un projet.
+
+### npm et pnpm en 30 secondes [#npm-and-pnpm-in-30-seconds]
+
+Dans un projet JavaScript, le fichier `package.json` liste les bibliothèques dont le projet a besoin
+(ses **dépendances**) et ses **scripts** (des raccourcis pour les commandes courantes).
+
+```bash
+pnpm install          # télécharge toutes les dépendances listées dans package.json
+pnpm add confetti     # ajoute une nouvelle dépendance (oui, elle existe)
+pnpm dev              # lance le script "dev" (en général : démarre l'appli en local)
+pnpm build            # lance le script "build"
+```
+
+Les dépendances sont téléchargées dans un dossier `node_modules`. Il est énorme, c'est normal, et on
+ne le commite jamais dans Git.
+
+## 5. Windows uniquement : WSL (optionnel) [#5-windows-only-wsl-optional]
+
+Le **Windows Subsystem for Linux** (le sous-système Windows pour Linux) fait tourner un vrai Linux
+dans Windows. Tu n'en as pas besoin pour suivre nos tutoriels, mais certains outils marchent mieux
+là-dedans, et c'est un super moyen d'apprendre Linux.
+
+```powershell
+wsl --install
+```
+
+Redémarre quand on te le demande, puis ouvre **Ubuntu** depuis le menu Démarrer et suis les onglets
+**Linux** de nos tutoriels à l'intérieur.
+
+## Vérifie ton installation [#check-your-setup]
+
+Lance toutes ces commandes. Si chacune affiche une version, ton établi est prêt. 🎉
+
+```bash
+code --version
+node --version
+npm --version
+pnpm --version
+```
+
+**La suite :** [C'est quoi, Git ?](/learn/git), l'outil qui va te sauver de toi-même.

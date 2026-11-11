@@ -15,6 +15,11 @@ const config = {
   // never has to choose between a file and a folder with the same name.
   trailingSlash: true,
   images: { unoptimized: true },
+  experimental: {
+    // English and French each have their own root layout, so the 404 page needs its own document:
+    // app/global-not-found.tsx.
+    globalNotFound: true,
+  },
 };
 
 export default withMDX(config);

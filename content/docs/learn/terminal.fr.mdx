@@ -1,0 +1,238 @@
+---
+title: Le terminal et la CLI
+description: Ce que sont un terminal, un shell et une CLI, comment en ouvrir un sur ton ordinateur, et la douzaine de commandes que tu utiliseras tous les jours.
+icon: SquareTerminal
+level: beginner
+duration: 20 min
+---
+
+Dans les films, les hackers tapent du texte vert à une vitesse folle. La réalité est moins
+spectaculaire, mais l'outil existe bel et bien : le **terminal** est une fenêtre où tu pilotes ton
+ordinateur en tapant des commandes au lieu de cliquer. Presque tous les outils de dev (Git, Node.js,
+les agents de code IA…) s'utilisent depuis là, alors autant devenir copains.
+
+## Quelques mots d'abord [#a-few-words-first]
+
+| Mot | Ce que ça veut dire |
+| --- | --- |
+| **GUI** (interface graphique) | Des fenêtres, des boutons, des icônes. Ce que tu utilises tous les jours. |
+| **CLI** (interface en ligne de commande) | Un programme qu'on utilise en tapant des commandes. `git` et `claude` sont des CLI. |
+| **Terminal** | La fenêtre où tu tapes. Windows Terminal, le Terminal de macOS, iTerm2… |
+| **Shell** | Le programme, dans le terminal, qui comprend tes commandes : PowerShell, Bash, Zsh… |
+| **Ligne de commande / invite** (prompt) | La ligne où tu tapes, qui finit souvent par `$`, `%` ou `>`. |
+
+Vois ça comme ça : le **terminal** est le téléphone, le **shell** est la personne qui décroche, et
+les **CLI** sont les services que tu peux lui demander.
+
+### Mais pourquoi taper au lieu de cliquer ? [#why-would-anyone-type-instead-of-click]
+
+- **La vitesse.** Une seule commande peut faire ce qui demande 20 clics.
+- **L'automatisation.** Les commandes peuvent être enregistrées dans des scripts et rejouées à
+  l'identique, pour toujours.
+- **La puissance.** La plupart des outils de dev n'existent qu'en CLI.
+- **Les agents IA vivent là.** Claude Code et Codex lancent des commandes dans un terminal pour faire
+  leur travail. Connaître les bases te permet de comprendre ce qu'ils fabriquent.
+
+## Ouvrir un terminal [#open-a-terminal]
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+Appuie sur <kbd>Win</kbd>, tape **Terminal**, puis appuie sur <kbd>Entrée</kbd>. Windows Terminal
+s'ouvre avec **PowerShell** dedans. Ton invite ressemble à `PS C:\Users\you>`.
+
+Sur Windows 10, si Windows Terminal n'est pas installé, récupère-le sur le Microsoft Store, ou
+utilise **PowerShell** depuis le menu Démarrer.
+
+</Tab>
+<Tab value="macOS">
+
+Appuie sur <kbd>Cmd</kbd> + <kbd>Espace</kbd>, tape **Terminal**, puis appuie sur <kbd>Entrée</kbd>.
+Le shell est **Zsh**. Ton invite ressemble à `you@your-mac ~ %`.
+
+</Tab>
+<Tab value="Linux">
+
+Appuie sur <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> sur la plupart des distributions, ou
+cherche **Terminal** dans tes applications. Le shell est généralement **Bash**. Ton invite ressemble
+à `you@your-pc:~$`.
+
+</Tab>
+</Tabs>
+
+<Callout type="idea" title="Dans ces tutoriels">
+  Les commandes sont affichées sans l'invite. Quand tu vois un bloc de code, copie seulement ce qu'il
+  y a dedans.
+</Callout>
+
+## Anatomie d'une commande [#anatomy-of-a-command]
+
+La plupart des commandes ont la même forme :
+
+```bash
+git commit -m "Add confetti"
+```
+
+| Partie | Exemple | Rôle |
+| --- | --- | --- |
+| **Programme** | `git` | La CLI que tu appelles |
+| **Sous-commande** | `commit` | Ce que tu veux qu'elle fasse |
+| **Option (flag)** | `-m` | Un réglage, commence par `-` ou `--` |
+| **Argument** | `"Add confetti"` | La valeur que tu lui donnes |
+
+Presque toutes les CLI s'expliquent elles-mêmes si tu leur demandes : essaie `git --help` ou
+`node --help`.
+
+## Où suis-je ? Se déplacer [#where-am-i-moving-around]
+
+Ton terminal « se tient » toujours dans un dossier, appelé le **répertoire courant** (ou répertoire
+de travail). Par défaut, les commandes s'exécutent là.
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+```powershell
+pwd                 # affiche le dossier courant
+ls                  # liste ce qu'il contient
+cd Documents        # entre dans le dossier Documents
+cd ..               # remonte d'un niveau
+cd ~                # va dans ton dossier personnel
+```
+
+</Tab>
+<Tab value="macOS">
+
+```bash
+pwd                 # affiche le dossier courant
+ls                  # liste ce qu'il contient
+cd Documents        # entre dans le dossier Documents
+cd ..               # remonte d'un niveau
+cd ~                # va dans ton dossier personnel
+```
+
+</Tab>
+<Tab value="Linux">
+
+```bash
+pwd                 # affiche le dossier courant
+ls                  # liste ce qu'il contient
+cd Documents        # entre dans le dossier Documents
+cd ..               # remonte d'un niveau
+cd ~                # va dans ton dossier personnel
+```
+
+</Tab>
+</Tabs>
+
+Bonne nouvelle : PowerShell comprend aussi `pwd`, `ls` et `cd`, donc ces bases sont les mêmes
+partout. Le texte après `#` est un **commentaire** : le shell l'ignore.
+
+### Les chemins [#paths]
+
+Un **chemin** est l'adresse d'un fichier ou d'un dossier.
+
+- Les chemins **absolus** partent de la racine : `C:\Users\you\Documents` sur Windows,
+  `/home/you/Documents` sur Linux, `/Users/you/Documents` sur macOS.
+- Les chemins **relatifs** partent de là où tu es : `Documents/notes.txt`.
+- `.` veut dire « ce dossier », `..` veut dire « le dossier parent », et `~` veut dire « mon dossier
+  personnel ».
+
+## Les commandes du quotidien [#the-everyday-commands]
+
+| Ce que tu veux | macOS / Linux (Bash, Zsh) | Windows (PowerShell) |
+| --- | --- | --- |
+| Où suis-je ? | `pwd` | `pwd` |
+| Lister les fichiers | `ls` (`ls -la` pour les fichiers cachés) | `ls` (`ls -Force` pour les fichiers cachés) |
+| Changer de dossier | `cd folder` | `cd folder` |
+| Créer un dossier | `mkdir my-project` | `mkdir my-project` |
+| Créer un fichier vide | `touch notes.txt` | `New-Item notes.txt` |
+| Afficher un fichier | `cat notes.txt` | `cat notes.txt` |
+| Copier | `cp a.txt b.txt` | `cp a.txt b.txt` |
+| Déplacer ou renommer | `mv a.txt b.txt` | `mv a.txt b.txt` |
+| Supprimer un fichier | `rm notes.txt` | `rm notes.txt` |
+| Supprimer un dossier | `rm -r my-folder` | `rm -r my-folder` |
+| Effacer l'écran | `clear` | `clear` |
+| Ouvrir le dossier dans VS Code | `code .` | `code .` |
+
+<Callout type="warn" title="Ici, pas de corbeille">
+  `rm` supprime immédiatement et définitivement. Vérifie bien le chemin avant d'appuyer sur Entrée,
+  surtout avec `-r` (récursif). Et ne lance jamais `rm -rf /`, ni rien de ce qu'un inconnu sur
+  Internet te présente comme « une blague marrante ».
+</Callout>
+
+## Les raccourcis qui vont te sauver la vie [#shortcuts-that-will-save-your-life]
+
+- <kbd>Tab</kbd> : **complète automatiquement** les noms de fichiers et les commandes. Tape `cd Doc`
+  puis <kbd>Tab</kbd>. Sers-t'en tout le temps, ça évite aussi les fautes de frappe.
+- <kbd>↑</kbd> / <kbd>↓</kbd> : parcours ton **historique de commandes**.
+- <kbd>Ctrl</kbd> + <kbd>C</kbd> : **arrête** la commande en cours. (Eh oui, ici ça ne copie pas.)
+- <kbd>Ctrl</kbd> + <kbd>L</kbd> : efface l'écran.
+- **Copier-coller :** dans Windows Terminal, <kbd>Ctrl</kbd> + <kbd>C</kbd> copie quand du texte est
+  sélectionné et <kbd>Ctrl</kbd> + <kbd>V</kbd> colle. Sur macOS, utilise <kbd>Cmd</kbd> +
+  <kbd>C</kbd> / <kbd>Cmd</kbd> + <kbd>V</kbd>. Sur Linux, <kbd>Ctrl</kbd> + <kbd>Maj</kbd> +
+  <kbd>C</kbd> / <kbd>V</kbd>.
+
+## « Command not found » : fais connaissance avec le PATH [#command-not-found-meet-the-path]
+
+Quand tu tapes `git`, comment le shell trouve-t-il le programme ? Il cherche dans une liste de
+dossiers enregistrée dans une **variable d'environnement** appelée `PATH`.
+
+Si tu viens d'installer quelque chose et que tu obtiens `command not found` (ou `is not recognized`
+sur Windows, `n'est pas reconnu` s'il est en français), la solution la plus courante est bête mais
+efficace : **ferme le terminal et ouvres-en un nouveau**, pour qu'il recharge le `PATH`. Si ça ne
+marche pas, la doc de l'installateur explique en général comment l'ajouter à ton `PATH`.
+
+Tu peux l'afficher pour voir ce qu'il contient :
+
+```bash tab="macOS / Linux"
+echo $PATH
+```
+
+```powershell tab="Windows"
+$env:PATH -split ';'
+```
+
+## La sécurité d'abord [#stay-safe]
+
+- **Ne colle pas de commandes que tu ne comprends pas**, surtout celles avec `sudo` (droits
+  d'administrateur) ou celles qui suppriment des choses. Dans le doute, demande à quelqu'un, ou
+  demande d'abord à un agent IA de te l'expliquer.
+- **Les installateurs qui envoient un script directement dans le shell** (`curl ... | bash`,
+  `irm ... | iex`) exécutent du code venu d'Internet sur ta machine. Pas de souci **quand ils
+  viennent de sources officielles** (comme ceux de nos tutoriels, qui renvoient vers les docs
+  officielles), mais jamais quand ils sortent d'un commentaire pris au hasard.
+- **Ne colle jamais de mots de passe ou de clés d'API** dans des commandes qui finissent dans ton
+  historique ou sur une capture d'écran.
+
+## À toi de jouer [#practice-time]
+
+Crée un terrain de jeu, puis range tout :
+
+```bash tab="macOS / Linux"
+cd ~
+mkdir creeper-playground
+cd creeper-playground
+touch idea.txt
+echo "Un mode sombre pour le mode sombre" > idea.txt
+cat idea.txt
+ls
+cd ..
+rm -r creeper-playground
+```
+
+```powershell tab="Windows"
+cd ~
+mkdir creeper-playground
+cd creeper-playground
+New-Item idea.txt
+"Un mode sombre pour le mode sombre" > idea.txt
+cat idea.txt
+ls
+cd ..
+rm -r creeper-playground
+```
+
+Si ton idée s'est affichée et que le dossier a disparu à la fin, bravo : tu viens d'utiliser une CLI
+comme un vrai dev. 🎉
+
+**La suite :** [prépare ta machine](/learn/setup) avec les outils qu'on utilise partout ailleurs.

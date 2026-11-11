@@ -1,0 +1,156 @@
+---
+title: AGENTS.md, un README pour tes robots
+description: Ce qu'est un fichier AGENTS.md, quels agents le lisent, ce qu'il faut y mettre, et un modèle prêt à adapter.
+icon: FileCode
+level: beginner
+duration: 15 min
+---
+
+À chaque nouvelle session, ton agent IA se réveille **sans aucun souvenir** de ton projet. Il ne sait
+pas comment l'installer, comment lancer les tests, ni que tu détestes les points-virgules. Tu
+pourrais répéter tout ça dans chaque prompt… ou l'écrire une bonne fois pour toutes, dans un fichier
+qui s'appelle `AGENTS.md`.
+
+## C'est quoi, AGENTS.md ? [#what-is-agentsmd]
+
+`AGENTS.md` est un simple fichier Markdown à la racine de ton dépôt, écrit **pour les agents de code
+IA**. Vois-le comme un README pour robots : le `README.md` explique le projet aux humains, le
+`AGENTS.md` donne aux agents le contexte pratique dont ils ont besoin pour travailler dessus.
+
+C'est un [format ouvert](https://agents.md), désormais géré par l'Agentic AI Foundation, sous l'égide
+de la Linux Foundation, et pris en charge par la plupart des agents : **Codex, Cursor, Gemini CLI,
+GitHub Copilot, Jules, Zed, OpenCode, Aider, Windsurf, Devin, Junie, Amp**, et d'autres encore.
+
+Pas de champ obligatoire, pas de syntaxe spéciale. Juste du Markdown, avec des titres qui ont du
+sens.
+
+## Et Claude Code ? [#and-claude-code]
+
+Claude Code a son propre fichier, `CLAUDE.md`, et il lit aussi `AGENTS.md` (dans les versions
+récentes) :
+
+| Ton dépôt contient | Claude Code lit |
+| --- | --- |
+| Un `AGENTS.md` et pas de `CLAUDE.md` | Ton `AGENTS.md` |
+| Un `AGENTS.md` et un `CLAUDE.md` | Seulement ton `CLAUDE.md` |
+| Un `CLAUDE.md` qui importe `AGENTS.md` | Les deux, grâce à l'import |
+
+Notre recommandation : **écris tout dans `AGENTS.md`**, pour que tous les agents reçoivent les mêmes
+consignes. Si tu as aussi besoin d'un `CLAUDE.md` (pour des réglages propres à Claude, ou pour des
+versions plus anciennes), fais-lui importer `AGENTS.md` avec une seule ligne :
+
+```md title="CLAUDE.md"
+@AGENTS.md
+```
+
+## Ce qu'il faut y mettre [#what-to-put-in-it]
+
+Les meilleurs fichiers `AGENTS.md` répondent aux questions qu'une nouvelle recrue poserait le premier
+jour :
+
+- **Présentation du projet** : ce que c'est, en deux ou trois phrases, et les principales
+  technologies.
+- **Commandes** : comment installer, lancer, tester, linter et builder. Des commandes exactes,
+  prêtes à copier-coller.
+- **Structure du projet** : où se trouvent les choses. Seulement les dossiers importants.
+- **Style de code et conventions** : nommage, formatage, patterns à suivre, bibliothèques à
+  privilégier.
+- **Instructions de test** : comment lancer un seul test, quoi tester, ce que « terminé » veut dire.
+- **Git et pull requests** : noms de branches, style des messages de commit, ce qu'il faut vérifier
+  avant de pousser.
+- **Sécurité et pièges** : ce qu'il ne faut jamais toucher, la gestion des secrets, les pièges
+  connus.
+
+## Ce qu'il ne faut pas y mettre [#what-not-to-put-in-it]
+
+- **Des secrets.** Jamais. Le fichier est commité et lu par des outils.
+- **Des romans.** Les agents lisent tout le fichier au début de chaque session. Fais court (moins de
+  200 lignes environ) et précis. Les fichiers longs consomment du contexte et sont suivis moins
+  fidèlement.
+- **Des vœux pieux.** « Écris du code propre », ça ne sert à rien. « Indente avec 2 espaces » et
+  « Lance `pnpm test` avant de commiter », c'est utile, parce que ça se vérifie.
+- **Ce qui change toutes les semaines.** Mets plutôt un lien vers une doc.
+
+## Un modèle à adapter [#a-template-to-adapt]
+
+Voici une bonne base pour une appli web TypeScript classique. Supprime ce qui ne s'applique pas,
+ajoute ce qui est propre à ton projet.
+
+````md title="AGENTS.md"
+# AGENTS.md
+
+## Project
+
+Useless App: a to-do app with way too many features. Next.js 16 (App Router),
+TypeScript, Tailwind CSS, SQLite via Drizzle. Package manager: pnpm.
+
+## Commands
+
+- Install: `pnpm install`
+- Dev server: `pnpm dev` (http://localhost:3000)
+- Tests: `pnpm test` (Vitest). One file: `pnpm test src/lib/todo.test.ts`
+- Lint and format: `pnpm lint` / `pnpm format`
+- Type check: `pnpm typecheck`
+- Build: `pnpm build`
+
+Run `pnpm lint && pnpm typecheck && pnpm test` before saying a task is done.
+
+## Structure
+
+- `src/app/`: routes and pages
+- `src/components/`: UI components, one per file, PascalCase names
+- `src/lib/`: business logic, framework-free and unit tested
+- `src/db/`: schema and migrations (never edit old migrations, add a new one)
+
+## Conventions
+
+- TypeScript strict mode, no `any`.
+- Prefer server components; add `"use client"` only when needed.
+- Styling with Tailwind classes only, no CSS files.
+- New logic in `src/lib/` comes with tests.
+
+## Git
+
+- Branch names: `feature/...`, `fix/...`
+- Commit messages: short, imperative ("Add dark mode toggle").
+- Never commit `.env*` files or anything in `tmp/`.
+
+## Gotchas
+
+- The confetti feature uses a canvas: test it in the browser, not only in unit tests.
+- Secrets live in `.env.local`. Ask the user if a key is missing; never invent one.
+````
+
+## Les gros projets : des fichiers imbriqués [#bigger-projects-nested-files]
+
+Dans un monorepo, tu peux ajouter un `AGENTS.md` dans chaque sous-projet (par exemple
+`apps/web/AGENTS.md` et `apps/api/AGENTS.md`). Les agents utilisent le fichier **le plus proche** du
+code qu'ils modifient, donc chaque partie peut avoir ses propres commandes et ses propres règles. Et
+quoi qu'il y ait dans les fichiers, une consigne explicite dans ton prompt a toujours le dernier mot.
+
+## Génère ton premier fichier [#generate-your-first-one]
+
+Pas besoin de partir de zéro. Dans ton projet, demande à ton agent :
+
+- **Codex** : lance `/init`, il crée un `AGENTS.md`.
+- **Claude Code** : lance `/init`, il crée un `CLAUDE.md` (renomme-le en `AGENTS.md` et ajoute un
+  `CLAUDE.md` qui contient `@AGENTS.md` si tu veux les deux).
+- **N'importe quel agent** : « Explore ce projet et écris un AGENTS.md avec les commandes, la
+  structure et les conventions que tu trouves. Pas plus de 100 lignes. »
+
+Ensuite, **relis-le**. Retire ce qui est évident ou faux, et ajoute ce que l'agent ne pouvait pas
+deviner : les pièges, les habitudes de l'équipe, les « ne fais jamais ça ».
+
+## Le faire vivre [#keep-it-alive]
+
+- Quand l'agent fait **deux fois la même erreur**, ajoute une ligne à `AGENTS.md`.
+- Quand un relecteur repère quelque chose que l'agent aurait dû savoir, ajoute une ligne.
+- Quand une commande change, mets à jour le fichier dans la même pull request.
+- Relis-le comme du code : c'**est** du code, pour robots.
+
+<Callout type="idea" title="Voir un vrai exemple">
+  Ce site a son propre [`AGENTS.md`](https://github.com/feature-creepers/docs/blob/main/AGENTS.md).
+  Ouvre-le pour voir ce qu'on raconte aux agents qui travaillent sur cette doc.
+</Callout>
+
+**La suite :** tu as les bases ! Quand ton projet grandira, direction le [Manuel](/handbook).

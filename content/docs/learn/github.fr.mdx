@@ -1,0 +1,249 @@
+---
+title: C'est quoi, GitHub ?
+description: Comprends ce que GitHub ajoute à Git, crée ton compte, installe la GitHub CLI, et apprends le workflow des pull requests.
+icon: GitFork
+level: beginner
+duration: 25 min
+---
+
+Si Git est le système de sauvegarde de ton projet, **GitHub** est le cloud où vivent les sauvegardes,
+avec un réseau social pour le code en prime. Il héberge des dépôts Git en ligne et ajoute tout ce
+qu'il faut pour travailler avec d'autres personnes : discussions, revues, automatisation, et même des
+sites web. (Ce site est hébergé sur GitHub.)
+
+## Git vs GitHub [#git-vs-github]
+
+| Git | GitHub |
+| --- | --- |
+| Un programme sur ton ordinateur | Un site web (et une entreprise, qui appartient à Microsoft) |
+| Suit l'historique de tes fichiers | Héberge des dépôts en ligne |
+| Marche hors ligne | Ajoute les issues, les pull requests, les revues, Actions, Pages… |
+| Gratuit et open source | Gratuit pour les dépôts publics et privés, avec des options payantes |
+
+D'autres hébergeurs existent, comme [GitLab](https://gitlab.com) et [Codeberg](https://codeberg.org),
+et ils fonctionnent de la même façon. Feature Creepers vit sur GitHub.
+
+## Le vocabulaire [#the-vocabulary]
+
+- **Dépôt** (repository) : un projet hébergé sur GitHub, comme
+  [feature-creepers/docs](https://github.com/feature-creepers/docs) (`owner/name`).
+- **Organisation** : un compte partagé qui possède des dépôts, comme
+  [feature-creepers](https://github.com/feature-creepers).
+- **Issue** : un ticket pour signaler un bug, proposer une idée ou poser une question.
+- **Fork** : ta propre copie du dépôt de quelqu'un d'autre, pour proposer des changements sans avoir
+  les droits d'écriture.
+- **Pull request** (PR) : une demande pour fusionner ta branche dans une autre. C'est là que se passe
+  la revue de code.
+- **Review** (revue) : des commentaires, des suggestions et une approbation sur une pull request.
+- **Actions** : de l'automatisation qui tourne sur les machines de GitHub, par exemple pour tester
+  chaque pull request.
+- **Pages** : de l'hébergement gratuit de sites statiques, directement depuis un dépôt.
+- **Star** ⭐ : un favori, et une façon de dire « joli projet ».
+
+## Crée ton compte [#create-your-account]
+
+<Steps>
+<Step>
+Va sur [github.com/signup](https://github.com/signup) et crée un compte. Choisis bien ton nom
+d'utilisateur : il apparaît dans chaque URL et dans chaque commit. Quelque chose d'à peu près pro, que
+tu ne détesteras pas dans cinq ans.
+</Step>
+<Step>
+Vérifie ton adresse e-mail.
+</Step>
+<Step>
+Active la **double authentification** (2FA) dans **Settings → Password and authentication**. GitHub
+l'exige pour les personnes qui contribuent du code, et elle protège ton compte. Une appli
+d'authentification ou une passkey (clé d'accès) fait parfaitement l'affaire.
+</Step>
+<Step>
+Ajoute une photo de profil et une courte bio. Ça rend les revues plus humaines, et ça rendra super
+bien sur le [Mur des Creepers](/association/wall-of-creepers).
+</Step>
+</Steps>
+
+## Installer la GitHub CLI [#install-the-github-cli]
+
+La **GitHub CLI**, appelée `gh`, te permet de presque tout faire depuis le terminal : cloner, créer
+des dépôts, ouvrir des pull requests… Elle gère aussi l'authentification pour Git, donc tu n'auras
+jamais à taper de mot de passe.
+
+<Tabs groupId="os" persist items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+```powershell
+winget install --id GitHub.cli -e
+```
+
+</Tab>
+<Tab value="macOS">
+
+```bash
+brew install gh
+```
+
+</Tab>
+<Tab value="Linux">
+
+Suis les instructions officielles pour ta distribution sur
+[github.com/cli/cli/blob/trunk/docs/install_linux.md](https://github.com/cli/cli/blob/trunk/docs/install_linux.md).
+Pour Debian et Ubuntu, c'est un seul bloc de commandes à copier-coller.
+
+</Tab>
+</Tabs>
+
+Ouvre un nouveau terminal et vérifie :
+
+```bash
+gh --version
+```
+
+## Se connecter [#log-in]
+
+```bash
+gh auth login
+```
+
+Réponds aux questions (elles sont en anglais) :
+
+1. **Where do you use GitHub?** `GitHub.com`
+2. **Preferred protocol for Git operations?** `HTTPS`
+3. **Authenticate Git with your GitHub credentials?** `Yes`
+4. **How would you like to authenticate?** `Login with a web browser`
+
+`gh` affiche un code à usage unique et ouvre ton navigateur. Colle le code, valide, c'est fini.
+Vérifie :
+
+```bash
+gh auth status
+```
+
+Git utilise maintenant ton compte GitHub automatiquement quand tu pousses ou récupères des commits.
+
+## Cloner un dépôt [#clone-a-repository]
+
+**Cloner** télécharge un dépôt avec tout son historique :
+
+```bash
+gh repo clone feature-creepers/docs
+cd docs
+```
+
+Avec Git tout seul, l'équivalent est `git clone https://github.com/feature-creepers/docs.git`.
+
+## Mettre ton propre projet en ligne [#put-your-own-project-online]
+
+Tu te souviens de `useless-app`, dans le [tutoriel Git](/learn/git) ? Publions-le. Depuis l'intérieur
+du dossier :
+
+```bash
+gh repo create useless-app --public --source=. --push
+```
+
+Ça crée le dépôt sur GitHub, l'ajoute comme remote `origin`, et pousse tes commits. Ouvre-le dans ton
+navigateur :
+
+```bash
+gh repo view --web
+```
+
+À partir de maintenant, après chaque commit, envoie ton travail avec `git push`.
+
+## Le workflow des pull requests [#the-pull-request-workflow]
+
+C'est comme ça que travaillent presque toutes les équipes, y compris la nôtre :
+
+<Steps>
+<Step>
+
+### Partir d'un main à jour [#start-from-an-up-to-date-main]
+
+```bash
+git switch main
+git pull
+```
+
+</Step>
+<Step>
+
+### Créer une branche pour ton changement [#create-a-branch-for-your-change]
+
+```bash
+git switch -c add-confetti
+```
+
+</Step>
+<Step>
+
+### Commiter ton travail [#commit-your-work]
+
+Modifie, `git add`, `git commit`. Recommence autant que nécessaire.
+
+</Step>
+<Step>
+
+### Pousser la branche [#push-the-branch]
+
+```bash
+git push -u origin add-confetti
+```
+
+`-u` relie ta branche locale à la branche distante, donc la prochaine fois, un simple `git push`
+suffit.
+
+</Step>
+<Step>
+
+### Ouvrir une pull request [#open-a-pull-request]
+
+```bash
+gh pr create
+```
+
+`gh` te demande un titre et une description. Explique **ce que** tu as changé et **pourquoi**. Les
+captures d'écran sont les bienvenues pour tout ce qui est visuel.
+
+</Step>
+<Step>
+
+### Revue et merge [#review-and-merge]
+
+Tes coéquipiers relisent, commentent et suggèrent des changements. Les vérifications automatiques se
+lancent. Pousse de nouveaux commits sur la même branche pour prendre en compte les retours : la pull
+request se met à jour toute seule. Une fois approuvée, elle est fusionnée dans `main`. 🎉
+
+</Step>
+</Steps>
+
+<Callout title="Pas les droits d'écriture ? Forke le dépôt">
+  Tu ne peux pas pousser de branches sur des dépôts auxquels tu n'as pas accès. À la place, **forke**
+  le dépôt (ta propre copie), pousse ta branche sur ton fork, et ouvre la pull request depuis là.
+  `gh repo fork owner/repo --clone` fait le fork et le clone d'un coup. Le
+  [tutoriel suivant](/learn/first-pull-request) le montre étape par étape.
+</Callout>
+
+## Les bonnes manières sur GitHub [#good-github-manners]
+
+- **Cherche avant d'ouvrir une issue.** Quelqu'un a peut-être déjà posé la question.
+- **Écris des issues utiles** : ce que tu as fait, ce que tu attendais, ce qui s'est passé, et
+  l'erreur exacte.
+- **Garde tes pull requests petites et ciblées.** Un sujet par PR. Les reviewers vont t'adorer.
+- **Sois sympa dans les revues**, que tu les fasses ou que tu les reçoives. Lis notre
+  [code de conduite](/association/code-of-conduct).
+- **Ne pousse jamais de secrets.** GitHub repère les clés qui ont fuité, mais à ce moment-là, il est
+  déjà trop tard.
+
+## Commandes `gh` utiles [#useful-gh-commands]
+
+| Commande | Ce qu'elle fait |
+| --- | --- |
+| `gh repo clone owner/repo` | Clone un dépôt |
+| `gh repo create` | Crée un dépôt |
+| `gh repo fork owner/repo --clone` | Forke et clone |
+| `gh issue list` / `gh issue create` | Liste ou crée des issues |
+| `gh pr create` | Ouvre une pull request pour la branche courante |
+| `gh pr list` / `gh pr view --web` | Liste les PR / ouvre celle en cours dans le navigateur |
+| `gh pr checkout 42` | Récupère la pull request #42 en local pour la tester |
+| `gh pr checks` | Affiche l'état des vérifications automatiques |
+
+**La suite :** assemble le tout avec [ta première pull request](/learn/first-pull-request).

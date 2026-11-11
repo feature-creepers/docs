@@ -1,0 +1,175 @@
+---
+title: Contribuer à la doc
+description: Comment ce site est construit, comment le lancer sur ta machine, et comment écrire une page que les débutants vont adorer.
+icon: PenLine
+---
+
+Ce site est un travail d'équipe. Tu as trouvé une coquille ? Tu as une astuce ? Tu veux écrire un
+tutoriel entier ? Fonce. Chaque page a un lien **Modifier cette page sur GitHub** tout en bas, et
+tout le code source se trouve dans [feature-creepers/docs](https://github.com/feature-creepers/docs).
+Des questions ou des idées avant de te lancer ? Viens en parler sur notre [Discord](https://discord.gg/eXqmagTNrr).
+
+## Comment fonctionne le site [#how-the-site-works]
+
+Le site est construit avec [Fumadocs](https://fumadocs.dev), par-dessus [Next.js](https://nextjs.org).
+Il est exporté en site statique et publié sur GitHub Pages chaque fois que quelque chose est fusionné
+dans `main`.
+
+<Files>
+  <Folder name="app" defaultOpen>
+    <Folder name="(en)" />
+    <Folder name="fr" />
+  </Folder>
+  <Folder name="components" />
+  <Folder name="content" defaultOpen>
+    <Folder name="docs" defaultOpen>
+      <Folder name="association" />
+      <Folder name="learn" />
+      <Folder name="handbook" />
+    </Folder>
+  </Folder>
+  <Folder name="data" defaultOpen>
+    <File name="creepers.json" />
+  </Folder>
+  <File name="AGENTS.md" />
+  <File name="README.md" />
+</Files>
+
+- **`content/docs/`** contient toutes les pages, sous forme de fichiers `.mdx` (du Markdown avec des
+  composants). Chaque dossier est une section du site, et son `meta.json` fixe l'ordre des pages dans
+  la barre latérale.
+- **`app/`** et **`components/`** contiennent le code du site lui-même (mise en page, page
+  d'accueil, thème).
+- **`data/creepers.json`**, c'est le [Mur des Creepers](/association/wall-of-creepers).
+
+## Le lancer en local [#run-it-locally]
+
+Il te faut [Git](/learn/git), [Node.js](/learn/setup) 22 ou plus récent, et pnpm.
+
+```bash
+git clone https://github.com/feature-creepers/docs.git
+cd docs
+npm install -g pnpm   # une seule fois, si tu n'as pas encore pnpm
+pnpm install
+pnpm dev
+```
+
+Ouvre [http://localhost:3000](http://localhost:3000). Les pages se rechargent au fur et à mesure que
+tu les modifies.
+
+Avant d'ouvrir une pull request, lance les mêmes vérifications que notre CI :
+
+```bash
+pnpm check   # lint + vérification des types + build de production
+```
+
+## Écrire une page [#write-a-page]
+
+Crée un fichier `.mdx` dans le bon dossier, puis ajoute son nom dans le `meta.json` du dossier.
+
+```mdx title="content/docs/learn/my-tutorial.mdx"
+---
+title: Mon tutoriel
+description: Une phrase qui dit ce que le lecteur saura faire.
+icon: Sparkles
+level: beginner
+duration: 15 min
+---
+
+Paragraphe d'intro : ce qu'on va faire et pourquoi c'est utile.
+
+## Première étape
+
+...
+```
+
+- `title` et `description` sont obligatoires. La description s'affiche sous le titre, dans les
+  résultats de recherche et dans les aperçus de liens.
+- `icon` est le nom de n'importe quelle [icône Lucide](https://lucide.dev/icons) (facultatif).
+- `level` (`beginner`, `intermediate` ou `advanced`) et `duration` affichent un petit badge sous le
+  titre (facultatif, idéal pour les tutoriels).
+
+### Les composants que tu peux utiliser [#components-you-can-use]
+
+Tu peux utiliser ces composants directement dans n'importe quelle page `.mdx`, sans les importer :
+
+| Composant | À utiliser pour |
+| --- | --- |
+| `<Callout>` | Astuces (`type="idea"`), avertissements (`type="warn"`), erreurs (`type="error"`) |
+| `<Steps>` / `<Step>` | Instructions pas à pas |
+| `<Tabs items={[...]}>` / `<Tab>` | Contenu qui change selon l'OS ou l'outil |
+| `<Cards>` / `<Card>` | Liens vers d'autres pages |
+| `<Accordions>` / `<Accordion>` | FAQ et détails facultatifs |
+| `<Files>` / `<Folder>` / `<File>` | Arborescences de dossiers |
+| `<PromptFile file="/prompts/x.md" title="..." />` | Un prompt pour agents IA, avec des boutons pour le copier et le télécharger |
+
+Pour les commandes qui changent selon le système d'exploitation, les blocs de code consécutifs avec
+un attribut `tab` sont regroupés en onglets :
+
+````mdx
+```bash tab="macOS / Linux"
+ls -la
+```
+
+```powershell tab="Windows"
+Get-ChildItem -Force
+```
+````
+
+### Les deux langues [#both-languages]
+
+Le site existe en anglais et en français. Chaque page, ce sont deux fichiers côte à côte : `page.mdx`
+(anglais) et `page.fr.mdx` (français), et chaque dossier a un `meta.json` et un `meta.fr.json`.
+
+- **Nouvelle page :** crée les deux fichiers et ajoute la page dans les deux fichiers `meta`. Plus à
+  l'aise dans une langue ? Écris dans celle-là et dis-le dans ta pull request : quelqu'un de
+  l'équipage ajoute l'autre avant la fusion.
+- **Même structure :** la page française a les mêmes titres dans le même ordre, et chaque titre
+  français se termine par l'ID du titre anglais, pour que les liens et les ancres marchent dans les
+  deux langues :
+
+  ```mdx
+  ## Installer Git [#install-git]
+  ```
+
+- **Liens :** utilise les mêmes liens absolus (`/learn/git`) dans les deux langues. Le site français
+  ajoute `/fr` tout seul.
+- **Les textes de l'interface** (page d'accueil, menus, boutons) sont dans `lib/messages.ts`, dans les
+  deux langues.
+- **Style en français :** le tutoiement, et la typographie française (une espace insécable avant
+  `: ; ! ?`, « guillemets »).
+
+### Les prompts pour agents IA [#prompts-for-ai-agents]
+
+Les longs prompts que les gens confient à leurs agents (comme le [brief d'infrastructure CI](/handbook/ci-infrastructure))
+vivent sous forme de fichiers Markdown tout simples dans `public/prompts/`. Comme ça, n'importe qui
+peut télécharger le fichier exact, et une page affiche ce même fichier avec `<include>` :
+
+```mdx title="content/docs/handbook/my-prompt.mdx"
+<PromptFile file="/prompts/my-prompt.md" title="Mon prompt" />
+
+<include>../../../public/prompts/my-prompt.md</include>
+```
+
+Le fichier `.md` est la source unique : modifie-le, et le téléchargement comme la page se mettent à
+jour. Garde-le en Markdown simple (sans composants), parce que les agents le lisent tel quel.
+
+## Style d'écriture [#writing-style]
+
+Nos lecteurs débutent souvent complètement dans le développement. Écris pour eux.
+
+- **Parle au lecteur.** Tutoie-le, fais des phrases courtes, une idée par paragraphe.
+- **Explique chaque nouveau mot** la première fois qu'il apparaît, ou mets un lien vers le
+  [glossaire](/learn/glossary).
+- **Teste chaque commande** que tu écris, sur chaque OS où tu affirmes qu'elle marche.
+- **Montre le résultat attendu**, pour que les lecteurs sachent quand ça a marché.
+- **Sois drôle, pas confus.** Les blagues sont bienvenues, tant que les instructions restent
+  limpides.
+- **Mets des liens vers la doc officielle** pour tout ce qui change souvent (commandes
+  d'installation, prix, versions).
+
+## Ouvrir une pull request [#open-a-pull-request]
+
+Les pull requests, c'est nouveau pour toi ? Le tutoriel [Ta première pull request](/learn/first-pull-request)
+t'explique tout. Notre CI vérifie que le build du site passe toujours ; dès qu'un membre approuve et
+fusionne ta pull request, le site est déployé automatiquement en quelques minutes.

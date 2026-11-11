@@ -1,0 +1,186 @@
+---
+title: Bien prompter
+description: Comment demander ce que tu veux à un agent de code IA, avec une structure simple, des exemples avant/après et un modèle réutilisable.
+icon: MessageSquareText
+level: beginner
+duration: 20 min
+---
+
+Ce qui pèse le plus sur ce que tu obtiens d'un agent, c'est **ce que tu demandes, et comment tu le
+demandes**. La bonne nouvelle : prompter, ce n'est ni des formules magiques ni des astuces secrètes.
+C'est la même compétence que briefer un nouveau coéquipier.
+
+## L'état d'esprit : briefer une nouvelle recrue brillante [#the-mindset-brief-a-smart-new-teammate]
+
+Imagine une recrue brillante qui a rejoint l'équipe **ce matin**. Elle est rapide et connaît toutes
+les technologies, mais elle ne sait **rien** de ton projet, de tes objectifs ou de ce que tu as
+essayé hier. Et elle fera exactement ce que tu lui demandes : si tu demandes la mauvaise chose, elle
+construira la mauvaise chose, très efficacement.
+
+Qu'est-ce que tu lui dirais ? C'est ça, ton prompt.
+
+## Les cinq ingrédients [#the-five-ingredients]
+
+<Steps>
+<Step>
+
+### L'objectif [#the-goal]
+
+Qu'est-ce que tu veux, et **pourquoi** ? Le pourquoi compte : il permet à l'agent de prendre de
+bonnes décisions sur les détails que tu n'as pas précisés.
+
+</Step>
+<Step>
+
+### Le contexte [#the-context]
+
+Où se trouve le code concerné ? Qu'est-ce que tu as déjà essayé ? Quelle erreur vois-tu (copie-la
+**à l'identique**) ? Désigne directement les fichiers, par exemple avec `@src/settings.ts` dans
+Claude Code.
+
+</Step>
+<Step>
+
+### Les contraintes [#the-constraints]
+
+Qu'est-ce qui ne doit pas changer ? Quelles bibliothèques ou quels patterns utiliser (ou éviter) ?
+« Suis le style des composants existants », « n'ajoute pas de dépendances », « ne touche pas au
+schéma de la base de données ».
+
+</Step>
+<Step>
+
+### La définition de « terminé » [#the-definition-of-done]
+
+Comment savoir, pour toi comme pour l'agent, que ça marche ? « Les tests passent », « le build de la
+page passe », « cliquer sur Enregistrer affiche un message de succès », « ajoute d'abord un test qui
+reproduit le bug ».
+
+</Step>
+<Step>
+
+### La taille de la réponse [#the-size-of-the-answer]
+
+Un fichier ou dix ? D'abord un plan, ou directement du code ? Une explication pour débutant, ou
+juste le diff ?
+
+</Step>
+</Steps>
+
+Tu n'as pas besoin des cinq à chaque fois. Un mini-correctif tient en une phrase. Mais quand les
+résultats te déçoivent, c'est presque toujours qu'il manque un ingrédient.
+
+## Avant / après [#before-and-after]
+
+### Corriger un bug [#fixing-a-bug]
+
+```text title="❌ Flou"
+répare le bouton enregistrer
+```
+
+```text title="✅ Clair"
+Sur la page /settings, cliquer sur "Enregistrer" ne fait rien dans Firefox (ça
+marche dans Chrome). La console affiche : "TypeError: crypto.randomUUID is not a function".
+Le gestionnaire du clic est dans src/settings/save.ts.
+
+Trouve la cause et corrige-la. Ensuite, ajoute un test qui l'aurait détectée.
+Ne change pas la mise en page du formulaire.
+```
+
+Le second donne le symptôme, l'erreur exacte, où chercher, ce que « terminé » veut dire et ce qu'il
+ne faut pas toucher. L'agent peut se mettre directement au travail au lieu de deviner.
+
+### Ajouter une fonctionnalité [#adding-a-feature]
+
+```text title="❌ Flou"
+ajoute un mode sombre
+```
+
+```text title="✅ Clair"
+Ajoute un mode sombre à l'appli.
+
+- Par défaut, suis le réglage du système de l'utilisateur, avec un bouton
+  dans l'en-tête pour le forcer. Mémorise le choix dans localStorage.
+- On utilise Tailwind : utilise la variante `dark:`, pas de nouvelle dépendance.
+- Commence par lister les composants qui ont des couleurs codées en dur, et
+  propose un plan avant de modifier quoi que ce soit.
+```
+
+### Apprendre quelque chose [#learning-something]
+
+```text title="✅ Parfait pour apprendre"
+Je débute en React. Explique-moi ce que fait useEffect dans
+src/components/Clock.tsx, ligne par ligne, comme si tu parlais à un débutant.
+Ensuite, propose-moi un petit exercice pour m'entraîner. Ne modifie aucun code.
+```
+
+Les agents sont des profs fantastiques, d'une patience infinie. Profites-en.
+
+## Les techniques qui marchent [#techniques-that-work]
+
+**Planifie avant de coder.** Pour tout ce qui dépasse un petit correctif, demande d'abord un plan (ou
+utilise le mode plan dans Claude Code). Lis-le, corrige-le, puis laisse l'agent l'exécuter. Corriger
+un plan prend une minute ; corriger 500 lignes de code à côté de la plaque prend une soirée.
+
+**Une tâche à la fois.** On sait, tu es un Feature Creeper et tu veux 42 fonctionnalités. Demande-les
+**une par une**. Les petites étapes sont plus faciles à relire, plus faciles à annuler, et donnent de
+meilleurs résultats.
+
+**Montre un exemple.** « Fais comme le composant `UserCard` » ou « suis le pattern de
+`api/projects.ts` », c'est plus efficace qu'une longue description.
+
+**Demande-lui de vérifier son travail.** « Lance les tests », « lance le build », « démarre l'appli et
+vérifie que la page se charge ». Les agents qui vérifient leur propre travail font beaucoup moins
+d'erreurs.
+
+**Invite-le à poser des questions.** Termine par « Si quelque chose n'est pas clair, pose-moi la
+question avant de commencer. » Il le fera.
+
+**Corrige le tir tôt.** Si l'agent part dans la mauvaise direction, interromps-le
+(<kbd>Échap</kbd>) et explique pourquoi. N'attends pas qu'il ait fini de faire la mauvaise chose.
+
+**Repars de zéro quand tu changes de sujet.** Les longues conversations accumulent du bruit. Quand tu
+passes à une nouvelle tâche, démarre une nouvelle conversation (`/clear` dans Claude Code, `/new` dans
+Codex, un nouveau thread dans T3 Code).
+
+**Mets ce qui revient tout le temps dans AGENTS.md.** Si tu répètes les mêmes consignes dans chaque
+prompt (« utilise pnpm », « lance les tests avec… »), écris-les une bonne fois pour toutes dans un
+fichier [`AGENTS.md`](/learn/agents-md).
+
+## Ce qu'il faut éviter [#things-to-avoid]
+
+- **Les demandes floues** : « améliore ça », « répare-le », « nettoie le code ». Améliorer comment ?
+  Réparer quoi ?
+- **Les méga-prompts** qui demandent dix choses sans rapport d'un coup.
+- **CRIER ET METTRE DES « IMPORTANT !!! » PARTOUT.** Les modèles récents suivent très bien des
+  consignes calmes et claires. Explique plutôt *pourquoi* quelque chose compte.
+- **Les contradictions** : « fais simple », suivi d'une liste de 15 exigences.
+- **Les secrets** : ne colle jamais de clés API, de mots de passe ou de données privées dans un
+  prompt.
+- **La confiance aveugle** : une réponse sûre d'elle n'est pas forcément une réponse juste. Relis et
+  teste.
+
+## Un modèle à copier [#a-template-to-copy]
+
+```text title="prompt-template.txt"
+Objectif : <ce que tu veux, en une ou deux phrases>
+Pourquoi : <la raison, le besoin de l'utilisateur, l'impact du bug>
+
+Contexte :
+- Fichiers concernés : <chemins>
+- Ce que j'ai essayé / ce que je vois : <messages d'erreur exacts, observations>
+
+Contraintes :
+- <ce qui ne doit pas changer, bibliothèques à utiliser ou à éviter, style à suivre>
+
+Terminé quand :
+- <les tests passent / le build passe / un comportement que tu peux vérifier>
+
+Commence par <proposer un plan | me poser des questions | écrire un test qui échoue>.
+```
+
+Remplis ce qui est utile, supprime le reste. Au bout de quelques semaines, tu n'auras plus besoin du
+modèle.
+
+**La suite :** les [bonnes pratiques](/learn/best-practices) pour bosser avec des agents au
+quotidien.

@@ -17,8 +17,8 @@ is exported as a static website and published on GitHub Pages every time somethi
 
 <Files>
   <Folder name="app" defaultOpen>
-    <Folder name="(home)" />
-    <Folder name="(docs)" />
+    <Folder name="(en)" />
+    <Folder name="fr" />
   </Folder>
   <Folder name="components" />
   <Folder name="content" defaultOpen>
@@ -112,6 +112,26 @@ ls -la
 Get-ChildItem -Force
 ```
 ````
+
+### Both languages
+
+The site exists in English and in French. Every page is two files side by side: `page.mdx`
+(English) and `page.fr.mdx` (French), and each folder has a `meta.json` and a `meta.fr.json`.
+
+- **New page:** create both files and list the page in both `meta` files. More comfortable in one
+  language? Write that one and say so in your pull request: someone from the crew adds the other
+  before it is merged.
+- **Same structure:** the French page has the same headings in the same order, and each French
+  heading ends with the ID of the English one, so links and anchors work in both languages:
+
+  ```mdx
+  ## Installer Git [#install-git]
+  ```
+
+- **Links:** use the same absolute links (`/learn/git`) in both languages. The French site adds `/fr`
+  by itself.
+- **Interface text** (home page, menus, buttons) lives in `lib/messages.ts`, in both languages.
+- **French style:** "tu", and French typography (a no-break space before `: ; ! ?`, « guillemets »).
 
 ### Prompts for AI agents
 

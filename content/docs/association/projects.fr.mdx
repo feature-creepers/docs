@@ -1,0 +1,126 @@
+---
+title: Projets
+description: Ce que les Feature Creepers ont créé et livré, et comment lancer ton propre projet avec l'équipage.
+icon: Rocket
+---
+
+De vrais projets, utilisés par de vraies personnes, créés par des gens incapables d'arrêter d'ajouter
+des trucs.
+
+## Livrés [#shipped]
+
+### Radio Creep Bot [#radio-creep-bot]
+
+<ProjectLogo src="/projects/radio-creep-bot.svg" name="Radio Creep Bot" />
+
+**Le DJ de la radio 24 h/24 de notre serveur Discord.** Un bot Discord officiel qui transforme la
+radio en juke-box, piloté depuis le PC de la radio. Il ne rejoint jamais le salon vocal pour capter
+le son : il pilote l'appli Apple Music comme le ferait un lecteur d'écran, et indique au serveur ce
+qui passe.
+
+- **Fonctionnalités :** recherche dans la bibliothèque de la radio et dans tout le catalogue Apple
+  Music, demandes de morceaux avec modes de validation, vote pour passer un morceau, favoris,
+  playlists, volume, une station automatique quand la file d'attente est vide pour que la radio ne
+  s'arrête jamais, et le bot peut même diffuser la radio lui-même… un cas d'école de feature creep.
+- **Stack :** Python 3.12, discord.py, les API Windows de gestion des médias et UI Automation.
+- **Liens :** [code source](https://github.com/feature-creepers/radio-creep-bot)
+
+### Marianne [#marianne]
+
+<ProjectLogo src="/projects/marianne.png" name="Marianne" />
+
+**Un assistant citoyen sur ordinateur, pour les personnes qui vivent en France.** Droits, démarches,
+papiers et échéances, informations publiques : Marianne t'aide à t'y retrouver dans l'administration
+française. Elle fonctionne avec ton propre agent en ligne de commande ([Claude Code](/learn/claude-code),
+[Codex](/learn/codex) ou Mistral Vibe), en passant uniquement par ses propres outils, et garde tout
+dans une seule archive chiffrée sur ton ordinateur.
+
+- **Statut :** alpha. Un projet indépendant, sans lien avec l'État français ni aucune administration.
+- **Stack :** TypeScript, Electron, un workspace npm avec son propre SDK pour les services
+  complémentaires, un site web en Astro, local-first et respectueux de la vie privée.
+- **Liens :** [marianne.app](https://marianne.app/) ·
+  [code source](https://github.com/feature-creepers/marianne)
+
+### Audio Enhancer [#audio-enhancer]
+
+<ProjectLogo src="/projects/audio-enhancer.svg" name="Audio Enhancer" />
+
+**Un outil en ligne de commande qui affine le spectre des fichiers MP3 compressés.** Égalisation
+corrective adaptative, dynamique légère, et le même volume perçu que l'original : il corrige au lieu
+d'amplifier, donc pas de son gonflé à l'excès. Le mode par lots traite un dossier entier et conserve
+les tags ID3.
+
+- **Fonctionnalités :** trois presets (gentle, balanced, aggressive), un mode d'analyse à blanc
+  (dry-run), et en option un nettoyage par IA des artefacts de compression et une restauration des
+  hautes fréquences.
+- **Stack :** Python, FFmpeg, et en option les modèles DeepFilterNet et AudioSR.
+- **Liens :** [code source](https://github.com/feature-creepers/audio-enhancer)
+
+## Plus de projets sur notre GitHub [#more-on-our-github]
+
+Encore quelques projets publics de l'équipage :
+
+- **[Suntzu](https://github.com/feature-creepers/suntzu) :** une extension de navigateur qui donne
+  des infos de matchmaking pour FACEIT ([suntzu.gg](https://suntzu.gg)).
+- **[csbot](https://github.com/feature-creepers/csbot) :** un compagnon sur second écran pour les
+  équipes de Counter-Strike 2.
+
+Tout est à voir sur [github.com/feature-creepers](https://github.com/feature-creepers).
+
+## Lancer ton propre projet [#start-your-own-project]
+
+Tu as une idée ? Parfait, c'est littéralement la seule condition d'entrée.
+
+<Steps>
+<Step>
+
+### Fais ton pitch [#pitch-it]
+
+Parles-en sur notre [Discord](https://discord.gg/eXqmagTNrr), ou ouvre une issue sur le
+[dépôt de la doc](https://github.com/feature-creepers/docs/issues/new/choose). Explique ce que ça fait, pourquoi c'est fun, et ce que tu veux apprendre
+en le construisant. « Parce que ce serait hilarant » est une raison valable.
+
+</Step>
+<Step>
+
+### Obtiens un dépôt [#get-a-repository]
+
+Un membre de l'organisation lui crée un dépôt dans
+[feature-creepers](https://github.com/feature-creepers), ou y transfère le tien.
+
+</Step>
+<Step>
+
+### Configure-le correctement [#set-it-up-properly]
+
+Chaque projet Feature Creepers a, au minimum :
+
+- un `README.md` qui explique ce que c'est et comment le lancer,
+- un [`AGENTS.md`](/learn/agents-md) pour que les agents IA (et les humains) connaissent les commandes et les conventions,
+- un `.gitignore` qui garde les secrets et les fichiers de build hors de Git.
+
+</Step>
+<Step>
+
+### Construis, livre, ajoute des fonctionnalités [#build-ship-add-features]
+
+Ouvre des issues pour tes idées, travaille dans des branches, relis les pull requests des autres (et
+fais relire les tiennes), et livre tôt. Quand le projet grandit, le [Manuel](/handbook) explique
+comment ajouter des tests et de la CI.
+
+</Step>
+</Steps>
+
+## Règles des projets [#project-rules]
+
+Quelques règles qu'on a apprises à la dure :
+
+- **Uniquement des créations originales.** Pas de graphismes, de sons, de noms ou de designs copiés
+  de jeux ou d'applis existants, et pas de fichiers protégés par le droit d'auteur dans nos dépôts.
+  La parodie et l'inspiration, oui ; le copier-coller, non.
+- **Les secrets ne vont jamais dans Git.** Les clés d'API, mots de passe et tokens vivent dans un
+  fichier `.env` local, ignoré par Git. Toujours.
+- **Le bazar local reste local.** Les fichiers de brouillon vont dans un dossier ignoré (on aime
+  bien `tmp/`).
+- **Sois honnête sur l'état du projet.** Un README qui dit « pré-alpha, probablement cassé » vaut
+  mieux qu'un README qui promet la lune. (On vise quand même la lune. 🚀🚀🌙)

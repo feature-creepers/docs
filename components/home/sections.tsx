@@ -18,9 +18,13 @@ import { DiscordIcon, GithubIcon } from '@/components/icons';
 import { LogoMark } from '@/components/logo';
 import { ProjectLogo } from '@/components/project-logo';
 import { cn } from '@/lib/cn';
+import { type Lang, localePath } from '@/lib/i18n';
+import { getMessages, type Messages } from '@/lib/messages';
 import { links } from '@/lib/shared';
 import { FeatureMarquee } from './marquee';
 import { Terminal } from './terminal';
+
+type HomeText = Messages['home'];
 
 const buttonBase =
   'inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fd-ring';
@@ -44,7 +48,9 @@ function SectionHeading({ eyebrow, title, children }: { eyebrow: string; title: 
   );
 }
 
-function Hero() {
+function Hero({ lang, t }: { lang: Lang; t: HomeText }) {
+  const hero = t.hero;
+
   return (
     <section className="relative overflow-hidden">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-grid" />
@@ -65,30 +71,27 @@ function Hero() {
         <div className="min-w-0">
           <p className="mb-6 inline-flex items-center gap-2 rounded-full border bg-fd-card/70 px-3 py-1 text-xs font-medium text-fd-muted-foreground backdrop-blur">
             <span aria-hidden="true">🚀🚀🌙</span>
-            Developer association · France · since 2022
+            {hero.badge}
           </p>
           <h1 className="font-display text-[2.6rem] font-extrabold leading-[1.04] tracking-tight sm:text-6xl lg:text-5xl xl:text-[3.9rem]">
-            Build awesome apps.
-            <br />
-            And dumb ones.
-            <br />
-            <span className="text-gradient">With way too many features.</span>
+            {hero.titleLines.map((line) => (
+              <span key={line}>
+                {line}
+                <br />
+              </span>
+            ))}
+            <span className="text-gradient">{hero.titleHighlight}</span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-fd-muted-foreground">
-            Feature Creepers is a crew of developers who build for the fun of it. We ship side projects, games and
-            gloriously useless features, and we help newcomers fall in love with code too.
-          </p>
+          <p className="mt-6 max-w-xl text-lg text-fd-muted-foreground">{hero.intro}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/learn" className={buttonPrimary}>
-              Start learning <ArrowRight className="size-4" aria-hidden="true" />
+            <Link href={localePath(lang, '/learn')} className={buttonPrimary}>
+              {hero.startLearning} <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
             <a href={links.discord} target="_blank" rel="noreferrer noopener" className={buttonDiscord}>
-              <DiscordIcon className="size-4" /> Join our Discord
+              <DiscordIcon className="size-4" /> {hero.joinDiscord}
             </a>
           </div>
-          <p className="mt-6 text-sm text-fd-muted-foreground">
-            No experience required. Bad ideas welcome. Scope creep encouraged.
-          </p>
+          <p className="mt-6 text-sm text-fd-muted-foreground">{hero.footnote}</p>
         </div>
 
         <div className="relative min-w-0">
@@ -100,99 +103,60 @@ function Hero() {
           >
             🌙
           </span>
-          <Terminal />
+          <Terminal t={t.terminal} />
         </div>
       </div>
     </section>
   );
 }
 
-const paths = [
-  {
-    href: '/association',
-    icon: Users,
-    title: 'The Association',
-    text: 'Who we are, what we believe in, what we do together, and how to join. The "serious" part. It is short.',
-    cta: 'Meet the crew',
-    accent: 'from-fc-violet/25',
-  },
-  {
-    href: '/learn',
-    icon: GraduationCap,
-    title: 'Learn',
-    text: 'From "what is a terminal?" to shipping with AI coding agents. Beginner-friendly, no gatekeeping, no dumb questions.',
-    cta: 'Start the path',
-    accent: 'from-fc-lime/25',
-  },
-  {
-    href: '/handbook',
-    icon: BookOpenText,
-    title: 'Handbook',
-    text: 'For when your toy project becomes a real app: tests, continuous integration and infrastructure that keeps up.',
-    cta: 'Open the handbook',
-    accent: 'from-fc-orange/25',
-  },
-];
+function Paths({ lang, t }: { lang: Lang; t: HomeText }) {
+  const paths = [
+    { key: 'association', href: '/association', icon: Users, accent: 'from-fc-violet/25' },
+    { key: 'learn', href: '/learn', icon: GraduationCap, accent: 'from-fc-lime/25' },
+    { key: 'handbook', href: '/handbook', icon: BookOpenText, accent: 'from-fc-orange/25' },
+  ] as const;
 
-function Paths() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-24">
-      <SectionHeading eyebrow="Pick your door" title="Three ways in">
-        Whether you want to join, learn, or level up a project that got out of hand.
+      <SectionHeading eyebrow={t.paths.eyebrow} title={t.paths.title}>
+        {t.paths.text}
       </SectionHeading>
       <div className="grid gap-5 md:grid-cols-3">
-        {paths.map(({ href, icon: Icon, title, text, cta, accent }) => (
-          <Link
-            key={href}
-            href={href}
-            className="group relative overflow-hidden rounded-2xl border bg-fd-card p-6 transition-all hover:-translate-y-1 hover:border-fd-primary/50 hover:shadow-xl hover:shadow-fc-violet/5"
-          >
-            <div
-              aria-hidden="true"
-              className={cn('absolute inset-x-0 top-0 h-32 bg-gradient-to-b to-transparent opacity-70', accent)}
-            />
-            <div className="relative">
-              <span className="mb-5 inline-flex size-11 items-center justify-center rounded-xl border bg-fd-background">
-                <Icon className="size-5 text-fd-primary" aria-hidden="true" />
-              </span>
-              <h3 className="font-display text-xl font-bold">{title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-fd-muted-foreground">{text}</p>
-              <p className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-fd-primary">
-                {cta}{' '}
-                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-              </p>
-            </div>
-          </Link>
-        ))}
+        {paths.map(({ key, href, icon: Icon, accent }) => {
+          const path = t.paths[key];
+          return (
+            <Link
+              key={href}
+              href={localePath(lang, href)}
+              className="group relative overflow-hidden rounded-2xl border bg-fd-card p-6 transition-all hover:-translate-y-1 hover:border-fd-primary/50 hover:shadow-xl hover:shadow-fc-violet/5"
+            >
+              <div
+                aria-hidden="true"
+                className={cn('absolute inset-x-0 top-0 h-32 bg-gradient-to-b to-transparent opacity-70', accent)}
+              />
+              <div className="relative">
+                <span className="mb-5 inline-flex size-11 items-center justify-center rounded-xl border bg-fd-background">
+                  <Icon className="size-5 text-fd-primary" aria-hidden="true" />
+                </span>
+                <h3 className="font-display text-xl font-bold">{path.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-fd-muted-foreground">{path.text}</p>
+                <p className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-fd-primary">
+                  {path.cta}{' '}
+                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                </p>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );
 }
 
-const discordPerks = [
-  {
-    emoji: '💬',
-    title: 'Ask anything',
-    text: 'Stuck on a tutorial or a bug? Ask. Someone here has broken the same thing before.',
-  },
-  {
-    emoji: '🛠️',
-    title: 'Build together',
-    text: 'Pitch an idea, find people for your project, pair up, get your pull requests reviewed.',
-  },
-  {
-    emoji: '📣',
-    title: 'Show & tell',
-    text: 'Shipped something? Broke something spectacularly? Show it, we want to see.',
-  },
-  {
-    emoji: '📻',
-    title: 'A 24/7 radio',
-    text: 'Music all day, DJ’d by our own Radio Creep Bot. Request a song, vote to skip.',
-  },
-];
+function Community({ t }: { t: HomeText }) {
+  const c = t.community;
 
-function Community() {
   return (
     <section className="mx-auto max-w-6xl px-6 pb-24">
       <div className="relative overflow-hidden rounded-3xl border bg-fd-card">
@@ -202,31 +166,24 @@ function Community() {
         />
         <div className="relative grid gap-10 p-8 md:p-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
           <div>
-            <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-fc-discord">
-              Where the crew hangs out
-            </p>
+            <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-fc-discord">{c.eyebrow}</p>
             <h2 className="font-display text-3xl font-bold tracking-tight md:text-4xl">
-              Come say hi on <span className="text-fc-discord">Discord</span>
+              {c.titleStart} <span className="text-fc-discord">Discord</span>
             </h2>
-            <p className="mt-4 text-fd-muted-foreground">
-              Our Discord server is where the crew lives: questions, help, show & tell, build sessions and a radio that
-              never stops. The code lives on our GitHub organization. That is it: two places, no newsletter, no spam.
-            </p>
+            <p className="mt-4 text-fd-muted-foreground">{c.text}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a href={links.discord} target="_blank" rel="noreferrer noopener" className={buttonDiscord}>
-                <DiscordIcon className="size-4" /> Join our Discord
+                <DiscordIcon className="size-4" /> {c.joinDiscord}
               </a>
               <a href={links.org} target="_blank" rel="noreferrer noopener" className={buttonSecondary}>
-                <GithubIcon className="size-4" /> Our GitHub
+                <GithubIcon className="size-4" /> {c.github}
               </a>
             </div>
-            <p className="mt-5 text-sm text-fd-muted-foreground">Open to everyone. Beginners very welcome.</p>
+            <p className="mt-5 text-sm text-fd-muted-foreground">{c.note}</p>
           </div>
 
           <div className="rounded-2xl border bg-fd-background/80 p-5 shadow-2xl shadow-fc-discord/10 backdrop-blur">
-            <p className="font-mono text-[11px] uppercase tracking-wider text-fd-muted-foreground">
-              You have been invited to join a server
-            </p>
+            <p className="font-mono text-[11px] uppercase tracking-wider text-fd-muted-foreground">{c.invite}</p>
             <div className="mt-3 flex items-center gap-3">
               <span className="fc-logo">
                 <LogoMark className="size-12" />
@@ -234,7 +191,7 @@ function Community() {
               <div className="min-w-0">
                 <p className="font-display font-bold">Feature Creepers</p>
                 <p className="truncate text-xs text-fd-muted-foreground">
-                  <span aria-hidden="true">🚀🚀🌙</span> Developers who build for the fun of it
+                  <span aria-hidden="true">🚀🚀🌙</span> {c.serverTagline}
                 </p>
               </div>
               <a
@@ -243,11 +200,11 @@ function Community() {
                 rel="noreferrer noopener"
                 className="ml-auto shrink-0 rounded-md bg-fc-discord px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-fc-discord/85"
               >
-                Join
+                {c.join}
               </a>
             </div>
             <ul className="mt-5 grid gap-3 border-t pt-5 sm:grid-cols-2">
-              {discordPerks.map((perk) => (
+              {c.perks.map((perk) => (
                 <li key={perk.title} className="flex gap-3">
                   <span aria-hidden="true" className="text-xl">
                     {perk.emoji}
@@ -266,33 +223,14 @@ function Community() {
   );
 }
 
-const creed = [
-  {
-    title: 'Every idea deserves a branch.',
-    text: 'Dumb ideas are how good ideas get prototyped. Nobody here will ask "but why?" Well, they will, but out of curiosity.',
-  },
-  {
-    title: 'Ship it, then laugh at it.',
-    text: 'Done and silly beats perfect and imaginary. A deployed joke teaches you more than a planned masterpiece.',
-  },
-  {
-    title: 'Nobody learns alone.',
-    text: 'Ask questions, pair up, review each other’s code. Kindly. Everybody was a beginner who broke production once.',
-  },
-  {
-    title: 'Use the robots, keep the brain.',
-    text: 'AI coding agents are power tools. We use them a lot, and we stay the ones who understand and own the code.',
-  },
-];
-
-function Creed() {
+function Creed({ lang, t }: { lang: Lang; t: HomeText }) {
   return (
     <section className="relative overflow-hidden border-y bg-fd-muted/30">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-grid opacity-60" />
       <div className="relative mx-auto max-w-6xl px-6 py-24">
-        <SectionHeading eyebrow="The creed" title="What a Feature Creeper believes" />
+        <SectionHeading eyebrow={t.creed.eyebrow} title={t.creed.title} />
         <ol className="grid gap-5 sm:grid-cols-2">
-          {creed.map((item, i) => (
+          {t.creed.items.map((item, i) => (
             <li key={item.title} className="flex gap-4 rounded-2xl border bg-fd-card/80 p-6 backdrop-blur">
               <span className="font-display text-4xl font-extrabold text-gradient">
                 {String(i + 1).padStart(2, '0')}
@@ -305,8 +243,8 @@ function Creed() {
           ))}
         </ol>
         <p className="mt-10 text-center">
-          <Link href="/association/mission" className={buttonSecondary}>
-            Read the full manifesto
+          <Link href={localePath(lang, '/association/mission')} className={buttonSecondary}>
+            {t.creed.manifesto}
           </Link>
         </p>
       </div>
@@ -314,35 +252,30 @@ function Creed() {
   );
 }
 
-const steps = [
-  { href: '/learn/terminal', icon: SquareTerminal, title: 'The terminal', text: 'Talk to your computer in text.' },
-  { href: '/learn/setup', icon: Laptop, title: 'Set up your machine', text: 'Editor, Node.js, package managers.' },
-  { href: '/learn/git', icon: GitBranch, title: 'Git', text: 'Save points for your code.' },
-  { href: '/learn/github', icon: GithubIcon, title: 'GitHub', text: 'Where code lives and people meet.' },
-  {
-    href: '/learn/first-pull-request',
-    icon: GitPullRequest,
-    title: 'Your first pull request',
-    text: 'Sign the Wall of Creepers.',
-  },
-  { href: '/learn/ai-agents', icon: Bot, title: 'AI coding agents', text: 'Claude Code, Codex, T3 Code.' },
-  { href: '/learn/prompting', icon: MessageSquareText, title: 'Prompting', text: 'Ask well, get good code.' },
-  { href: '/learn/agents-md', icon: FileCode2, title: 'AGENTS.md', text: 'A README for your robots.' },
-  { href: '/handbook/testing-and-ci', icon: FlaskConical, title: 'Tests & CI', text: 'Ship without fear.' },
-];
+function LearningPath({ lang, t }: { lang: Lang; t: HomeText }) {
+  const s = t.learningPath.steps;
+  const steps = [
+    { href: '/learn/terminal', icon: SquareTerminal, ...s.terminal },
+    { href: '/learn/setup', icon: Laptop, ...s.setup },
+    { href: '/learn/git', icon: GitBranch, ...s.git },
+    { href: '/learn/github', icon: GithubIcon, ...s.github },
+    { href: '/learn/first-pull-request', icon: GitPullRequest, ...s.firstPullRequest },
+    { href: '/learn/ai-agents', icon: Bot, ...s.aiAgents },
+    { href: '/learn/prompting', icon: MessageSquareText, ...s.prompting },
+    { href: '/learn/agents-md', icon: FileCode2, ...s.agentsMd },
+    { href: '/handbook/testing-and-ci', icon: FlaskConical, ...s.testing },
+  ];
 
-function LearningPath() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-24">
-      <SectionHeading eyebrow="The learning path" title="From zero to shipping, one step at a time">
-        Never opened a terminal? Perfect, that is step one. Every tutorial is written for real beginners and takes less
-        time than a coffee break (a long one).
+      <SectionHeading eyebrow={t.learningPath.eyebrow} title={t.learningPath.title}>
+        {t.learningPath.text}
       </SectionHeading>
       <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {steps.map(({ href, icon: Icon, title, text }, i) => (
           <li key={href}>
             <Link
-              href={href}
+              href={localePath(lang, href)}
               className="group flex h-full items-center gap-4 rounded-xl border bg-fd-card p-4 transition-colors hover:border-fd-primary/50 hover:bg-fd-accent/40"
             >
               <span className="relative flex size-11 shrink-0 items-center justify-center rounded-lg bg-fd-muted">
@@ -363,38 +296,39 @@ function LearningPath() {
   );
 }
 
-const projects = [
-  {
-    name: 'Radio Creep Bot',
-    logo: '/projects/radio-creep-bot.svg',
-    text: 'The DJ of our Discord’s 24/7 radio. Search all of Apple Music, request songs, vote to skip, save favorites. It drives the radio PC’s Apple Music like a screen reader would, and the music never stops.',
-    tags: ['Python', 'discord.py', 'Apple Music', 'Windows'],
-    links: [{ label: 'Source', href: 'https://github.com/feature-creepers/radio-creep-bot' }],
-  },
-  {
-    name: 'Marianne',
-    logo: '/projects/marianne.png',
-    text: 'A desktop citizen assistant for people living in France: rights, formalities, papers and deadlines. It runs on your own Claude Code, Codex or Mistral Vibe, and keeps everything in an encrypted archive on your computer.',
-    tags: ['TypeScript', 'Electron', 'Local-first', 'Claude Code'],
-    links: [
-      { label: 'marianne.app', href: 'https://marianne.app/' },
-      { label: 'Source', href: 'https://github.com/feature-creepers/marianne' },
-    ],
-  },
-  {
-    name: 'Audio Enhancer',
-    logo: '/projects/audio-enhancer.svg',
-    text: 'A command-line tool that refines the spectrum of compressed MP3s: adaptive corrective EQ, light dynamics, and the same perceived loudness. No over-boosting. Optional AI cleanup for artifacts.',
-    tags: ['Python', 'FFmpeg', 'CLI', 'Audio'],
-    links: [{ label: 'Source', href: 'https://github.com/feature-creepers/audio-enhancer' }],
-  },
-];
+function Projects({ lang, t }: { lang: Lang; t: HomeText }) {
+  const p = t.projects;
+  const projects = [
+    {
+      name: 'Radio Creep Bot',
+      logo: '/projects/radio-creep-bot.svg',
+      text: p.radioCreepBot,
+      tags: ['Python', 'discord.py', 'Apple Music', 'Windows'],
+      links: [{ label: p.source, href: 'https://github.com/feature-creepers/radio-creep-bot' }],
+    },
+    {
+      name: 'Marianne',
+      logo: '/projects/marianne.png',
+      text: p.marianne,
+      tags: ['TypeScript', 'Electron', 'Local-first', 'Claude Code'],
+      links: [
+        { label: 'marianne.app', href: 'https://marianne.app/' },
+        { label: p.source, href: 'https://github.com/feature-creepers/marianne' },
+      ],
+    },
+    {
+      name: 'Audio Enhancer',
+      logo: '/projects/audio-enhancer.svg',
+      text: p.audioEnhancer,
+      tags: ['Python', 'FFmpeg', 'CLI', 'Audio'],
+      links: [{ label: p.source, href: 'https://github.com/feature-creepers/audio-enhancer' }],
+    },
+  ];
 
-function Projects() {
   return (
     <section className="mx-auto max-w-6xl px-6 pb-24">
-      <SectionHeading eyebrow="Made by creepers" title="Things we shipped (with extra features)">
-        Real projects, used by real people, built by people who could not stop adding things.
+      <SectionHeading eyebrow={p.eyebrow} title={p.title}>
+        {p.text}
       </SectionHeading>
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
         {projects.map((project) => (
@@ -412,44 +346,44 @@ function Projects() {
                 </li>
               ))}
             </ul>
-            {project.links.length > 0 && (
-              <div className="mt-4 flex gap-4 text-sm font-medium">
-                {project.links.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="text-fd-primary hover:underline"
-                  >
-                    {link.label} ↗
-                  </a>
-                ))}
-              </div>
-            )}
+            <div className="mt-4 flex gap-4 text-sm font-medium">
+              {project.links.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="text-fd-primary hover:underline"
+                >
+                  {link.label} ↗
+                </a>
+              ))}
+            </div>
           </article>
         ))}
         <Link
-          href="/association/join"
+          href={localePath(lang, '/association/join')}
           className="group flex flex-col justify-center rounded-2xl border border-dashed p-6 text-center transition-colors hover:border-fd-primary hover:bg-fd-accent/30"
         >
           <span aria-hidden="true" className="text-3xl">
             💡
           </span>
-          <h3 className="mt-3 font-display text-xl font-bold group-hover:text-fd-primary">Your dumb idea</h3>
-          <p className="mt-2 text-sm text-fd-muted-foreground">It belongs here. Come build it with us.</p>
+          <h3 className="mt-3 font-display text-xl font-bold group-hover:text-fd-primary">{p.ideaTitle}</h3>
+          <p className="mt-2 text-sm text-fd-muted-foreground">{p.ideaText}</p>
         </Link>
       </div>
       <p className="mt-8 text-center">
-        <Link href="/association/projects" className={buttonSecondary}>
-          All our projects <ArrowRight className="size-4" aria-hidden="true" />
+        <Link href={localePath(lang, '/association/projects')} className={buttonSecondary}>
+          {p.all} <ArrowRight className="size-4" aria-hidden="true" />
         </Link>
       </p>
     </section>
   );
 }
 
-function FinalCta() {
+function FinalCta({ lang, t }: { lang: Lang; t: HomeText }) {
+  const cta = t.finalCta;
+
   return (
     <section className="mx-auto w-full max-w-6xl px-6 pb-24">
       <div className="relative overflow-hidden rounded-3xl border bg-fd-card px-6 py-16 text-center md:px-16">
@@ -463,18 +397,15 @@ function FinalCta() {
         />
         <div className="relative">
           <h2 className="font-display text-4xl font-extrabold tracking-tight md:text-5xl">
-            Got a dumb idea? <span className="text-gradient">Perfect.</span>
+            {cta.titleStart} <span className="text-gradient">{cta.titleHighlight}</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-fd-muted-foreground">
-            That is the only entry requirement. Bring your curiosity, your questions and your most useless feature
-            request. We will bring the snacks and the code reviews.
-          </p>
+          <p className="mx-auto mt-4 max-w-xl text-fd-muted-foreground">{cta.text}</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a href={links.discord} target="_blank" rel="noreferrer noopener" className={buttonDiscord}>
-              <DiscordIcon className="size-4" /> Join our Discord
+              <DiscordIcon className="size-4" /> {cta.joinDiscord}
             </a>
-            <Link href="/association/join" className={buttonSecondary}>
-              How to join <ArrowRight className="size-4" aria-hidden="true" />
+            <Link href={localePath(lang, '/association/join')} className={buttonSecondary}>
+              {cta.howToJoin} <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
           </div>
         </div>
@@ -483,17 +414,19 @@ function FinalCta() {
   );
 }
 
-export function HomeSections() {
+export function HomeSections({ lang }: { lang: Lang }) {
+  const t = getMessages(lang).home;
+
   return (
     <>
-      <Hero />
-      <FeatureMarquee />
-      <Paths />
-      <Community />
-      <Creed />
-      <LearningPath />
-      <Projects />
-      <FinalCta />
+      <Hero lang={lang} t={t} />
+      <FeatureMarquee t={t.marquee} />
+      <Paths lang={lang} t={t} />
+      <Community t={t} />
+      <Creed lang={lang} t={t} />
+      <LearningPath lang={lang} t={t} />
+      <Projects lang={lang} t={t} />
+      <FinalCta lang={lang} t={t} />
     </>
   );
 }

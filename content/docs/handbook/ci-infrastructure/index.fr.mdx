@@ -1,0 +1,221 @@
+---
+title: Prompt d'infrastructure CI
+description: Un brief prêt à l'emploi qui transforme un agent de code IA en ingénieur CI. Il mesure ta CI, la rend rapide, économique et solide, et peut aller jusqu'aux runners auto-hébergés sur des VPS OVHcloud.
+icon: Server
+level: advanced
+duration: 15 min de lecture
+---
+
+Quand une application prend de l'ampleur, une grosse partie du temps de développement part à
+**attendre la CI**. Chaque push, chaque pull request : des vérifications qui prennent 10, 20,
+30 minutes. Avec des agents IA qui écrivent du code à toute vitesse, cette attente devient vite le
+goulot d'étranglement de tout le projet.
+
+Cette page te donne notre réponse : un long **brief détaillé pour un agent de code IA**. Tu le donnes
+à Claude Code, à Codex ou à n'importe quel agent costaud dans ton dépôt, et il fait tout le boulot
+avec toi : mesurer où passe le temps de CI, le réduire, et laisser derrière lui une config **que tu
+peux comprendre, faire tourner, reconstruire et défaire sans aide**.
+
+<PromptFile
+  file="/prompts/ci-infrastructure-brief.md"
+  title="Brief CI : rendre la CI de ce projet rapide, économique et solide"
+  readHref="/handbook/ci-infrastructure/brief"
+/>
+
+Le brief est en anglais exprès, parce qu'il est écrit pour des agents IA : ton agent te parlera
+quand même en français.
+
+## Pourquoi un prompt de 2 000 lignes ? [#why-a-2000-line-prompt]
+
+« Rends ma CI plus rapide » en une phrase, ça te donne quelques réglages au hasard. Ce brief donne à
+l'agent ce qu'apporterait un ingénieur DevOps expérimenté :
+
+- **Une méthode.** D'abord mesurer, ensuite changer. Une phase, une pull request, avec les chiffres
+  avant/après dans chacune.
+- **Les raisons.** Treize principes, chacun avec son « pourquoi », pour que l'agent t'explique
+  chaque décision avec des mots simples.
+- **Des garde-fous.** L'agent doit demander avant tout ce qui coûte de l'argent, touche à un compte
+  ou est difficile à annuler. Chaque changement a un retour en arrière en une ligne. Aucun secret
+  n'atterrit jamais dans un dépôt.
+- **Des cicatrices de guerre.** Une checklist des pièges rencontrés en vrai (Docker qui contourne le
+  pare-feu, des runners tués par manque de mémoire, cloud-init qui renomme les machines…), pour que
+  ton agent ne les redécouvre pas à ses dépens.
+- **Des fichiers prêts à adapter.** Un script d'audit, un workflow de référence, une détection du
+  périmètre avec ses propres tests, et des scripts complets de provisionnement pour les machines des
+  runners.
+- **Une définition de « terminé »**, avec des objectifs mesurables.
+
+Il est écrit pour quelqu'un de **technique et curieux, mais pas ingénieur DevOps de métier**. Pas
+besoin de savoir ce qu'est une chaîne iptables `DOCKER-USER`. L'agent te l'expliquera quand il en
+sera là.
+
+## C'est pour toi ? [#is-it-for-you]
+
+C'est une bonne idée si :
+
+- [x] ton application est hébergée sur **GitHub** et a une vraie suite de tests et une CI (va voir
+  [Tests et CI : les bases](/handbook/testing-and-ci) si ce n'est pas encore le cas),
+- [x] ta CI te paraît **lente**, ou les minutes GitHub Actions commencent à te coûter de l'argent,
+- [x] tu as les **droits d'admin** sur le dépôt et la [CLI GitHub](/learn/github) connectée,
+- [x] tu veux bien passer quelques sessions à relire le travail de ton agent, phase par phase.
+
+Pour la partie auto-hébergée (phase 5), il te faut aussi un **dépôt privé** et un petit budget pour
+les machines : un VPS OVHcloud coûte de quelques euros à une quinzaine d'euros par mois, et le brief
+commence avec deux. Le brief oblige l'agent à **comparer les chiffres d'abord** : il peut très bien
+conclure que tu n'as pas du tout besoin de runners auto-hébergés, et c'est une très bonne issue.
+
+<Callout type="error" title="Jamais sur un dépôt public">
+  Les runners auto-hébergés exécutent le code de chaque pull request. Sur un dépôt public, ça veut
+  dire le code de n'importe qui sur ta machine. Le brief refuse cette config pour les dépôts publics,
+  et tu devrais faire pareil. Voir [les runners](/handbook/testing-and-ci#runners-where-ci-actually-runs).
+</Callout>
+
+## Le plan, phase par phase [#the-plan-phase-by-phase]
+
+L'agent suit ces phases dans l'ordre, avec une pull request par phase et ton feu vert entre chaque.
+Tu peux t'arrêter après n'importe laquelle : les premières phases suffisent souvent à réduire
+beaucoup le temps de CI.
+
+| Phase | Ce qui se passe | Coûte de l'argent ou touche à des comptes ? |
+| --- | --- | --- |
+| **1. Mesurer** | Un script d'audit lit tes 100 dernières exécutions de CI : durée totale, temps d'attente dans la file, étapes les plus lentes, échecs. L'agent écrit un rapport et un plan, puis attend ton feu vert. | Non |
+| **2. Hygiène des workflows** | Un seul déclenchement par changement, annulation des exécutions périmées, délais maximum (timeouts), caches de dépendances, actions épinglées, une seule vérification `CI` obligatoire qui répond toujours. | Non |
+| **3. En faire moins** | Un script de périmètre décide ce que touche chaque changement : seulement la doc, certains modules, ou tout. Il est livré avec ses propres tests. | Non |
+| **4. Aller plus vite** | Mise en cache des résultats de tâches, tests de base de données plus rapides, code généré géré proprement, cache Docker, une seule commande locale pour tout vérifier avant de pousser. | Non |
+| **5. Runners auto-hébergés** | Une petite flotte de VPS OVHcloud, entièrement décrite par des scripts, dimensionnée par un test de capacité, allumée et éteinte avec une seule variable du dépôt. En option, un cache de tâches partagé sur OVHcloud Object Storage. | **Oui** : VPS, bucket de stockage en option |
+| **5b. Réseau privé** | Accès admin via un VPN comme Tailscale, SSH public fermé, runners incapables d'atteindre tes autres appareils. | Un compte (il existe des offres gratuites) |
+| **6. Règles de fusion** | Un ruleset qui protège `main` avec la vérification obligatoire, et en option une merge queue (file de fusion). | Peut demander une offre GitHub payante pour les dépôts privés |
+
+À la fin, tu obtiens des **chiffres** (le brief vise une pull request de doc seule en moins de
+2 minutes, une pull request typique bien en dessous de la moitié de son ancien temps, et aucun job
+jamais tué par manque de mémoire) et de la **documentation** : un `docs/ci.md` dans ton dépôt et un
+README dans un dépôt d'infrastructure séparé, pour que tu puisses tout faire tourner sans l'agent.
+
+## Comment l'utiliser [#how-to-use-it]
+
+<Steps>
+<Step>
+
+### Mets le brief dans ton dépôt [#put-the-brief-in-your-repository]
+
+Télécharge-le dans un dossier que Git ignore, pour qu'il soit accessible à ton agent sans être
+commité. Beaucoup de nos projets utilisent `tmp/` pour ça :
+
+```bash tab="macOS / Linux"
+mkdir -p tmp
+curl -fsSL https://feature-creepers.github.io/docs/prompts/ci-infrastructure-brief.md -o tmp/ci-brief.md
+```
+
+```powershell tab="Windows (PowerShell)"
+New-Item -ItemType Directory -Force tmp | Out-Null
+Invoke-WebRequest https://feature-creepers.github.io/docs/prompts/ci-infrastructure-brief.md -OutFile tmp/ci-brief.md
+```
+
+Vérifie que `tmp/` est dans ton `.gitignore` (sinon, ajoute une ligne `/tmp/`).
+
+<Callout type="idea" title="Donne le fichier à l'agent, pas le lien">
+  Les outils web des agents IA résument souvent les longues pages au lieu de les lire mot à mot.
+  Avec un fichier local, l'agent lit chaque ligne du brief, scripts compris.
+</Callout>
+
+</Step>
+<Step>
+
+### Adapte l'introduction [#adapt-the-opening]
+
+Les premiers paragraphes décrivent le projet pour lequel le brief a été écrit au départ : un
+développeur solo avec un gros CRM, et un hébergement en France. Ouvre `tmp/ci-brief.md` et
+réécris-les pour **ta** situation. Par exemple (en anglais, comme le reste du brief) :
+
+```md title="tmp/ci-brief.md"
+You are the coding agent of a team of three developers who maintain a TypeScript
+monorepo (a Next.js app, an API and five shared packages), hosted on GitHub in a
+private repository. CI takes about 25 minutes per pull request.
+```
+
+Ajuste aussi, si besoin, l'hébergeur (OVHcloud par défaut) et la langue que l'agent doit utiliser
+pour te parler. Laisse le reste tel quel : les phases, les principes et les checklists sont
+génériques, et l'agent adapte les scripts à ta stack.
+
+</Step>
+<Step>
+
+### Lance ton agent et donne le coup d'envoi [#start-your-agent-and-kick-off]
+
+Ouvre ton agent dans le dépôt ([Claude Code](/learn/claude-code), [Codex](/learn/codex), ou un
+thread [T3 Code](/learn/t3code)). Prends son modèle le plus capable et un effort de raisonnement
+élevé : c'est un travail long et minutieux. Puis envoie :
+
+```text title="Prompt de lancement"
+Lis tmp/ci-brief.md en entier avant de faire quoi que ce soit : c'est ton brief pour
+ce dépôt. Ensuite, commence par la section 1 (rassemble le contexte, et demande-moi
+ce que tu ne trouves pas dans le dépôt) et par la phase 1 (l'audit). Ne modifie
+aucun fichier avant que j'aie validé le rapport d'audit et le plan.
+```
+
+</Step>
+<Step>
+
+### Avance phase par phase [#go-phase-by-phase]
+
+Pour chaque phase, l'agent ouvre une pull request avec son objectif, les changements, les chiffres
+avant/après et la façon de l'annuler. Relis-la comme n'importe quelle pull request (voir les
+[bonnes pratiques](/learn/best-practices)), fusionne-la, et passe à la phase suivante.
+
+Quand l'agent a besoin de quelque chose qui coûte de l'argent ou touche à un compte (commander un
+VPS, créer une clé VPN, modifier les règles de branche), il te donne les clics ou les commandes
+exacts. Ces étapes-là, c'est **toi** qui les fais.
+
+<Callout title="Longues sessions">
+  C'est plusieurs jours de travail, pas un seul prompt. Quand une conversation devient trop longue,
+  démarre une nouvelle session et renvoie-la vers `tmp/ci-brief.md`, le rapport d'audit et la
+  dernière pull request fusionnée.
+</Callout>
+
+</Step>
+<Step>
+
+### Garde-la en forme [#keep-it-healthy]
+
+Relance le script d'audit de temps en temps (une fois par mois, c'est un bon rythme) pour repérer
+les lenteurs qui s'installent en douce, et tiens `docs/ci.md` à jour quand la CI change. À la fin,
+l'agent laisse une liste des prochaines améliorations, classées par gain attendu : pioche dedans
+quand la CI recommence à te sembler lente.
+
+</Step>
+</Steps>
+
+## La sécurité d'abord [#stay-safe]
+
+- **Les secrets ne vont jamais dans la conversation.** Le brief fait lire les jetons (tokens) et les
+  clés par les scripts depuis des fichiers ou des pipes, jamais depuis la ligne de commande. Garde
+  ça comme ça : ne colle jamais un jeton dans la conversation avec ton agent.
+- **Lis chaque commande qui touche à un serveur** avant de l'approuver, surtout en phase 5. Si tu
+  perds l'accès à une machine, le mode rescue d'OVHcloud, depuis l'espace client, te permet de
+  reprendre la main.
+- **Garde le chemin du retour.** Revenir aux runners hébergés par GitHub, c'est une seule commande
+  (`gh variable delete CI_RUNS_ON`). Teste-la une fois, comme le demande le brief, pour pouvoir lui
+  faire confiance le jour où tu en auras besoin.
+
+## Lis-le d'abord [#read-it-first]
+
+Le brief est long, mais tu n'as pas besoin de tout lire avant de commencer. On te conseille au
+minimum :
+
+- **Section 0, How to work** : les règles que suit ton agent.
+- **Section 2, Principles** : les idées derrière chaque changement.
+- **Section 12, Definition of done** : ce que « terminé » veut dire.
+- **Section 13, Pitfalls checklist** : ce qui coince en pratique.
+
+<Cards>
+  <Card
+    title="Lire le brief complet"
+    href="/handbook/ci-infrastructure/brief"
+    description="Le texte complet, exactement comme ton agent le lit, avec tous les scripts."
+  />
+  <Card
+    title="Tests et CI : les bases"
+    href="/handbook/testing-and-ci"
+    description="Tu débutes avec la CI ? Commence par les notions sur lesquelles le brief s'appuie."
+  />
+</Cards>

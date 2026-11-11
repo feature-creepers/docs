@@ -1,0 +1,168 @@
+---
+title: Glossaire
+description: Le jargon de développeur utilisé dans cette doc, expliqué avec des mots simples, de API à YAML.
+icon: BookA
+---
+
+Les développeurs adorent le jargon. En voici la traduction. Il te manque un mot ? [Dis-le-nous](https://github.com/feature-creepers/docs/issues/new/choose).
+
+## A–C [#ac]
+
+**Agent (AI coding agent, agent de code IA)** : une IA qui travaille directement dans ton projet.
+Elle lit les fichiers, lance des commandes et modifie le code en boucle, jusqu'à ce qu'une tâche
+soit terminée. Voir [Agents de code IA : les bases](/learn/ai-agents).
+
+**AGENTS.md** : un fichier Markdown qui donne aux agents IA le contexte d'un projet. Voir
+[AGENTS.md](/learn/agents-md).
+
+**API** (application programming interface, interface de programmation) : un moyen pour des
+programmes de communiquer entre eux. Quand une appli « appelle une API », elle envoie une requête à
+un autre programme et récupère des données en retour.
+
+**API key** (clé API) : un mot de passe secret qui t'identifie auprès d'une API (et qui sert souvent
+à te facturer). Ne la commite jamais, ne la partage jamais.
+
+**Branch** (branche) : une ligne d'historique parallèle dans Git, pour travailler sur quelque chose
+sans toucher à la version principale. Voir [Git](/learn/git).
+
+**Build** : transformer le code source en quelque chose qui peut tourner ou être déployé (par
+exemple, un site web fait de fichiers HTML, CSS et JavaScript).
+
+**CI (continuous integration, intégration continue)** : de l'automatisation qui vérifie chaque
+modification (tests, lint, build) sur une machine toute neuve, avant qu'elle soit fusionnée. Voir
+[Tests et CI : les bases](/handbook/testing-and-ci).
+
+**CLI** (command-line interface, interface en ligne de commande) : un programme que tu utilises en
+tapant des commandes dans un terminal. Voir [Le terminal et la CLI](/learn/terminal).
+
+**Clone** (cloner) : télécharger une copie complète d'un dépôt Git, avec son historique.
+
+**Commit** : un point de sauvegarde dans Git, avec un message qui décrit la modification.
+
+**Context window** (fenêtre de contexte) : la quantité de texte qu'un modèle d'IA peut « voir » en
+même temps (ton prompt, les fichiers qu'il a lus, la conversation). Quand elle est pleine, les
+détails les plus anciens sont oubliés ou résumés.
+
+## D–G [#dg]
+
+**Dependency** (dépendance) : une bibliothèque utilisée par ton projet, écrite par quelqu'un d'autre.
+Elle est listée dans `package.json` dans les projets JavaScript.
+
+**Deploy** (déployer) : publier une nouvelle version d'une appli pour que les utilisateurs puissent
+s'en servir.
+
+**Diff** : la liste des différences entre deux versions de fichiers, avec les lignes ajoutées (`+`)
+et supprimées (`-`).
+
+**Environment variable** (variable d'environnement) : une valeur nommée, définie en dehors de ton
+code (comme `PATH` ou `API_KEY`), qui sert à configurer des programmes sans écrire les valeurs en
+dur. Souvent stockée dans des fichiers `.env`.
+
+**Feature creep** (dérive des fonctionnalités) : la tendance d'un projet à se couvrir sans cesse de
+nouvelles fonctionnalités. Un problème ailleurs, un art de vivre ici.
+
+**Fork** : ta propre copie du dépôt de quelqu'un d'autre sur GitHub, pour proposer des
+modifications sans avoir les droits d'écriture.
+
+**Framework** : une grosse bibliothèque qui donne sa structure à ton appli (Next.js, React Native,
+Django…).
+
+**Git** : le système de gestion de versions qui suit l'historique de ton code. Voir [Git](/learn/git).
+
+**GitHub** : un site qui héberge des dépôts Git, avec des outils de collaboration. Voir
+[GitHub](/learn/github).
+
+**GitHub Actions** : le système d'automatisation de GitHub, souvent utilisé pour la CI et les
+déploiements.
+
+## H–M [#hm]
+
+**Hallucination** : quand une IA invente avec aplomb quelque chose de faux, comme une fonction qui
+n'existe pas, un fait erroné ou une fausse bibliothèque.
+
+**IDE** (integrated development environment, environnement de développement intégré) : un éditeur
+de code avec des outils en plus (débogueur, terminal, extensions). VS Code en est un, plutôt léger.
+
+**Issue** : un ticket sur GitHub pour signaler un bug, proposer une idée ou poser une question.
+
+**JSON** : un format texte pour les données, avec des `"keys": "values"`, des listes `[...]` et des
+objets `{...}`. Très pointilleux sur les virgules et les guillemets.
+
+**Lint / linter** : un outil qui vérifie le code à la recherche d'erreurs et de problèmes de style,
+sans l'exécuter.
+
+**LLM** (large language model, grand modèle de langage) : le type de modèle d'IA derrière ChatGPT,
+Claude et les agents de code.
+
+**MCP** (Model Context Protocol) : un standard ouvert pour connecter les agents IA à des outils et à
+des données externes (bases de données, gestionnaires d'issues, navigateurs…).
+
+**Merge** (fusionner) : intégrer les modifications d'une branche dans une autre.
+
+**Merge conflict** (conflit de fusion) : quand deux branches ont modifié les mêmes lignes et que Git
+a besoin qu'un humain tranche.
+
+## N–R [#nr]
+
+**Node.js** : un programme qui exécute du JavaScript en dehors du navigateur. Voir
+[Prépare ta machine](/learn/setup).
+
+**npm / pnpm** : des gestionnaires de paquets pour JavaScript, qui téléchargent et gèrent les
+dépendances.
+
+**Open source** : se dit d'un logiciel dont le code source est public, que tout le monde peut lire,
+utiliser et améliorer (selon sa licence).
+
+**Package manager** (gestionnaire de paquets) : un outil qui installe des logiciels ou des
+bibliothèques pour toi : WinGet, Homebrew, APT, npm, pnpm…
+
+**PATH** : la variable d'environnement qui liste les dossiers où ton shell cherche les programmes.
+Le suspect habituel derrière « command not found ».
+
+**Prompt** : ce que tu demandes à une IA. Voir [Bien prompter](/learn/prompting).
+
+**Pull request** (PR) : une demande de fusion d'une branche dans une autre, là où se passe la revue
+de code. Voir [Ta première pull request](/learn/first-pull-request).
+
+**Push / pull** (pousser / récupérer) : envoyer tes commits vers un dépôt distant / récupérer les
+nouveaux commits qui s'y trouvent.
+
+**Repository** (repo, dépôt) : un projet suivi par Git, en local ou sur GitHub.
+
+**Runner** : la machine qui exécute les jobs de CI. GitHub en fournit, et tu peux aussi héberger les
+tiens (**self-hosted runner**, runner auto-hébergé).
+
+## S–Z [#sz]
+
+**Sandbox** (bac à sable) : un environnement isolé où du code (ou un agent) peut tourner sans
+pouvoir abîmer le reste de ton système.
+
+**Secret** : tout ce qui donne un accès, comme les mots de passe, les clés API, les tokens ou les
+clés privées. Garde-les hors de Git et hors de tes prompts.
+
+**Shell** : le programme, à l'intérieur d'un terminal, qui interprète tes commandes : Bash, Zsh,
+PowerShell…
+
+**SSH** : un protocole sécurisé pour se connecter à des machines distantes (et, si tu veux, à
+GitHub).
+
+**Static site** (site statique) : un site web fait de simples fichiers (HTML, CSS, JavaScript) qu'on
+peut héberger n'importe où, comme celui-ci sur GitHub Pages.
+
+**Terminal** : la fenêtre où tu tapes des commandes. Voir [Le terminal et la CLI](/learn/terminal).
+
+**Test** : du code qui vérifie qu'un autre code fonctionne comme prévu. Voir
+[Tests et CI : les bases](/handbook/testing-and-ci).
+
+**Token** (jeton) : (1) un morceau de mot, l'unité avec laquelle les modèles d'IA lisent, écrivent
+et facturent ; (2) une chaîne secrète qui prouve ton identité auprès d'un service, comme un token
+GitHub.
+
+**VPS** (virtual private server, serveur privé virtuel) : une machine virtuelle que tu loues chez un
+hébergeur (comme OVHcloud) pour faire tourner tes propres services, par exemple des runners de CI.
+
+**Worktree** : une copie de travail supplémentaire du même dépôt Git, dans un autre dossier, sur une
+autre branche. Pratique pour faire tourner plusieurs agents en parallèle.
+
+**YAML** : un format texte pour la configuration, basé sur l'indentation. Les workflows GitHub
+Actions sont écrits en YAML. Très pointilleux sur les espaces.

@@ -1,9 +1,6 @@
-import { createGetUrl } from 'fumadocs-core/source';
+import { defaultLang } from './i18n';
 
 export const appName = 'Feature Creepers';
-export const appTagline = 'Build awesome apps. And dumb ones. With way too many features.';
-export const appDescription =
-  'The home of Feature Creepers, a developer association for happy builders: who we are, how to join, and beginner-friendly tutorials on the terminal, Git, GitHub and AI coding agents.';
 
 /** Path prefix the site is served under (`/docs` on GitHub Pages, empty locally). */
 export const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
@@ -38,18 +35,19 @@ export const links = {
   docsIssue: `https://github.com/${gitConfig.user}/${gitConfig.repo}/issues/new/choose`,
 };
 
-const getContentUrl = createGetUrl(docsContentRoute);
-
+/**
+ * The Markdown export of a page: `/llms.mdx/<lang>/<slugs>/content.md`. The language is always in the
+ * path, so both languages have their own file.
+ */
 export function getPageMarkdownUrl(page: { slugs: string[]; locale?: string }) {
-  const segments = [...page.slugs, 'content.md'];
+  const segments = [page.locale ?? defaultLang, ...page.slugs, 'content.md'];
 
-  return { segments, url: getContentUrl(segments, page.locale) };
+  return { segments, url: `${docsContentRoute}/${segments.join('/')}` };
 }
 
-const getImageUrl = createGetUrl(docsImageRoute);
-
+/** The Open Graph image of a page: `/og/<lang>/<slugs>/image.png`. */
 export function getPageImageUrl(page: { slugs: string[]; locale?: string }) {
-  const segments = [...page.slugs, 'image.png'];
+  const segments = [page.locale ?? defaultLang, ...page.slugs, 'image.png'];
 
-  return { segments, url: getImageUrl(segments, page.locale) };
+  return { segments, url: `${docsImageRoute}/${segments.join('/')}` };
 }
