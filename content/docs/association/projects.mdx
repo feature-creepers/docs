@@ -8,34 +8,55 @@ Real projects, used by real people, built by people who could not stop adding th
 
 ## Shipped
 
-### ⚔️ Suntzu
+### 🏛️ Marianne
 
-> _"If you know the enemy and know yourself, you need not fear the result of a hundred battles."_
+**A desktop citizen assistant for people living in France.** Rights, formalities, papers and
+deadlines, public information: Marianne helps you find your way through French administration. It
+works with your own command-line agent ([Claude Code](/learn/claude-code), [Codex](/learn/codex) or
+Mistral Vibe), through its own tools only, and keeps everything in one encrypted archive on your
+computer.
 
-**A browser extension that enhances the FACEIT experience with detailed matchmaking insights.** Before
-a match, Suntzu shows you who you are playing with and against, so you can pick your maps and your
-strategy like a general.
+- **Status:** alpha. An independent project, not affiliated with the French State or any
+  administration.
+- **Stack:** TypeScript, Electron, an npm workspace with its own SDK for add-on services, an Astro
+  website, local-first and privacy-first.
+- **Links:** [marianne.app](https://marianne.app/) ·
+  [source code](https://github.com/feature-creepers/marianne)
 
-- **Platforms:** Chrome, Edge, Opera and Firefox
-- **Stack:** TypeScript, React, Vite, Nx monorepo
-- **Links:** [suntzu.gg](https://suntzu.gg) · [source code](https://github.com/feature-creepers/suntzu)
+### 📻 Radio Creep Bot
 
-### 🎯 csbot
+**The DJ of the 24/7 radio on our Discord server.** An official Discord bot that turns the radio
+into a jukebox, driven from the radio's PC. It never joins the voice channel to capture sound: it
+drives the Apple Music app like a screen reader would, and tells the server what is playing.
 
-**A second-screen companion for Counter-Strike 2 squads.** One teammate hosts a room from the desktop
-app, which reads the game through Valve's official Game State Integration and runs the host's own
-Claude Code. The rest of the squad joins from the browser and sees the same scouting, live calls and
-debriefs, with their own job highlighted.
+- **Features:** search the radio's library and the whole Apple Music catalog, song requests with
+  approval modes, vote to skip, favorites, playlists, volume, an automatic station when the queue
+  runs out so the radio never stops, and the bot can even stream the radio itself… a textbook case
+  of feature creep.
+- **Stack:** Python 3.12, discord.py, Windows media and UI Automation APIs.
+- **Links:** [source code](https://github.com/feature-creepers/radio-creep-bot)
 
-- **Features:** scouting reports, live economy and site calls, shared intel on the map, an AI coach,
-  match debriefs, 2D replays, a Stream Deck plugin, push-to-talk… a textbook case of feature creep.
-- **Stack:** TypeScript, Electron, peer-to-peer rooms, Claude Code
-- **Links:** [source code](https://github.com/feature-creepers/csbot)
+### 🎧 Audio Enhancer
 
-## In the oven
+**A command-line tool that refines the spectrum of compressed MP3 files.** Adaptive corrective EQ,
+light dynamics, and the same perceived loudness as the original: it corrects rather than amplifies,
+so no over-boosting. Batch mode processes a whole folder and keeps the ID3 tags.
 
-More projects are cooking in private repositories. They will show up here when they are ready to
-embarrass us in public. 🤫
+- **Features:** three presets (gentle, balanced, aggressive), a dry-run analysis mode, and optional
+  AI cleanup of compression artifacts and high-frequency restoration.
+- **Stack:** Python, FFmpeg, optional DeepFilterNet and AudioSR models.
+- **Links:** [source code](https://github.com/feature-creepers/audio-enhancer)
+
+## More on our GitHub
+
+A few more public projects from the crew:
+
+- **[Suntzu](https://github.com/feature-creepers/suntzu):** a browser extension with matchmaking
+  insights for FACEIT ([suntzu.gg](https://suntzu.gg)).
+- **[csbot](https://github.com/feature-creepers/csbot):** a second-screen companion for Counter-Strike 2
+  squads.
+
+Browse everything on [github.com/feature-creepers](https://github.com/feature-creepers).
 
 ## Start your own project
 

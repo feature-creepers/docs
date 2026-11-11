@@ -263,28 +263,28 @@ function LearningPath() {
 
 const projects = [
   {
-    name: 'Suntzu',
-    emoji: '⚔️',
-    text: 'A browser extension that enhances FACEIT with detailed matchmaking insights. Know your enemy, know yourself.',
-    tags: ['TypeScript', 'React', 'Nx', 'Browser extension'],
+    name: 'Marianne',
+    emoji: '🏛️',
+    text: 'A desktop citizen assistant for people living in France: rights, formalities, papers and deadlines. It runs on your own Claude Code, Codex or Mistral Vibe, and keeps everything in an encrypted archive on your computer.',
+    tags: ['TypeScript', 'Electron', 'Local-first', 'Claude Code'],
     links: [
-      { label: 'suntzu.gg', href: 'https://suntzu.gg' },
-      { label: 'Source', href: 'https://github.com/feature-creepers/suntzu' },
+      { label: 'marianne.app', href: 'https://marianne.app/' },
+      { label: 'Source', href: 'https://github.com/feature-creepers/marianne' },
     ],
   },
   {
-    name: 'csbot',
-    emoji: '🎯',
-    text: 'A second-screen companion for Counter-Strike 2 squads: scouting, live calls and debriefs, powered by the host’s own Claude Code.',
-    tags: ['TypeScript', 'Electron', 'Claude Code', 'Peer-to-peer'],
-    links: [{ label: 'Source', href: 'https://github.com/feature-creepers/csbot' }],
+    name: 'Radio Creep Bot',
+    emoji: '📻',
+    text: 'The DJ of our Discord’s 24/7 radio. Search all of Apple Music, request songs, vote to skip, save favorites. It drives the radio PC’s Apple Music like a screen reader would, and the music never stops.',
+    tags: ['Python', 'discord.py', 'Apple Music', 'Windows'],
+    links: [{ label: 'Source', href: 'https://github.com/feature-creepers/radio-creep-bot' }],
   },
   {
-    name: 'Top secret',
-    emoji: '🤫',
-    text: 'More projects are cooking in private repositories. They will show up here when they are ready to embarrass us in public.',
-    tags: ['Soon™'],
-    links: [],
+    name: 'Audio Enhancer',
+    emoji: '🎧',
+    text: 'A command-line tool that refines the spectrum of compressed MP3s: adaptive corrective EQ, light dynamics, and the same perceived loudness. No over-boosting. Optional AI cleanup for artifacts.',
+    tags: ['Python', 'FFmpeg', 'CLI', 'Audio'],
+    links: [{ label: 'Source', href: 'https://github.com/feature-creepers/audio-enhancer' }],
   },
 ];
 
@@ -340,6 +340,11 @@ function Projects() {
           <p className="mt-2 text-sm text-fd-muted-foreground">It belongs here. Come build it with us.</p>
         </Link>
       </div>
+      <p className="mt-8 text-center">
+        <Link href="/association/projects" className={buttonSecondary}>
+          All our projects <ArrowRight className="size-4" aria-hidden="true" />
+        </Link>
+      </p>
     </section>
   );
 }
