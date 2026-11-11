@@ -28,8 +28,11 @@ export function DocsShell({ lang, children }: { lang: Lang; children: ReactNode 
     <DocsLayout
       tree={source.getPageTree(lang)}
       {...options}
-      // The section tabs already cover Association / Learn / Handbook in the sidebar.
-      links={links?.filter((link) => link.type === 'button' || link.type === 'icon')}
+      // The section tabs already cover Association / Learn / Handbook in the sidebar, and the "join"
+      // button stays in the top bar (on: 'nav') rather than in the sidebar's link list.
+      links={links
+        ?.filter((link) => link.type === 'button' || link.type === 'icon')
+        .map((link) => (link.type === 'button' ? { ...link, on: 'nav' as const } : link))}
     >
       {children}
     </DocsLayout>

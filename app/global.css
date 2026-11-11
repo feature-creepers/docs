@@ -102,6 +102,12 @@ html > body[data-scroll-locked] {
   letter-spacing: -0.02em;
 }
 
+/* Header: when space runs out (about 1024px to 1200px wide), only the search box shrinks */
+#nd-nav [data-theme-toggle],
+#nd-nav ul {
+  flex-shrink: 0;
+}
+
 /* Inline code: a little greener */
 .prose :where(:not(pre) > code):not(:where(.not-prose, .not-prose *)) {
   color: var(--color-fd-accent-foreground);
