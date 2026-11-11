@@ -4,7 +4,7 @@
 
 /* ------------------------------------------------------------------ */
 /*  Feature Creepers theme                                             */
-/*  Light: sunny greenhouse.  Dark: 3 a.m. night shift, neon sprouts.  */
+/*  Light: sunny greenhouse.  Dark: 3 a.m. night shift, neon greens.   */
 /* ------------------------------------------------------------------ */
 
 @theme inline {
@@ -211,11 +211,64 @@ html > body[data-scroll-locked] {
   animation: fc-twinkle 5s ease-in-out infinite;
 }
 
+/* The Derpcopter's rotors: they spin when you hover the logo, or always inside .fc-spin */
+@keyframes fc-rotor {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.12);
+  }
+}
+
+@keyframes fc-tail-rotor {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.15);
+  }
+}
+
+.fc-rotor,
+.fc-tail-rotor {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.fc-spin .fc-rotor {
+  animation: fc-rotor 0.22s linear infinite;
+}
+
+.fc-spin .fc-tail-rotor {
+  animation: fc-tail-rotor 0.18s linear infinite;
+}
+
+.fc-logo:hover .fc-rotor {
+  animation: fc-rotor 0.22s linear infinite;
+}
+
+.fc-logo:hover .fc-tail-rotor {
+  animation: fc-tail-rotor 0.18s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fc-marquee,
   .fc-float,
   .fc-twinkle,
   .fc-cursor {
+    animation: none;
+  }
+
+  .fc-spin .fc-rotor,
+  .fc-spin .fc-tail-rotor {
+    animation: none;
+  }
+
+  .fc-logo:hover .fc-rotor,
+  .fc-logo:hover .fc-tail-rotor {
     animation: none;
   }
 

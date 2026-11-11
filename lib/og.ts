@@ -17,3 +17,9 @@ export function loadOgFonts() {
   );
   return fonts;
 }
+
+/** The Derpcopter (public/logo.svg) as a data URI, for the OG images. */
+export async function loadOgLogo() {
+  const svg = await readFile(join(process.cwd(), 'public/logo.svg'));
+  return `data:image/svg+xml;base64,${svg.toString('base64')}`;
+}

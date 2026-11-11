@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { ImageResponse } from 'next/og';
 import { OgImage } from '@/components/og-image';
-import { loadOgFonts, ogSize } from '@/lib/og';
+import { loadOgFonts, loadOgLogo, ogSize } from '@/lib/og';
 import { getPageImageUrl } from '@/lib/shared';
 import { source } from '@/lib/source';
 
@@ -19,7 +19,12 @@ export async function GET(_req: Request, { params }: RouteContext<'/og/[...slug]
   if (!page) notFound();
 
   return new ImageResponse(
-    <OgImage title={page.data.title} description={page.data.description} section={sections[page.slugs[0] ?? '']} />,
+    <OgImage
+      logo={await loadOgLogo()}
+      title={page.data.title}
+      description={page.data.description}
+      section={sections[page.slugs[0] ?? '']}
+    />,
     { ...ogSize, fonts: await loadOgFonts() },
   );
 }

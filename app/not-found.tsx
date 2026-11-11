@@ -1,6 +1,7 @@
 import { HomeLayout } from 'fumadocs-ui/layouts/home';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { LogoMark } from '@/components/logo';
 import { SiteFooter } from '@/components/site-footer';
 import { baseOptions } from '@/lib/layout.shared';
 
@@ -10,6 +11,8 @@ export default function NotFound() {
       <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-6 py-28 text-center">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-grid" />
         <div className="relative">
+          {/* the Derpcopter, still looking for the page */}
+          <LogoMark className="fc-spin fc-float mx-auto mb-6 size-24 shadow-xl shadow-fc-violet/20" />
           <p className="font-display text-8xl font-extrabold text-gradient md:text-9xl">404</p>
           <h1 className="mt-4 font-display text-3xl font-bold tracking-tight">This page got cut from the scope.</h1>
           <p className="mx-auto mt-3 max-w-md text-fd-muted-foreground">

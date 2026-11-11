@@ -1,15 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <title>Feature Creepers</title>
   <defs>
-    <linearGradient id="g" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+    <linearGradient id="g" x1="4" y1="4" x2="60" y2="60" gradientUnits="userSpaceOnUse">
       <stop stop-color="#bef264"/>
-      <stop offset="0.5" stop-color="#22c55e"/>
+      <stop offset=".5" stop-color="#22c55e"/>
       <stop offset="1" stop-color="#7c3aed"/>
     </linearGradient>
   </defs>
-  <rect x="1" y="1" width="30" height="30" rx="9" fill="url(#g)"/>
-  <path d="M16 25.5c0-3.6 0-6.9.2-10.5M10.5 25.5h11" stroke="#0c0b15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M16 18.6c-4.6.2-7.6-2.4-8-7.3 4.7-.3 7.7 2.3 8 7.3Z" fill="#0c0b15"/>
-  <path d="M16.2 15.2c-.1-5 2.6-8.2 7.8-8.6.2 5.1-2.6 8.2-7.8 8.6Z" fill="#0c0b15"/>
-  <path d="M24.6 18.2l.55 1.45 1.45.55-1.45.55-.55 1.45-.55-1.45-1.45-.55 1.45-.55.55-1.45Z" fill="#0c0b15"/>
+  <!-- Blobcopter: the Derpcopter boiled down to what still reads at 16px -->
+  <rect x="2" y="2" width="60" height="60" rx="18" fill="url(#g)"/>
+  <path d="M24 49l-2 5.5M40 49l2 5.5" stroke="#0c0b15" stroke-width="3" stroke-linecap="round"/>
+  <path d="M15 55h34" stroke="#0c0b15" stroke-width="3.2" stroke-linecap="round"/>
+  <circle cx="32" cy="36" r="15" fill="#0c0b15"/>
+  <circle cx="30.5" cy="34" r="8.6" fill="#fff"/>
+  <circle cx="33.6" cy="37" r="3.9" fill="#0c0b15"/>
+  <path d="M32 21v-6.5" stroke="#0c0b15" stroke-width="3" stroke-linecap="round"/>
+  <rect x="10" y="11.6" width="44" height="4" rx="2" fill="#0c0b15"/>
+  <circle cx="32" cy="13.6" r="2.7" fill="#f472b6"/>
 </svg>

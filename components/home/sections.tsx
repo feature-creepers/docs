@@ -15,6 +15,7 @@ import {
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { GithubIcon } from '@/components/icons';
+import { LogoMark } from '@/components/logo';
 import { cn } from '@/lib/cn';
 import { links } from '@/lib/shared';
 import { FeatureMarquee } from './marquee';
@@ -86,9 +87,8 @@ function Hero() {
         </div>
 
         <div className="relative min-w-0">
-          <span aria-hidden="true" className="fc-float absolute -top-8 -right-2 z-10 text-4xl select-none">
-            🚀
-          </span>
+          {/* the Derpcopter, delivering features nobody asked for */}
+          <LogoMark className="fc-spin fc-float absolute -top-9 -right-3 z-10 size-14 shadow-lg shadow-fc-violet/30" />
           <span
             aria-hidden="true"
             className="fc-float absolute -bottom-6 -left-4 z-10 text-3xl select-none [animation-delay:-3s]"

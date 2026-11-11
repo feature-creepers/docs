@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="app/icon.svg" alt="Feature Creepers logo" width="88" height="88" />
+<img src="public/logo.svg" alt="Feature Creepers logo: the Derpcopter" width="96" height="96" />
 
 # Feature Creepers Docs
 
